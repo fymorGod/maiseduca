@@ -1,0 +1,16 @@
+export default {
+    COLORS: {
+        BACKGROUND: "#4263EB",
+
+        BUTTON_COLOR: "#364FC7",
+
+        PRIMARY: "#EDF2FF",
+
+        TITLE: "#403B91",
+
+        SETTINGS_BUTTON_TEXT: "#005858",
+        SETTINGS_BUTTON_BACKGROUND_600: "#00A1A1",
+        SETTINGS_BUTTON_BACKGROUND_400: "#00B7B7",
+        SETTINGS_BUTTON_BACKGROUND_100: "#67D4D4"
+    },
+}
