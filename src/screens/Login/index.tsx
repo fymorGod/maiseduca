@@ -1,18 +1,36 @@
-import React  from "react";
+import React, { useEffect }  from "react";
 import { TouchableWithoutFeedback, Keyboard} from "react-native";
 import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from 'react-hook-form';
+
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type FormData = {
     matricula: string;
     password: string;
 }
 
-export const Login = () => {
-    const { control, handleSubmit } = useForm<FormData>();
+export type NavigationProps = {
+    Home: {
+        name: string 
+    }
+    Login: undefined
+} 
+
+
+export const Login = ({ navigation }) => {
+    const { control, handleSubmit, formState: {errors}} = useForm<FormData>();
+
+    useEffect(()=> {
+        console.log('Email errors: ', errors?.matricula)
+        },
+     [errors?.matricula]
+    );
 
     const onSubmit = (data: FormData) => {
-        console.log(data)
+        // console.log(data.matricula)
+        // console.log(data.password)
+        navigation.navigate('home')
     }
     return (
         <View style={styles.Container}>
@@ -21,19 +39,27 @@ export const Login = () => {
                 <Image source={require('../../../assets/logo.png')} style={styles.image}/>
                 <View style={styles.wrapper}>
                     <Controller
-                            name="matricula"
                             control={control}
+                            name="matricula"
+                            rules={{
+                                required: "Email obrigatório"
+                            }}
                             render={({ field: { value, onChange}}) => (
                                 <TextInput
                                 value={value}
                                 style={styles.Input}
                                 placeholder="matricula"
-                                onChangeText={onChange}/>
+                                onChangeText={onChange}
+                                autoCapitalize="none"
+                                />
                             )}
                         />
                         <Controller
                             name="password"
                             control={control}
+                            rules={{
+                                required: "Senha obrigatória"
+                            }}
                             render={({ field: { value, onChange}}) => (
                                 <TextInput
                                 value={value}
