@@ -1,10 +1,11 @@
 import React from "react";
 import { Text, View, StyleSheet } from 'react-native';
+import { AppHeader } from "../../components/AppHeader";
 
 export const Home = () => {
     return (
         <View style={styles.Container}>
-            <Text>Home</Text>
+            <AppHeader />
             <View>
                 <Text>
                     Teste
@@ -19,7 +20,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#4263EB'
+        backgroundColor: '#EDF2FF'
     },
     text: {
         color: "#fff",

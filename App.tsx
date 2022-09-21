@@ -1,10 +1,11 @@
-import { Navigation } from './src/components/Navigation';
+import { AuthProvider } from './src/context/AuthContext';
 import { Routes } from './src/routes';
 
 export default function App() {
-  
   return (
-      <Routes />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
   );
 }
 

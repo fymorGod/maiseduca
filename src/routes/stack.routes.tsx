@@ -1,13 +1,23 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Image } from 'react-native';
 
-const { Screen, Navigator}  = createNativeStackNavigator();
+const { Screen, Navigator }  = createNativeStackNavigator();
 
 import { Home } from "../screens/Home";
 import { Login } from "../screens/Login";
 
 export function StackRoutes() {
     return (
-        <Navigator>
+        <Navigator screenOptions={{
+            headerStyle: {
+                backgroundColor: '#4263EB',                
+            },
+            headerTitle: () => (
+                <Image style={{ width: 120, height: 30, marginLeft: -15
+                 }} source={require("../../assets/logo.png")} />
+              ),
+          
+        }}>
              <Screen  
                 name="login"
                 component={Login}
@@ -19,7 +29,9 @@ export function StackRoutes() {
                 name="home"
                 component={Home}
                 options={
-                    {headerTransparent: true, headerShown: true, title: ''}
+                    {
+                        title: 'teste'
+                    }
                 } 
             />
             
