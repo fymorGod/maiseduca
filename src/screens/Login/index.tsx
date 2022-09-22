@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -16,6 +16,8 @@ import {
 import { useForm, Controller } from "react-hook-form";
 
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../../context/AuthContext";
+import Spinner from "react-native-loading-spinner-overlay";
 
 type FormData = {
   matricula: string;
@@ -30,14 +32,19 @@ export const Login = () => {
   } = useForm<FormData>();
   const navigation = useNavigation();
 
+  const { isLoading, login } = useContext(AuthContext);
+
   useEffect(() => {
     console.log("Email errors: ", errors?.matricula);
   }, [errors?.matricula]);
 
   const onSubmit = (data: FormData) => {
-    navigation.navigate("home");
-    console.log(data);
+    login(data.matricula, data.password)
+    // !isLoading ??
+    //     navigation.navigate("home");
+    //     console.log(data);
   };
+  
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -49,12 +56,14 @@ export const Login = () => {
         style={{ height: "100%", width: "100%", backgroundColor: "red" }}
       >
         <View style={styles.Container}>
+            <Spinner visible={isLoading}/>
           <View style={styles.wrapper}>
             <Image
               resizeMode="contain"
               source={require("../../../assets/logo-educacao.png")}
               style={styles.image}
             />
+
             <Controller
               control={control}
               name="matricula"
