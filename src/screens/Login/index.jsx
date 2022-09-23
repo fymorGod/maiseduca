@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useState } from "react";
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -12,32 +12,24 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Button
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
 
-import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../../context/AuthContext";
+import Spinner from "react-native-loading-spinner-overlay";
 
-type FormData = {
-  matricula: string;
-  password: string;
-};
 
-export const Login = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
-  const navigation = useNavigation();
+export const Login = ({}) => {
+  
+  const [mat, setMat] = useState(null);
+  const [password, setPassword] = useState(null);
+  const { isLoading, login } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log("Email errors: ", errors?.matricula);
-  }, [errors?.matricula]);
 
-  const onSubmit = (data: FormData) => {
-    navigation.navigate("home");
-    console.log(data);
+  const onSubmit = (mat, password ) => {
+    login(mat,password)
   };
+  
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -49,52 +41,37 @@ export const Login = () => {
         style={{ height: "100%", width: "100%", backgroundColor: "red" }}
       >
         <View style={styles.Container}>
+            <Spinner visible={isLoading}/>
           <View style={styles.wrapper}>
             <Image
               resizeMode="contain"
               source={require("../../../assets/logo-educacao.png")}
               style={styles.image}
             />
-            <Controller
-              control={control}
-              name="matricula"
-              rules={{
-                required: "Email obrigatório",
-              }}
-              render={({ field: { value, onChange } }) => (
-                <TextInput
-                  value={value}
-                  style={styles.Input}
-                  placeholder="Matrícula"
-                  onChangeText={onChange}
-                  autoCapitalize="none"
-                />
-              )}
-            />
-            <Controller
-              name="password"
-              control={control}
-              rules={{
-                required: "Senha obrigatória",
-              }}
-              render={({ field: { value, onChange } }) => (
-                <TextInput
-                  value={value}
-                  style={styles.Input}
-                  placeholder="Senha"
-                  secureTextEntry
-                  onChangeText={onChange}
-                />
-              )}
-            />
+            <TextInput
+            style={styles.Input}
+            value={mat}
+            placeholder="Enter Matrícula"
+            onChangeText={text => setMat(text)}
+          />
+  
+          <TextInput
+            style={styles.Input}
+            value={password}
+            placeholder="Enter password"
+            onChangeText={text => setPassword(text)}
+            secureTextEntry
+          />
+
           </View>
           <TouchableOpacity
-            style={styles.button}
-            onPress={handleSubmit(onSubmit)}
-          >
-            <Text style={styles.text}>ENTRAR</Text>
-          </TouchableOpacity>
-
+          style={styles.button}
+          onPress={() => {
+            onSubmit(mat, password);
+          }}
+        >
+          <Text style={styles.text}>ENTRAR</Text>
+        </TouchableOpacity>
           <View style={styles.footer}>
             <Text></Text>
             <TouchableOpacity>
@@ -106,6 +83,7 @@ export const Login = () => {
     </KeyboardAvoidingView>
   );
 };
+
 export const styles = StyleSheet.create({
   Container: {
     flex: 1,
