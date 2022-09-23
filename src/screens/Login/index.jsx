@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/screens/Login/index.tsx
 import React, { useContext, useEffect } from "react";
+=======
+import React, { useContext, useState } from "react";
+>>>>>>> ramon:src/screens/Login/index.jsx
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -12,26 +16,24 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Button
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
 
+<<<<<<< HEAD:src/screens/Login/index.tsx
 import { useNavigation } from "@react-navigation/native";
+=======
+>>>>>>> ramon:src/screens/Login/index.jsx
 import { AuthContext } from "../../context/AuthContext";
 import Spinner from "react-native-loading-spinner-overlay";
 
-type FormData = {
-  matricula: string;
-  password: string;
-};
 
-export const Login = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
-  const navigation = useNavigation();
+export const Login = ({}) => {
+  
+  const [mat, setMat] = useState(null);
+  const [password, setPassword] = useState(null);
+  const { isLoading, login } = useContext(AuthContext);
 
+<<<<<<< HEAD:src/screens/Login/index.tsx
   const { isLoading, login } = useContext(AuthContext);
 
   useEffect(() => {
@@ -43,6 +45,11 @@ export const Login = () => {
     // !isLoading ??
     //     navigation.navigate("home");
     //     console.log(data);
+=======
+
+  const onSubmit = (mat, password ) => {
+    login(mat,password)
+>>>>>>> ramon:src/screens/Login/index.jsx
   };
   
   return (
@@ -63,6 +70,7 @@ export const Login = () => {
               source={require("../../../assets/logo-educacao.png")}
               style={styles.image}
             />
+<<<<<<< HEAD:src/screens/Login/index.tsx
 
             <Controller
               control={control}
@@ -96,14 +104,32 @@ export const Login = () => {
                 />
               )}
             />
+=======
+            <TextInput
+            style={styles.Input}
+            value={mat}
+            placeholder="Enter Matrícula"
+            onChangeText={text => setMat(text)}
+          />
+  
+          <TextInput
+            style={styles.Input}
+            value={password}
+            placeholder="Enter password"
+            onChangeText={text => setPassword(text)}
+            secureTextEntry
+          />
+
+>>>>>>> ramon:src/screens/Login/index.jsx
           </View>
           <TouchableOpacity
-            style={styles.button}
-            onPress={handleSubmit(onSubmit)}
-          >
-            <Text style={styles.text}>ENTRAR</Text>
-          </TouchableOpacity>
-
+          style={styles.button}
+          onPress={() => {
+            onSubmit(mat, password);
+          }}
+        >
+          <Text style={styles.text}>ENTRAR</Text>
+        </TouchableOpacity>
           <View style={styles.footer}>
             <Text></Text>
             <TouchableOpacity>
@@ -115,6 +141,7 @@ export const Login = () => {
     </KeyboardAvoidingView>
   );
 };
+
 export const styles = StyleSheet.create({
   Container: {
     flex: 1,
