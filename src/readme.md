@@ -14,3 +14,7 @@ Tabela de Tecnologias
 <p>Aqui vai as informações sobre o projeto Mais Educação</p>
 
 # tabela-de-tecnologia
+
+- [x] Inicio do projeto
+- [x] Instalação de dependências
+- [ ] Finalização do projeto 
