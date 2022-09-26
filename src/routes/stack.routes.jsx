@@ -13,7 +13,10 @@ import { Conquistas } from "../screens/Conquistas";
 import { Calendario } from "../screens/Calendario";
 import { Conteudos } from "../screens/Conteudos";
 import { AuthContext } from "../context/AuthContext";
+import { EditAnotation } from "../screens/EditAnotation";
 import { useContext } from "react";
+import { CreateAnotation } from "../screens/CreateAnotation";
+
 
 export function StackRoutes() {
   const { userInfo } = useContext(AuthContext);
@@ -45,6 +48,18 @@ export function StackRoutes() {
             name='Conteudos'
             component={Conteudos}
             options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="EditAnotation"
+          component={EditAnotation}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="CreateAnotation"
+          component={CreateAnotation}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
 
           
