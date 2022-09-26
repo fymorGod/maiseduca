@@ -18,3 +18,13 @@ Tabela de Tecnologias
 - [x] Inicio do projeto
 - [x] Instalação de dependências
 - [ ] Finalização do projeto 
+
+### Rodando a Aplicação
+
+```bash
+#Clone este repositório
+$ git clone <https://github.com/fymorGod/maiseduca>
+
+#Acesse a pasta do projeto no terminal/cmd
+$cd maiseduca
+```
