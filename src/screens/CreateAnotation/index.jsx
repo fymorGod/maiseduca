@@ -91,10 +91,12 @@ export const styles = StyleSheet.create({
         padding:10
     },
     input:{
+        marginHorizontal:10,
+        padding:10,
         backgroundColor:"white",
-        height:200,
-        border: "none",
-        borderRadius: 28,
+        height:110,
+        
+        borderRadius: 10,
     },
     text: {
         color: "#fff",

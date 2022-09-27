@@ -33,7 +33,6 @@ export const Anotation = () => {
   return (
     <View style={styles.Container}>
       <AppHeader />
-
       <View>
         <Text
           style={{
@@ -49,9 +48,10 @@ export const Anotation = () => {
       </View>
 
       <ScrollView>
-        <View style={{ padding: 10 }}>
+        <View style={{ paddingHorizontal: 25, paddingVertical:10 }}>
           {note.map((notes) => (
             <TouchableOpacity
+              key={notes.id}
               onPress={() =>
                 navigation.navigate("EditAnotation", { id: `${notes.id}` })
               }
@@ -60,7 +60,7 @@ export const Anotation = () => {
                 <Text style={styles.text}>{notes.descricao}</Text>
                 <View style={styles.tag}>
                 {notes.tags.map((tag) => (
-                   <Text style={styles.tagname}>{`#${tag.name}`} </Text>
+                   <Text key={tag.id} style={styles.tagname}>{`#${tag.name}`} </Text>
                     ))}
                   </View>
               </View>
@@ -84,10 +84,11 @@ export const styles = StyleSheet.create({
     backgroundColor: "#EDF2FF",
   },
   card: {
-    height: 150,
+    paddingHorizontal: 10,
+    height: 110,
     backgroundColor: "white",
     marginBottom: 15,
-    borderRadius: 25,
+    borderRadius: 10,
     
   },
   text: {
@@ -95,8 +96,10 @@ export const styles = StyleSheet.create({
     fontSize: 15,
   },
   tag: {
+    flexWrap: "wrap",
     bottom:0,
-    margin: 3,
+    marginLeft: 20,
+    marginBottom:10,
     position: "absolute",
     flexDirection: "row",
   },
@@ -106,6 +109,7 @@ export const styles = StyleSheet.create({
   },
   fab: {
     backgroundColor: "#4263EB",
+    borderRadius: 50,
     position: 'absolute',
     margin: 16,
     right: 0,

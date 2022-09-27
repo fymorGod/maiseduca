@@ -16,6 +16,7 @@ import { AuthContext } from "../context/AuthContext";
 import { EditAnotation } from "../screens/EditAnotation";
 import { useContext } from "react";
 import { CreateAnotation } from "../screens/CreateAnotation";
+import { Perfil } from "../screens/Perfil";
 
 
 export function StackRoutes() {
@@ -62,6 +63,11 @@ export function StackRoutes() {
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
 
+          <Stack.Screen
+          name="Perfil"
+          component={Perfil}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
           
         </Stack.Group>
       ) : (
