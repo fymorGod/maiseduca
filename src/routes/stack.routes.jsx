@@ -17,6 +17,7 @@ import { EditAnotation } from "../screens/EditAnotation";
 import { useContext } from "react";
 import { CreateAnotation } from "../screens/CreateAnotation";
 import { Perfil } from "../screens/Perfil";
+import { CreateTags } from "../screens/CreateTags";
 
 
 export function StackRoutes() {
@@ -60,6 +61,12 @@ export function StackRoutes() {
           <Stack.Screen
           name="CreateAnotation"
           component={CreateAnotation}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="CreateTags"
+          component={CreateTags}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
 
