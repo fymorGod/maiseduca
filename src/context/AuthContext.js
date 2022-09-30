@@ -30,15 +30,27 @@ export const AuthProvider = ({children}) => {
 
   };
 
+  const logout = () => {
+    setIsLoading(true);
+      try {
+        AsyncStorage.removeItem('@asyncStorage:userInfo');
+        setUserInfo({});
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
 
   return (
     <AuthContext.Provider
       value={{
         isLoading,
         userInfo,
-        login
+        login,
+        logout
       }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}

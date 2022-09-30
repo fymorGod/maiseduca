@@ -17,7 +17,8 @@ import { EditAnotation } from "../screens/EditAnotation";
 import { useContext } from "react";
 import { CreateAnotation } from "../screens/CreateAnotation";
 import { Perfil } from "../screens/Perfil";
-import { CreateTags } from "../screens/CreateTags";
+import { Configuracao } from "../screens/Configuracao";
+import { TrocarSenha } from "../screens/TrocarSenha";
 
 
 export function StackRoutes() {
@@ -65,14 +66,20 @@ export function StackRoutes() {
           />
 
           <Stack.Screen
-          name="CreateTags"
-          component={CreateTags}
+          name="Perfil"
+          component={Perfil}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
 
           <Stack.Screen
-          name="Perfil"
-          component={Perfil}
+          name="Configuracao"
+          component={Configuracao}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="TrocarSenha"
+          component={TrocarSenha}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
           
