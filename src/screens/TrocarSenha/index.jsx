@@ -23,22 +23,6 @@ export const TrocarSenha = () => {
   const [novaSenha1, setNovaSenha1] = useState();
   let id = userInfo.user.id_senha;
 
-    const mudarSenha = async () =>{
-        
-try {
-    const response = await axios
-    .put('http://192.168.6.20:3010/escolas/users/change_password', {
-        'actual_password': `${atual}`,
-        'new_password': `${novaSenha1}`,
-        'id_user': `${id}`
-    })
-    console.log(response.status)
-} catch (error) {
-    console.log(error)
-}
-
-    }
-
 
   return (
     <View style={styles.Container}>
