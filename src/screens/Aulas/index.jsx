@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
         marginTop: 10
     },
     lista:{
-        
+
         alignItems: 'center'
     }
     

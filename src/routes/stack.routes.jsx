@@ -13,7 +13,13 @@ import { Conquistas } from "../screens/Conquistas";
 import { Calendario } from "../screens/Calendario";
 import { Conteudos } from "../screens/Conteudos";
 import { AuthContext } from "../context/AuthContext";
+import { EditAnotation } from "../screens/EditAnotation";
 import { useContext } from "react";
+import { CreateAnotation } from "../screens/CreateAnotation";
+import { Perfil } from "../screens/Perfil";
+import { Configuracao } from "../screens/Configuracao";
+import { TrocarSenha } from "../screens/TrocarSenha";
+
 
 export function StackRoutes() {
   const { userInfo } = useContext(AuthContext);
@@ -47,6 +53,35 @@ export function StackRoutes() {
             options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
 
+          <Stack.Screen
+          name="EditAnotation"
+          component={EditAnotation}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="CreateAnotation"
+          component={CreateAnotation}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="Perfil"
+          component={Perfil}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="Configuracao"
+          component={Configuracao}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="TrocarSenha"
+          component={TrocarSenha}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
           
         </Stack.Group>
       ) : (

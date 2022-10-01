@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/screens/Login/index.tsx
-import React, { useContext, useEffect } from "react";
-=======
 import React, { useContext, useState } from "react";
->>>>>>> ramon:src/screens/Login/index.jsx
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -19,10 +15,6 @@ import {
   Button
 } from "react-native";
 
-<<<<<<< HEAD:src/screens/Login/index.tsx
-import { useNavigation } from "@react-navigation/native";
-=======
->>>>>>> ramon:src/screens/Login/index.jsx
 import { AuthContext } from "../../context/AuthContext";
 import Spinner from "react-native-loading-spinner-overlay";
 
@@ -33,23 +25,9 @@ export const Login = ({}) => {
   const [password, setPassword] = useState(null);
   const { isLoading, login } = useContext(AuthContext);
 
-<<<<<<< HEAD:src/screens/Login/index.tsx
-  const { isLoading, login } = useContext(AuthContext);
-
-  useEffect(() => {
-    console.log("Email errors: ", errors?.matricula);
-  }, [errors?.matricula]);
-
-  const onSubmit = (data: FormData) => {
-    login(data.matricula, data.password)
-    // !isLoading ??
-    //     navigation.navigate("home");
-    //     console.log(data);
-=======
 
   const onSubmit = (mat, password ) => {
     login(mat,password)
->>>>>>> ramon:src/screens/Login/index.jsx
   };
   
   return (
@@ -70,41 +48,6 @@ export const Login = ({}) => {
               source={require("../../../assets/logo-educacao.png")}
               style={styles.image}
             />
-<<<<<<< HEAD:src/screens/Login/index.tsx
-
-            <Controller
-              control={control}
-              name="matricula"
-              rules={{
-                required: "Email obrigatório",
-              }}
-              render={({ field: { value, onChange } }) => (
-                <TextInput
-                  value={value}
-                  style={styles.Input}
-                  placeholder="Matrícula"
-                  onChangeText={onChange}
-                  autoCapitalize="none"
-                />
-              )}
-            />
-            <Controller
-              name="password"
-              control={control}
-              rules={{
-                required: "Senha obrigatória",
-              }}
-              render={({ field: { value, onChange } }) => (
-                <TextInput
-                  value={value}
-                  style={styles.Input}
-                  placeholder="Senha"
-                  secureTextEntry
-                  onChangeText={onChange}
-                />
-              )}
-            />
-=======
             <TextInput
             style={styles.Input}
             value={mat}
@@ -119,8 +62,6 @@ export const Login = ({}) => {
             onChangeText={text => setPassword(text)}
             secureTextEntry
           />
-
->>>>>>> ramon:src/screens/Login/index.jsx
           </View>
           <TouchableOpacity
           style={styles.button}

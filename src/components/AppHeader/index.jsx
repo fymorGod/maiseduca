@@ -4,24 +4,29 @@ import { View, StyleSheet, Text, Image} from 'react-native';
 import { Surface } from "react-native-paper";
 import  Icon  from 'react-native-vector-icons/FontAwesome5';
 import  Icon2  from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
 export const AppHeader = () => {
+    const navigation = useNavigation();
     return (
         <Surface style={styles.header}>
             <View style={styles.boxLogo}>
                 <Image style={styles.logo} resizeMode='contain' source={require('../../../assets/logo.png')} />
             </View>
             <View style={styles.icon}> 
-                <Icon2
-                        name='notifications-none'
-                        size={25}
-                        color='#fff'
-                        style={{marginRight:10}}
+                <View style={{ width: 50}}>
+                    <Icon2
+                    name='notifications-none'
+                    size={25}
+                    color='#fff'
+                    style={{ alignItems: "center",marginRight:25}}
                     />
+                </View>
                 <Icon2
                     name='person'
                     size={25}
                     color='#fff'
+                    onPress={() => navigation.navigate("Perfil")}
                 />
             </View>
         </Surface>
@@ -30,7 +35,7 @@ export const AppHeader = () => {
 
 const styles = StyleSheet.create({
     header: {
-        paddingTop:20,
+        paddingTop:35,
         height: 100,
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -39,16 +44,16 @@ const styles = StyleSheet.create({
     },
     view: {
         flex: 1,
-        margin: 10
+        
     },
     logo: {
         width: 120,
     },
     boxLogo:{
-        marginLeft: 10,
+        marginLeft: 20,
     },
     icon:{
-        marginRight:10,
+        marginRight:20,
         justifyContent: 'space-between',
         flexDirection: 'row'
     }
