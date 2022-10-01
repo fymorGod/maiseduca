@@ -34,7 +34,7 @@ export const Conteudos = ({route}) => {
             <View style={{padding:10}} key={cont.id}>
                  <View style={styles.container2}>
                    <Text style={styles.text1}> {cont.name}</Text>
-             </View>
+                </View>
             
             </View>
  
