@@ -5,7 +5,7 @@ import { Conteudo } from "../../screens/Conteudos";
 
 export function MateriaItem({ id, name, bk_img}) {
    const navigation = useNavigation();
-
+    console.log(id)
     return (
       <View style={styles.container}>
         <View style={styles.Image}>

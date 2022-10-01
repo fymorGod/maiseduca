@@ -1,6 +1,7 @@
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -8,8 +9,8 @@ export const Conteudos = ({route}) => {
     const { userInfo } = useContext(AuthContext)
     const [ conteudos, setConteudos ] = useState([])
     const [ titulo, setTitulo ] = useState("")
-    
-   let id = route.params.id;
+    const navigation = useNavigation();
+    let id = route.params.id;
 
      useEffect(() => {
          axios.get(`http://192.168.6.20:3010/conteudosAluno/${userInfo.user.id}/${id}`)
@@ -33,7 +34,9 @@ export const Conteudos = ({route}) => {
         {conteudos.map((cont)=>(
             <View style={{padding:10}} key={cont.id}>
                  <View style={styles.container2}>
-                   <Text style={styles.text1}> {cont.name}</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Player', {id: `${cont.id}`})}>
+                        <Text style={styles.text1}> {cont.name}</Text>
+                    </TouchableOpacity>
                 </View>
             
             </View>

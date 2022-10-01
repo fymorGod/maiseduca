@@ -19,7 +19,7 @@ import { CreateAnotation } from "../screens/CreateAnotation";
 import { Perfil } from "../screens/Perfil";
 import { Configuracao } from "../screens/Configuracao";
 import { TrocarSenha } from "../screens/TrocarSenha";
-
+import { Player } from "../screens/Player";
 
 export function StackRoutes() {
   const { userInfo } = useContext(AuthContext);
@@ -82,7 +82,12 @@ export function StackRoutes() {
           component={TrocarSenha}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
-          
+
+          <Stack.Screen
+          name="Player"
+          component={Player}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
         </Stack.Group>
       ) : (
         <>
