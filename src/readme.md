@@ -17,7 +17,7 @@ Tabela de Tecnologias
 
 - [x] Inicio do projeto
 - [x] Instalação de dependências
-- [ ] Finalização do projeto 
+- [ ] Finalização do projeto  
 
 ### Rodando a Aplicação
 
