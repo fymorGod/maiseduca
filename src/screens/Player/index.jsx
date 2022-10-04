@@ -1,17 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  Animated,
+} from "react-native";
 import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Video } from "expo-av";
 
 const Player = ({ route }) => {
-    const v = React.useRef(null);
+  const v = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
   let id = route.params.id;
   // console.log(id);
   const [videos, setVideos] = useState([]);
-  const [status, setStatus] = useState({});
+  const [position, setPosition] = useState(0);
   const { width, height } = Dimensions.get("screen");
 
   useEffect(() => {
@@ -20,6 +28,7 @@ const Player = ({ route }) => {
         `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
       );
       setVideos(response.data.conteudo.Aula);
+      console.log(response.data.conteudo.Aula[position].title);
     };
     getVideosContent();
   }, []);
@@ -28,27 +37,50 @@ const Player = ({ route }) => {
     <View>
       <AppHeader />
       <View style={styles.PlayerView}>
-        {videos.map((video) => {
+        <View
+          style={{
+            height: height / 3,
+            width: "100%",
+            backgroundColor: "gray",
+          }}
+        >
+        {
+            <Video
+            ref={v}
+            source={{ uri: videos[position].file }}
+            useNativeControls
+            resizeMode="contain"
+            style={styles.video}
+          />
+        }
+        </View>
+
+        {videos.map((video, index) => {
           return (
-            <>
-              <View
-               key={video.id}
-                style={{
-                  height: height / 3,
-                  width: "100%",
-                  backgroundColor: "gray",
-                }}
-              >
-                <Video
-                    ref={v}
-                    source={{ uri: video.file }}
-                    useNativeControls
+            <View key={index} style={styles.infoDetailsVideo}>
+              <TouchableOpacity onPress={() => setPosition(index)}>
+                <View
+                  style={{
+                    width: "100%",
+                    margin: 10,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Image
+                    source={{ uri: `${video.thumb}` }}
                     resizeMode="contain"
-                    style={styles.video}
-                />
-              </View>
-              <Text>{video.title}</Text>
-            </>
+                    style={{ width: 100, height: 60 }}
+                  />
+                  <View
+                    style={{ width: "80%", paddingLeft: 5, paddingRight: 5 }}
+                  >
+                    <Text style={styles.title}>{video.title}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
           );
         })}
       </View>
@@ -58,8 +90,12 @@ const Player = ({ route }) => {
 
 export const styles = StyleSheet.create({
   PlayerView: {
-    flex: 1,
     alignItems: "center",
+  },
+  infoDetailsVideo: {
+    justifyContent: "flex-start",
+    backgroundColor: "#e2e2e2",
+    marginTop: 10,
   },
   videoView: {
     width: "100%",
@@ -68,6 +104,10 @@ export const styles = StyleSheet.create({
   postTitle: {
     fontSize: 22,
     fontWeight: "bold",
+  },
+  title: {
+    marginTop: 10,
+    color: "#181818",
   },
   video: {
     width: "100%",
