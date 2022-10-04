@@ -7,16 +7,15 @@ import { ScrollView } from 'native-base'
 const Quiz = () => {
     
     useEffect(() => {
-        axios
-          .get(`http://192.168.6.20:3010/atividadeQuestoes/d33337fe-35ba-4c83-9086-0baac2272cff`)
-          .then((res) => {
-            setAtv(res.data["questoes"]);
-            console.log(atv);
-          });
+        const getAtv = async () => {
+            const response = await axios.get(`http://192.168.6.20:3010/atividadeQuestoes/d33337fe-35ba-4c83-9086-0baac2272cff`)
+            setAtv(response.data["questoes"]);
+        }
+       getAtv();
       }, []);
     
     
-    const [ atv, setAtv] = useState([])
+    const [atv, setAtv] = useState([])
     const allQuestions = atv;
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [currentOptionSelected, setCurrentOptionSelected] = useState(null);
@@ -27,8 +26,21 @@ const Quiz = () => {
     const [showScoreModal, setShowScoreModal] = useState(false)
 
 
+    const validateAnswer = (selectedOption) => {
+        let correct_option = allQuestions[currentQuestionIndex]['correct_option'];
+        setCurrentOptionSelected(selectedOption);
+        setCorrectOption(correct_option);
+        setIsOptionsDisabled(true);
+        if(selectedOption==correct_option){
+            // Set Score
+            setScore(score+1)
+        }
+        // Show Next Button
+        setShowNextButton(true)
+    }
+
    
-      const renderNextButton = () => {
+    const renderNextButton = () => {
         if(showNextButton){
             return (
                 <TouchableOpacity
@@ -74,6 +86,24 @@ const Quiz = () => {
     }
     
 
+    const restartQuiz = () => {
+        setShowScoreModal(false);
+
+        setCurrentQuestionIndex(0);
+        setScore(0);
+
+        setCurrentOptionSelected(null);
+        setCorrectOption(null);
+        setIsOptionsDisabled(false);
+        setShowNextButton(false);
+        Animated.timing(progress, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: false
+        }).start();
+    }
+
+
    return (
     <ScrollView>
     <View style={{ flex: 1,
@@ -96,14 +126,17 @@ const Quiz = () => {
         {/* Question */}
         <Text style={{color:"black",
         fontSize: 20,}}>
-            {allQuestions[currentQuestionIndex].title}
+            {allQuestions[currentQuestionIndex]?.title}
         </Text>
         </View>
         {/* Opcoes */}
         <View>
             {
-                allQuestions[currentQuestionIndex].opcoes.map(option =>(
-                    <TouchableOpacity key={option}
+                allQuestions[currentQuestionIndex]?.opcoes.map(option =>(
+                    <TouchableOpacity 
+                    onPress={()=> validateAnswer(option)}
+                    disabled={isOptionsDisabled}
+                    key={option}
                     style={{
                         borderWidth: 3, 
                         borderColor: option==correctOption 

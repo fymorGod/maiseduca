@@ -47,7 +47,7 @@ const Player = ({ route }) => {
         {
             <Video
             ref={v}
-            source={{ uri: videos[position].file }}
+            source={{ uri: videos[position]?.file }}
             useNativeControls
             resizeMode="contain"
             style={styles.video}
