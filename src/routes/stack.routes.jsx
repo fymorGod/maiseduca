@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Image, Text, Platform, StyleSheet } from "react-native";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
 const Stack = createNativeStackNavigator();
@@ -164,7 +165,9 @@ export function CalendarioNavigation() {
   );
 }
 
+export const ShowTopTabNavigator = () => {
 
+}
 
 export function ShowBottomTabs() {
   return (

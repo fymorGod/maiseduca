@@ -6,7 +6,6 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
-  Animated,
 } from "react-native";
 import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
@@ -14,14 +13,20 @@ import { AuthContext } from "../../context/AuthContext";
 import { Video } from "expo-av";
 
 const Player = ({ route }) => {
+  let id = route.params.id;
+
   const v = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
-  let id = route.params.id;
-  // console.log(id);
+  const [ clicked, setClicked ] = useState(0);
   const [videos, setVideos] = useState([]);
   const [position, setPosition] = useState(0);
   const { width, height } = Dimensions.get("screen");
 
+  const detailsTabs = [
+    {id: 1, label: 'Aulas'},
+    {id: 2, label: 'Atividades'},
+    {id: 3, label: 'Material'},
+  ]
 
   useEffect(() => {
     const getVideosContent = async () => {
@@ -34,6 +39,71 @@ const Player = ({ route }) => {
     getVideosContent();
   }, []);
 
+  const renderTabs = () => {
+    return (
+      <View style={{
+        width: '100%',
+        borderRadius: 8,
+        flexDirection:'row',
+        justifyContent: 'space-around',
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        backgroundColor: '#2F598431'
+      }}>
+        {
+          detailsTabs.map((item, index) => {
+            return (
+              <TouchableOpacity 
+              key={index}
+              style={
+                [index === clicked ? styles.buttonTabsActive: styles.buttonTabs ]          
+              }
+              >
+                <Text>{item.label}</Text>
+              </TouchableOpacity>
+            );
+          })
+        }
+      </View>
+    );
+  } 
+
+  const renderListVideos = (videos) => {
+    return (
+      <>
+        {videos.map((video, index) => {
+        return (
+          <View key={index} style={styles.infoDetailsVideo}>
+            <TouchableOpacity onPress={() => setPosition(index)}>
+              <View
+                style={{
+                  width: "100%",
+                  margin: 10,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Image
+                  source={{ uri: `${video.thumb}` }}
+                  resizeMode="contain"
+                  style={{ width: 100, height: 60 }}
+                />
+                <View
+                  style={{ width: "80%", paddingLeft: 5, paddingRight: 5 }}
+                >
+                  <Text style={styles.title}>{video.title}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+        );
+      })
+      }
+      </>
+    );
+  }
+
   return (
     <View>
       <AppHeader />
@@ -42,7 +112,7 @@ const Player = ({ route }) => {
           style={{
             height: height / 3,
             width: "100%",
-            backgroundColor: "gray",
+            backgroundColor: "#fff",
           }}
         >
         {
@@ -56,35 +126,13 @@ const Player = ({ route }) => {
           />
         }
         </View>
+        {
+          renderTabs()
+        }
 
-        {videos.map((video, index) => {
-          return (
-            <View key={index} style={styles.infoDetailsVideo}>
-              <TouchableOpacity onPress={() => setPosition(index)}>
-                <View
-                  style={{
-                    width: "100%",
-                    margin: 10,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Image
-                    source={{ uri: `${video.thumb}` }}
-                    resizeMode="contain"
-                    style={{ width: 100, height: 60 }}
-                  />
-                  <View
-                    style={{ width: "80%", paddingLeft: 5, paddingRight: 5 }}
-                  >
-                    <Text style={styles.title}>{video.title}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          );
-        })}
+        {
+          renderListVideos(videos)
+        }       
       </View>
     </View>
   );
@@ -93,6 +141,22 @@ const Player = ({ route }) => {
 export const styles = StyleSheet.create({
   PlayerView: {
     alignItems: "center",
+  },
+  buttonTabsActive: {
+    flexDirection:'row',
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#4162EB'
+  }, 
+  buttonTabs: {
+    flexDirection:'row',
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#2F598431'
   },
   infoDetailsVideo: {
     justifyContent: "flex-start",
