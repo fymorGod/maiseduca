@@ -22,6 +22,7 @@ const Player = ({ route }) => {
   const [position, setPosition] = useState(0);
   const { width, height } = Dimensions.get("screen");
 
+
   useEffect(() => {
     const getVideosContent = async () => {
       const response = await axios.get(
@@ -46,8 +47,9 @@ const Player = ({ route }) => {
         >
         {
             <Video
+            
             ref={v}
-            source={{ uri: videos[position].file }}
+            source={{ uri: videos[position]?.file }}
             useNativeControls
             resizeMode="contain"
             style={styles.video}
