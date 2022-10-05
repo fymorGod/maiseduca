@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState,  useRef, useCallback} from "react";
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-
+import Tags from "react-native-tags";
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -68,6 +68,27 @@ export const EditAnotation = ({route}) => {
                 onChangeText={text => handleOnChangeText(text, 'title')}
 
                 />
+
+
+                <View style={styles.textbox}>
+                <Text style={{position:"absolute", fontFamily:"Poppins_500Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Crie sua tag</Text>
+                <Tags
+                style={{height:150}}
+                onChangeTags={tags => setTags(tags)}
+                onTagPress={(index, tagLabel, event, deleted) =>
+                console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
+                }
+                containerStyle={{ margin: 10,
+                  borderRadius: 10,
+                  backgroundColor: '#FFFFFF',
+                  justifyContent: 'flex-start', }}
+                inputStyle={{  backgroundColor: '#FFFFFF',
+                color: '#606060',
+                fontWeight: 'bold', }}
+  
+                
+            />
+          </View>
                     
             <View style={{flexDirection:'row', justifyContent: "space-between", paddingHorizontal: 20}}>
             <Text></Text>
