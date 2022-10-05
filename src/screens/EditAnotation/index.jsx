@@ -10,9 +10,9 @@ import { AuthContext } from "../../context/AuthContext";
 export const EditAnotation = ({route}) => {
     const { userInfo } = useContext(AuthContext);
     const [title, setTitle] = useState('');
-    const [tags, setTags] = useState('');
+    const [tags, setTags] = useState([]);
     let id = route.params.id;
-    
+
     const onSubmit = (title) => {
         EditarNota(title)
       };
@@ -21,16 +21,18 @@ export const EditAnotation = ({route}) => {
         if (valueFor === 'title') setTitle(text);
         if (valueFor === 'taag') setDesc(text);
       };
-     
+
 
      useEffect(() => {
          axios.get(`http://192.168.6.20:3010/anotacoes/${id}`)
          .then(res=>{
              setTitle(res.data['anotacao'].descricao);
-            // console.log(res.data['anotacao'].descricao)
-    
+             console.log(res.data['anotacao'].Anotacao_has_tags)
+             setTags(res.data['anotacao'].Anotacao_has_tags)
+
+
          })
-        
+
        }, [])
 
 
@@ -53,13 +55,13 @@ export const EditAnotation = ({route}) => {
     return (
         <View style={styles.Container}>
         <AppHeader/>
-        <View>                
+        <View>
             <Text style={{fontFamily: "Poppins_500Medium",
             fontSize: 18,
             color: "#403B91",
             paddingTop: 20,
             paddingLeft: 20,
-        }}>Editar anotação</Text> 
+        }}>Editar anotação</Text>
         </View>
                 <TextInput
                 style={styles.input}
@@ -71,25 +73,24 @@ export const EditAnotation = ({route}) => {
 
 
                 <View style={styles.textbox}>
-                <Text style={{position:"absolute", fontFamily:"Poppins_500Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Crie sua tag</Text>
+                <Text style={{position:"absolute", fontFamily:"Poppins_500Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Edite sua tag</Text>
                 <Tags
+                initialTags={tags}
                 style={{height:150}}
-                onChangeTags={tags => setTags(tags)}
+                // onChangeTags={tags => setTags(tags)}
                 onTagPress={(index, tagLabel, event, deleted) =>
                 console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
                 }
                 containerStyle={{ margin: 10,
-                  borderRadius: 10,
-                  backgroundColor: '#FFFFFF',
-                  justifyContent: 'flex-start', }}
+                    borderRadius: 10,
+                    backgroundColor: '#FFFFFF',
+                    justifyContent: 'flex-start', }}
                 inputStyle={{  backgroundColor: '#FFFFFF',
                 color: '#606060',
                 fontWeight: 'bold', }}
-  
-                
-            />
-          </View>
-                    
+                />
+                </View>
+
             <View style={{flexDirection:'row', justifyContent: "space-between", paddingHorizontal: 20}}>
             <Text></Text>
             <TouchableOpacity
@@ -99,13 +100,13 @@ export const EditAnotation = ({route}) => {
                onSubmit(title);
             }}
             >
-    
+
             <Text style={styles.text}>Salvar</Text>
           </TouchableOpacity>
-          
+
 
             </View>
-        
+
     </View>
     )
 }
@@ -136,6 +137,9 @@ export const styles = StyleSheet.create({
     text:{
         textAlign:'center',
         color:'white',
-    }
+    },
+    textbox:{
+        padding:10
+    },
 
 })
