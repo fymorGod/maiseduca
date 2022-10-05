@@ -82,9 +82,9 @@ export const EditAnotation = ({route}) => {
                 console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
                 }
                 containerStyle={{ margin: 10,
-                    borderRadius: 10,
-                    backgroundColor: '#FFFFFF',
-                    justifyContent: 'flex-start', }}
+                borderRadius: 10,
+                backgroundColor: '#FFFFFF',
+                justifyContent: 'flex-start', }}
                 inputStyle={{  backgroundColor: '#FFFFFF',
                 color: '#606060',
                 fontWeight: 'bold', }}
