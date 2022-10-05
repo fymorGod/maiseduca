@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Image, Text, Platform, StyleSheet } from "react-native";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,7 @@ import { Perfil } from "../screens/Perfil";
 import { Configuracao } from "../screens/Configuracao";
 import { TrocarSenha } from "../screens/TrocarSenha";
 import { Player } from "../screens/Player";
+import { Classificacao } from "../screens/Classificacao";
 
 export function StackRoutes() {
   const { userInfo } = useContext(AuthContext);
@@ -88,6 +90,13 @@ export function StackRoutes() {
           component={Player}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
+
+          <Stack.Screen
+          name="Classificacao"
+          component={Classificacao}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
         </Stack.Group>
       ) : (
         <>
@@ -164,7 +173,9 @@ export function CalendarioNavigation() {
   );
 }
 
+export const ShowTopTabNavigator = () => {
 
+}
 
 export function ShowBottomTabs() {
   return (

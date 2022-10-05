@@ -158,7 +158,7 @@ export const Perfil = () => {
               elevation: 3,
               backgroundColor: "#00B7B7",
             }}
-            onPress={() => {}}
+            onPress={() => navigation.navigate("Classificacao")}
           >
             <Text style={styles.text}>Classificação</Text>
           </TouchableOpacity>
