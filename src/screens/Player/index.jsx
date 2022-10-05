@@ -39,6 +39,9 @@ const Player = ({ route }) => {
     getVideosContent();
   }, []);
 
+  const handleClick = (id) => {
+    setClicked(id)
+  }
   const renderTabs = () => {
     return (
       <View style={{
@@ -55,8 +58,9 @@ const Player = ({ route }) => {
             return (
               <TouchableOpacity 
               key={index}
+              onPress={(item) => handleClick(index)}
               style={
-                [index === clicked ? styles.buttonTabsActive: styles.buttonTabs ]          
+                [ index === clicked ? styles.buttonTabsActive: styles.buttonTabs]          
               }
               >
                 <Text>{item.label}</Text>
@@ -103,14 +107,29 @@ const Player = ({ route }) => {
       </>
     );
   }
-
+  const renderListAtividades = () => {
+    return (
+      <View>
+        <Text>Lista de Atividades</Text>
+      </View>
+    );
+  }
+  const renderMaterialComplementar = () => {
+    return (
+      <View>
+        <Text>
+          Lista de Materiais Complementares
+        </Text>
+      </View>
+    );
+  }
   return (
     <View>
       <AppHeader />
       <View style={styles.PlayerView}>
         <View
           style={{
-            height: height / 3,
+            height: height / 4,
             width: "100%",
             backgroundColor: "#fff",
           }}
@@ -131,7 +150,11 @@ const Player = ({ route }) => {
         }
 
         {
-          renderListVideos(videos)
+          clicked === 0 ?
+          renderListVideos(videos) :
+          clicked === 1 ? renderListAtividades() :
+          clicked === 2 ? renderMaterialComplementar() : 
+          '' 
         }       
       </View>
     </View>
