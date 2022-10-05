@@ -15,7 +15,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 
 export const Configuracao = () => {
-    const {logout} = useContext(AuthContext);
+  const {logout} = useContext(AuthContext);
   const navigation = useNavigation();
   const [notificacao, setNotificacao] = useState(false);
   const toggleSwitch1 = () => setNotificacao((previousState) => !previousState);

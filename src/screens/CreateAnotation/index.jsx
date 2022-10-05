@@ -5,9 +5,10 @@ import { Text, View, StyleSheet, TouchableOpacity, TextInput, Alert,} from 'reac
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import Tags from "react-native-tags";
-
+import { useNavigation } from "@react-navigation/native";
 
 export const CreateAnotation = ({}) => {
+  const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [ descricao, setDescricao ] = useState();
   const [ tags, setTags ] = useState([]);
@@ -24,7 +25,9 @@ export const CreateAnotation = ({}) => {
               "id_aluno": `${userInfo.user.id}`,
               "array_tags": tags
           })
-          console.log(response)
+          if(response.status === 201){
+            navigation.goBack()
+          }
       } catch (error) {
           console.log(error)
       }
@@ -77,8 +80,7 @@ export const CreateAnotation = ({}) => {
         <TouchableOpacity
         style={styles.button}
         onPress={() => {
-            console.log(title);
-           onSubmit(title);
+           onSubmit(descricao);
         }}
         >
 

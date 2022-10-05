@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import {
   Text,
   View,
-  
+  RefreshControl,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -19,15 +19,34 @@ export const Anotation = () => {
   const navigation = useNavigation();
   const [note, setNote] = useState([]);
   const [tags, setTags] = useState([]);
+  const [refreshing, setRefreshing] = useState(false)
+
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() =>
+    getAnotacoes(),
+    setRefreshing(false)
+    );
+  }, []);
+
+  const getAnotacoes = async() => {
+    try {
+      const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
+      setNote(res.data["anotacoes"]);
+      console.log(res.data["anotacoes"]);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   useEffect(() => {
-    axios
-      .get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
-      .then((res) => {
-        // s
-        setNote(res.data["anotacoes"]);
-        console.log(res.data["anotacoes"]);
-      });
+      getAnotacoes();
   }, []);
 
   return (
@@ -47,7 +66,13 @@ export const Anotation = () => {
         </Text>
       </View>
 
-      <ScrollView>
+      <ScrollView
+        refreshControl={<RefreshControl
+          refreshing={refreshing}
+          onRefresh={getAnotacoes}
+        />
+      }
+      >
         <View style={{ paddingHorizontal: 25, paddingVertical:10 }}>
           {note.map((notes) => (
             <TouchableOpacity

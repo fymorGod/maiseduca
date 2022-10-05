@@ -14,7 +14,7 @@ export const Conquistas = () => {
     return (
         <View style={styles.Container}>
             <AppHeader/>
-            <Quiz/>
+           
         </View>
     )
 }
