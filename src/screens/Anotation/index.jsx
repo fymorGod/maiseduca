@@ -13,8 +13,13 @@ import { AuthContext } from "../../context/AuthContext";
 import Icon from "react-native-vector-icons/AntDesign";
 import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
+import { useFonts } from "expo-font";
 
 export const Anotation = () => {
+  const [fontsLoaded] = useFonts({
+    Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
+
   const { userInfo } = useContext(AuthContext);
   const navigation = useNavigation();
   const [note, setNote] = useState([]);
@@ -55,7 +60,7 @@ export const Anotation = () => {
       <View>
         <Text
           style={{
-            fontFamily: "Poppins_500Medium",
+            fontFamily: "Medium",
             fontSize: 18,
             color: "#403B91",
             paddingTop: 20,

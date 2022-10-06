@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useFonts } from "expo-font";
 import React, { useContext, useEffect, useState,  useRef, useCallback} from "react";
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import Tags from "react-native-tags";
@@ -8,6 +9,10 @@ import { AuthContext } from "../../context/AuthContext";
 
 
 export const EditAnotation = ({route}) => {
+    const [fontsLoaded] = useFonts({
+        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+    })
+
     const { userInfo } = useContext(AuthContext);
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState();
@@ -55,7 +60,7 @@ export const EditAnotation = ({route}) => {
         <View style={styles.Container}>
         <AppHeader/>
         <View>
-            <Text style={{fontFamily: "Poppins_500Medium",
+            <Text style={{fontFamily: "Medium",
             fontSize: 18,
             color: "#403B91",
             paddingTop: 20,
@@ -69,7 +74,7 @@ export const EditAnotation = ({route}) => {
                 onChangeText={text => handleOnChangeText(text, 'title')}
                 />
                 <View style={styles.textbox}>
-                <Text style={{position:"absolute", fontFamily:"Poppins_500Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Edite sua tag</Text>
+                <Text style={{position:"absolute", fontFamily:"Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Edite sua tag</Text>
                 <Tags
                 key={tags}
                 initialTags={tags}

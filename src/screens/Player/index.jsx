@@ -11,16 +11,19 @@ import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Video } from "expo-av";
+import { useNavigation } from "@react-navigation/native";
+
 
 const Player = ({ route }) => {
   let id = route.params.id;
-
+  const navigation = useNavigation();
   const v = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
   const [ clicked, setClicked ] = useState(0);
   const [videos, setVideos] = useState([]);
   const [position, setPosition] = useState(0);
   const { width, height } = Dimensions.get("screen");
+  const [ atv, setAtv ] = useState([]);
 
   const detailsTabs = [
     {id: 1, label: 'Aulas'},
@@ -34,7 +37,8 @@ const Player = ({ route }) => {
         `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
       );
       setVideos(response.data.conteudo.Aula);
-      console.log(response.data.conteudo.Aula[position].title);
+      setAtv(response.data["conteudo"]["atividade"])
+      console.log(response.data["conteudo"]["atividade"])
     };
     getVideosContent();
   }, []);
@@ -107,13 +111,33 @@ const Player = ({ route }) => {
       </>
     );
   }
+  
   const renderListAtividades = () => {
     return (
-      <View>
-        <Text>Lista de Atividades</Text>
+      <View >
+        {
+          atv.map((atvs)=>(
+            <View style={{flexDirection: "column", marginTop: 10}} key={atvs.id}>
+            <TouchableOpacity
+              onPress={
+                () => navigation.navigate('AtividadeInicio', {id: `${atvs.id}`})
+              }>
+              <View style={{flexDirection: "row", width:"100%", padding:10, justifyContent:'space-evenly', alignItems:'center'}}>
+              <Image
+              style={{height: 40, width: 60}}
+              resizeMode="contain" 
+              source={require("../../../assets/atividade.png")} 
+              />
+              <Text style={{fontSize:14, color:'#868E96' }}>{atvs.title}</Text>
+              </View>
+            </TouchableOpacity>
+            </View>
+          ))
+        }
       </View>
     );
   }
+  
   const renderMaterialComplementar = () => {
     return (
       <View>
@@ -123,6 +147,7 @@ const Player = ({ route }) => {
       </View>
     );
   }
+  
   return (
     <View>
       <AppHeader />

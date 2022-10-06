@@ -12,9 +12,14 @@ import {
 import { AppHeader } from "../../components/AppHeader";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
+import { useFonts } from "expo-font";
 
 
 export const Configuracao = () => {
+  const [fontsLoaded] = useFonts({
+    Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
+
   const {logout} = useContext(AuthContext);
   const navigation = useNavigation();
   const [notificacao, setNotificacao] = useState(false);
@@ -34,7 +39,7 @@ export const Configuracao = () => {
           <View>
             <Text
               style={{
-                fontFamily: "Poppins_500Medium",
+                fontFamily: "Medium",
                 fontSize: 16,
                 color: "#403B91",
                 paddingTop: 20,
@@ -60,7 +65,7 @@ export const Configuracao = () => {
             />
             <Text
               style={{
-                fontFamily: "Poppins_500Medium",
+                fontFamily: "Medium",
                 fontSize: 14,
                 marginBottom: 10,
                 color: "#403B91",
@@ -73,7 +78,7 @@ export const Configuracao = () => {
           <View style={{ marginBottom: 20 }}>
             <Text
               style={{
-                fontFamily: "Poppins_500Medium",
+                fontFamily: "Medium",
                 fontSize: 16,
                 color: "#403B91",
                 paddingLeft: 20,
@@ -138,7 +143,7 @@ export const Configuracao = () => {
 
           <Text
           style={{
-            fontFamily: "Poppins_500Medium",
+            fontFamily: "Medium",
             fontSize: 16,
             color: "#403B91",
             paddingLeft: 20,
@@ -255,7 +260,7 @@ export const Configuracao = () => {
           <View style={{ marginBottom: 30, marginTop:20}}>
           <Text
             style={{
-              fontFamily: "Poppins_500Medium",
+              fontFamily: "Medium",
               fontSize: 16,
               color: "#403B91",
               paddingLeft: 20,
@@ -307,7 +312,7 @@ export const Configuracao = () => {
        <View>
          <Text
            style={{
-             fontFamily: "Poppins_500Medium",
+             fontFamily: "Medium",
              fontSize: 16,
              color: "#403B91",
              paddingTop: 20,
@@ -333,7 +338,7 @@ export const Configuracao = () => {
          />
          <Text
            style={{
-             fontFamily: "Poppins_500Medium",
+             fontFamily: "Medium",
              fontSize: 14,
              marginBottom: 10,
              color: "#403B91",
@@ -347,7 +352,7 @@ export const Configuracao = () => {
        <View style={{ marginBottom: 20 }}>
          <Text
            style={{
-             fontFamily: "Poppins_500Medium",
+             fontFamily: "Medium",
              fontSize: 16,
              color: "#403B91",
              paddingLeft: 20,
@@ -412,7 +417,7 @@ export const Configuracao = () => {
 
        <Text
        style={{
-         fontFamily: "Poppins_500Medium",
+         fontFamily: "Medium",
          fontSize: 16,
          color: "#403B91",
          paddingLeft: 20,
@@ -525,7 +530,7 @@ export const Configuracao = () => {
        <View style={{ marginBottom: 30, marginTop:20}}>
          <Text
            style={{
-             fontFamily: "Poppins_500Medium",
+             fontFamily: "Medium",
              fontSize: 16,
              color: "#403B91",
              paddingLeft: 20,

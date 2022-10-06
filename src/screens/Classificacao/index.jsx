@@ -16,7 +16,6 @@ export const Classificacao = () => {
       );
       setRank(response.data["top_3_rank"]);
       setPosition(response.data["my_position"]);
-      console.log(response.data["my_position"]);
     };
     getRank();
   }, []);
@@ -73,14 +72,14 @@ export const Classificacao = () => {
             Top 3 Alunos
           </Text>
         </View>
-        <View style={{ flexDirection: "column", padding: 20 }}>
+        <View style={{ flexDirection: "column", padding: 20, justifyContent:'space-between', justifyContent: 'center', }}>
           {rank.map((ranks) => (
             <View
               key={ranks.aluno}
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}
             >
               <Image
-                style={{ width: 34, height: 34 }}
+                style={{ width: 40, height: 57 }}
                 source={{ uri: `${ranks.img}` }}
               />
               <Text

@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, Image, } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { FavItem } from "../../components/favoritos/favoritoItem";
+import { useFonts } from "expo-font";
 
 
 
@@ -12,6 +13,11 @@ export const Home = () => {
     const { userInfo } = useContext(AuthContext);
     const [fav, setFav] = useState([]);
 
+    const [fontsLoaded] = useFonts({
+        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+    })
+
+    
 
     console.log(userInfo.user.id);
     useEffect(() => {
@@ -41,7 +47,7 @@ export const Home = () => {
                 />
             </View>
             <View style={styles.aulasVideos}>
-                <Text style={{fontFamily:"Poppins_500Medium", fontSize: 16, color: '#403B91'}}> Favoritos</Text>
+                <Text style={{fontFamily:"Medium", fontSize: 16, color: '#403B91'}}> Favoritos</Text>
             </View>
             <View>
                   {fav.map((favs)=>(

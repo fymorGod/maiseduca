@@ -22,6 +22,8 @@ import { Configuracao } from "../screens/Configuracao";
 import { TrocarSenha } from "../screens/TrocarSenha";
 import { Player } from "../screens/Player";
 import { Classificacao } from "../screens/Classificacao";
+import { AtividadeInicio } from "../screens/AtividadeInicio";
+import { Atividade } from "../screens/Atividade";
 
 export function StackRoutes() {
   const { userInfo } = useContext(AuthContext);
@@ -94,6 +96,18 @@ export function StackRoutes() {
           <Stack.Screen
           name="Classificacao"
           component={Classificacao}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="AtividadeInicio"
+          component={AtividadeInicio}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="Atividade"
+          component={Atividade}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
 
