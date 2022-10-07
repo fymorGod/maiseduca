@@ -13,14 +13,18 @@ export const Atividade = ({route}) => {
     let id = route.params.id;
     const { userInfo } = useContext(AuthContext);
 
+    Array.prototype.random = function () {
+        return this[Math.floor((Math.random()*this.length))];
+      }
+
 
 
     useEffect(() => {
         const getAtv = async () => {
             const response = await axios.get(`http://192.168.6.20:3010/atividadeQuestoes/${id}`)
-            console.log(id);
+           
             setAtv(response.data["questoes"]);
-            console.log(response.data["questoes"])
+            
         }
        getAtv();
       }, []);
@@ -86,22 +90,22 @@ export const Atividade = ({route}) => {
         }).start();
     }
     
-    const restartQuiz = () => {
-        setShowScoreModal(false);
+    // const restartQuiz = () => {
+    //     setShowScoreModal(false);
 
-        setCurrentQuestionIndex(0);
-        setScore(0);
+    //     setCurrentQuestionIndex(0);
+    //     setScore(0);
 
-        setCurrentOptionSelected(null);
-        setCorrectOption(null);
-        setIsOptionsDisabled(false);
-        setShowNextButton(false);
-        Animated.timing(progress, {
-            toValue: 0,
-            duration: 1000,
-            useNativeDriver: false
-        }).start();
-    }
+    //     setCurrentOptionSelected(null);
+    //     setCorrectOption(null);
+    //     setIsOptionsDisabled(false);
+    //     setShowNextButton(false);
+    //     Animated.timing(progress, {
+    //         toValue: 0,
+    //         duration: 1000,
+    //         useNativeDriver: false
+    //     }).start();
+    // }
 
 
 
@@ -127,7 +131,11 @@ export const Atividade = ({route}) => {
             </View>
         )
     }
-    
+
+
+     var alternativas = allQuestions[currentQuestionIndex]?.opcoes.sort((a, b) => a > b? 1 :-1);
+    console.log(alternativas)
+
     const renderOptions = () => {
         return (
             <View>

@@ -5,6 +5,7 @@ import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { FavItem } from "../../components/favoritos/favoritoItem";
 import { useFonts } from "expo-font";
+import { FlatList } from "react-native-gesture-handler";
 
 
 
@@ -17,16 +18,21 @@ export const Home = () => {
         Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
     })
 
-    
-
-    console.log(userInfo.user.id);
-    useEffect(() => {
-        axios.get(`http://192.168.6.20:3010/favoritos/${userInfo.user.id}`)
-        .then(res=>{
-            // s
+    const getFav = async() => {
+        try {
+            const res = await axios.get(`http://192.168.6.20:3010/favoritos/${userInfo.user.id}`)
             setFav(res.data['favoritos']);
             console.log(res.data['favoritos'])
-        })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+
+
+    useEffect(() => {
+        getFav();
         
       }, [])
     
@@ -49,14 +55,13 @@ export const Home = () => {
             <View style={styles.aulasVideos}>
                 <Text style={{fontFamily:"Medium", fontSize: 16, color: '#403B91'}}> Favoritos</Text>
             </View>
-            <View>
-                  {fav.map((favs)=>(
-                    <FavItem
-                    key={favs.id_favorito}
-                    {...favs}
-                    />
-                  ))}
-            </View>
+           
+            {fav.map((favs)=>(
+                <FavItem
+                key={favs.id_favorito}
+                {...favs}
+                />
+              ))}
 
         </View>
     )
