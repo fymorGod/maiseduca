@@ -5,9 +5,15 @@ import { Text, View, StyleSheet, TouchableOpacity, TextInput, Alert,} from 'reac
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import Tags from "react-native-tags";
-
+import { useNavigation } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 
 export const CreateAnotation = ({}) => {
+    const [fontsLoaded] = useFonts({
+        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+    })
+
+  const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [ descricao, setDescricao ] = useState();
   const [ tags, setTags ] = useState([]);
@@ -19,12 +25,14 @@ export const CreateAnotation = ({}) => {
   const criarNota = async() => {
       try {
           const response = await axios
-          .post(`http://192.168.6.20:3010/anotacoes`, {
+          .post(`https://mais-educacao.herokuapp.com/anotacoes`, {
               "descricao": descricao,
               "id_aluno": `${userInfo.user.id}`,
               "array_tags": tags
           })
-          console.log(response)
+          if(response.status === 201){
+            navigation.goBack()
+          }
       } catch (error) {
           console.log(error)
       }
@@ -35,7 +43,7 @@ export const CreateAnotation = ({}) => {
         <View style={styles.Container}>
         <AppHeader/>
         <View>                
-            <Text style={{fontFamily:"Poppins_500Medium", fontSize: 18, color: '#403B91', paddingTop:20, paddingLeft:20}}>Criar anotação</Text> 
+            <Text style={{fontFamily:"Medium", fontSize: 18, color: '#403B91', paddingTop:20, paddingLeft:20}}>Criar anotação</Text> 
         </View>
         <View style={styles.textbox}>
             <TextInput
@@ -46,11 +54,11 @@ export const CreateAnotation = ({}) => {
             />
 
         <View>                
-            <Text style={{fontFamily:"Poppins_500Medium", fontSize: 18, color: '#403B91', paddingTop:20, paddingLeft:20}}>Tags</Text> 
+            <Text style={{fontFamily:"Medium", fontSize: 18, color: '#403B91', paddingTop:20, paddingLeft:20}}>Tags</Text> 
         </View>
         
         <View style={styles.textbox}>
-              <Text style={{position:"absolute", fontFamily:"Poppins_500Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Crie sua tag</Text>
+              <Text style={{position:"absolute", fontFamily:"Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Crie sua tag</Text>
               <Tags
               style={{height:150}}
               onChangeTags={tags => setTags(tags)}
@@ -77,8 +85,7 @@ export const CreateAnotation = ({}) => {
         <TouchableOpacity
         style={styles.button}
         onPress={() => {
-            console.log(title);
-           onSubmit(title);
+           onSubmit(descricao);
         }}
         >
 

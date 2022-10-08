@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useFonts } from "expo-font";
 import React, { useContext, useEffect, useState } from "react";
 import { Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
@@ -6,13 +7,17 @@ import { MateriaItem } from "../../components/materias";
 import { AuthContext } from "../../context/AuthContext";
 
 export const Aulas = () => {
+    const [fontsLoaded] = useFonts({
+        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+    })
+
     const { userInfo } = useContext(AuthContext);
     const [materias, setMaterias] = useState([]);
 
 
     
     useEffect(() => {
-        axios.get(`http://192.168.6.20:3010/disciplinasAluno/${userInfo.user.id}`)
+        axios.get(`https://mais-educacao.herokuapp.com/disciplinasAluno/${userInfo.user.id}`)
         .then(res=>{
             // s
             setMaterias(res.data['disciplinas']);
@@ -27,7 +32,13 @@ export const Aulas = () => {
     <View style={styles.Container}>
         <AppHeader/>
         <View>
-            <Text style={styles.text}>
+            <Text  style={{
+                fontFamily: "Medium",
+                fontSize: 18,
+                color: "#403B91",
+                paddingTop: 20,
+                paddingLeft: 20,
+              }}>
                 Minhas Disciplinas
             </Text>
         </View>
@@ -54,16 +65,8 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#EDF2FF'
     },
-    text:{
-        color: "#403B91",
-        fontSize: 18,
-        fontWeight: "500",
-        marginLeft: 20,
-        marginBottom: 10,
-        marginTop: 10
-    },
     lista:{
-
+        marginTop:10,
         alignItems: 'center'
     }
     

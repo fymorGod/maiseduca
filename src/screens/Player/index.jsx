@@ -11,16 +11,22 @@ import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Video } from "expo-av";
+import { useNavigation } from "@react-navigation/native";
+import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
+import  Icon2  from 'react-native-vector-icons/Ionicons';
+import  Icon3  from 'react-native-vector-icons/MaterialIcons';
+
 
 const Player = ({ route }) => {
   let id = route.params.id;
-
+  const navigation = useNavigation();
   const v = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
   const [ clicked, setClicked ] = useState(0);
   const [videos, setVideos] = useState([]);
   const [position, setPosition] = useState(0);
   const { width, height } = Dimensions.get("screen");
+  const [ atv, setAtv ] = useState([]);
 
   const detailsTabs = [
     {id: 1, label: 'Aulas'},
@@ -31,10 +37,11 @@ const Player = ({ route }) => {
   useEffect(() => {
     const getVideosContent = async () => {
       const response = await axios.get(
-        `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
+        `https://mais-educacao.herokuapp.com/conteudos/${id}/${userInfo.user.id}`
       );
       setVideos(response.data.conteudo.Aula);
-      console.log(response.data.conteudo.Aula[position].title);
+      setAtv(response.data["conteudo"]["atividade"])
+      console.log(response.data["conteudo"])
     };
     getVideosContent();
   }, []);
@@ -51,7 +58,8 @@ const Player = ({ route }) => {
         justifyContent: 'space-around',
         paddingVertical: 15,
         paddingHorizontal: 10,
-        backgroundColor: '#2F598431'
+        backgroundColor: '#2F598431',
+        marginTop:60
       }}>
         {
           detailsTabs.map((item, index) => {
@@ -107,13 +115,33 @@ const Player = ({ route }) => {
       </>
     );
   }
+  
   const renderListAtividades = () => {
     return (
-      <View>
-        <Text>Lista de Atividades</Text>
+      <View >
+        {
+          atv.map((atvs)=>(
+            <View style={{flexDirection: "column", marginTop: 10}} key={atvs.id}>
+            <TouchableOpacity
+              onPress={
+                () => navigation.navigate('AtividadeInicio', {id: `${atvs.id}`})
+              }>
+              <View style={{flexDirection: "row", width:"100%", padding:10, justifyContent:'space-evenly', alignItems:'center'}}>
+              <Image
+              style={{height: 40, width: 60}}
+              resizeMode="contain" 
+              source={require("../../../assets/atividade.png")} 
+              />
+              <Text style={{fontSize:14, color:'#868E96' }}>{atvs.title}</Text>
+              </View>
+            </TouchableOpacity>
+            </View>
+          ))
+        }
       </View>
     );
   }
+  
   const renderMaterialComplementar = () => {
     return (
       <View>
@@ -123,6 +151,7 @@ const Player = ({ route }) => {
       </View>
     );
   }
+  
   return (
     <View>
       <AppHeader />
@@ -131,22 +160,62 @@ const Player = ({ route }) => {
           style={{
             height: height / 4,
             width: "100%",
-            backgroundColor: "#fff",
+            backgroundColor: "black",
           }}
         >
         {
+          <View>
             <Video
-            
             ref={v}
             source={{ uri: videos[position]?.file }}
             useNativeControls
             resizeMode="contain"
             style={styles.video}
           />
+
+          </View>
         }
+                  <View style={{backgroundColor:'#fff', width:'100%', alignItems:'center', height:'10%', marginBottom:10}}>
+          <View style={{backgroundColor:'#fff', flexDirection:'row', width:"90%", borderRadius:30, margin:10, alignItems:'center', justifyContent:'space-between', height:40}}>
+          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', marginRight: 5, marginLeft:3}}>
+            <Icon
+                name='sticker-text-outline'
+                size={25}
+                color='#4263EB'
+                style={{ alignItems: "center",marginRight:3}}
+                />
+            <Text style={{color:'#4263EB',fontWeight:'bold'}}>Tira-Dúvidas</Text>
+          </View>
+
+         <View style={{flexDirection:'row', alignItems:'center', marginRight:5}}>
+         <Icon2
+            name='newspaper-outline'
+            size={25}
+            color='#4263EB'
+            style={{ alignItems: "center",marginRight:3}}
+            />
+          <Text style={{color:'#4263EB', fontWeight:'bold'}}>Anotações</Text>
+
+         </View>
+
+          <View style={{flexDirection:'row', alignItems:'center', marginRight:5}}>
+          <Icon3
+            name='star-outline'
+            size={25}
+            color='#4263EB'
+            style={{ alignItems: "center",marginRight:3}}
+            />
+          
+          <Text style={{color:'#4263EB', fontWeight:'bold'}}>Favoritos</Text>
+
+          </View>
+        
+          </View>
         </View>
+        </View>
+
         {
-          renderTabs()
+        renderTabs()
         }
 
         {
@@ -182,9 +251,12 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#2F598431'
   },
   infoDetailsVideo: {
+    marginLeft:20,
+    marginRight:20,
     justifyContent: "flex-start",
     backgroundColor: "#e2e2e2",
     marginTop: 10,
+    flexWrap: "wrap",
   },
   videoView: {
     width: "100%",

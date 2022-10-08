@@ -16,12 +16,33 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "native-base";
 
 export const TrocarSenha = () => {
+  const {logout} = useContext(AuthContext);
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [atual, setAtual] = useState();
   const [novaSenha, setNovaSenha] = useState();
   const [novaSenha1, setNovaSenha1] = useState();
   let id = userInfo.user.id_senha;
+
+
+  const mudarSenha = async() => {
+    try {
+      const response = await axios
+      .put(`https://mais-educacao.herokuapp.com/escolas/users/change_password`, {
+        'actual_password' : atual,
+        'new_password': novaSenha1,
+        'id_user': `${id}`
+      });
+      if(response.status === 200){
+        logout()
+      }
+           
+    } catch (error) {
+      console.log(error)
+    }
+
+  };
+
 
 
   return (
@@ -138,7 +159,7 @@ export const TrocarSenha = () => {
               elevation: 0,
               backgroundColor: "#BAC8FF",
             }}
-            onPress={() => {}}
+            onPress={() => navigation.goBack()}
           >
             <Text style={{ color: "#4263EB" }}>Cancelar</Text>
           </TouchableOpacity>
@@ -155,10 +176,10 @@ export const TrocarSenha = () => {
               backgroundColor: "#4263EB",
             }}
             onPress={() => {
-                console.log(id)
-                if(novaSenha === novaSenha1){
-                    mudarSenha();
-                }
+
+                 if(novaSenha === novaSenha1){
+                     mudarSenha();
+                 }
             }}
           >
             <Text style={{ color: "#fff" }}>Confirmar</Text>

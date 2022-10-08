@@ -13,7 +13,7 @@ export const AuthProvider = ({children}) => {
     
     try {
       const response = await axios
-      .post(`http://192.168.6.20:3010/escolas/users/login`, {
+      .post(`https://mais-educacao.herokuapp.com/escolas/users/login`, {
         mat,
         password,
       });
