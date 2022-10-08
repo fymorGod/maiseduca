@@ -41,7 +41,11 @@ export const Anotation = () => {
 
   const getAnotacoes = async() => {
     try {
+<<<<<<< HEAD
       const res = await axios.get(`https://mais-educacao.herokuapp.com/anotacoesByAluno/${userInfo.user.id}`)
+=======
+      const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
+>>>>>>> 761afca11dd9561429928107262286623b647d2f
       setNote(res.data["anotacoes"]);
       console.log(res.data["anotacoes"]);
     } catch (error) {

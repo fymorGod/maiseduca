@@ -3,9 +3,15 @@ import axios from 'axios';
 import { Text, View, StyleSheet, Image, TouchableOpacity, } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
+<<<<<<< HEAD
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, ScrollView } from "native-base";
+=======
+import { FavItem } from "../../components/favoritos/favoritoItem";
+import { useFonts } from "expo-font";
+import { FlatList } from "react-native-gesture-handler";
+>>>>>>> 761afca11dd9561429928107262286623b647d2f
 
 
 
@@ -22,7 +28,11 @@ export const Home = () => {
 
     const getFav = async() => {
         try {
+<<<<<<< HEAD
             const res = await axios.get(`https://mais-educacao.herokuapp.com/favoritos/${userInfo.user.id}`)
+=======
+            const res = await axios.get(`http://192.168.6.20:3010/favoritos/${userInfo.user.id}`)
+>>>>>>> 761afca11dd9561429928107262286623b647d2f
             setFav(res.data['favoritos']);
             console.log(res.data['favoritos'])
         } catch (error) {
@@ -30,6 +40,12 @@ export const Home = () => {
         }
     }
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 761afca11dd9561429928107262286623b647d2f
     useEffect(() => {
         getFav();
         
@@ -56,6 +72,7 @@ export const Home = () => {
                 <Text style={{fontFamily:"Medium", fontSize: 16, color: '#403B91'}}> Favoritos</Text>
             </View>
            
+<<<<<<< HEAD
            <View style={{}}>
            <FlatList
            horizontal={true}
@@ -80,6 +97,14 @@ export const Home = () => {
                 }
             />
            </View>
+=======
+            {fav.map((favs)=>(
+                <FavItem
+                key={favs.id_favorito}
+                {...favs}
+                />
+              ))}
+>>>>>>> 761afca11dd9561429928107262286623b647d2f
 
            <View style={styles.aulasVideos}>
                 <Text style={{fontFamily:"Medium", fontSize: 16, color: '#403B91'}}> Últimas aulas</Text>

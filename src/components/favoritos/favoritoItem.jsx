@@ -17,6 +17,7 @@ export function FavItem({ id_favorito, title, thumb }) {
   
     return (
       <View style={{flexDirection:'row', alignItems:'center'}}>
+<<<<<<< HEAD
                 <View style={styles.Image}>
                 <TouchableOpacity 
                  onPress={() => navigation.navigate('Player', {id: `${id_favorito}`})}
@@ -32,6 +33,23 @@ export function FavItem({ id_favorito, title, thumb }) {
                   : ""}</Text>
                 </TouchableOpacity>
               </View>
+=======
+           <TouchableOpacity
+            onPress={() => navigation.navigate('Player', {id: `${conteudo}`})}
+           >
+                <View style={styles.Image}>
+                <Image 
+                source={{uri: `${thumb}`}}
+                style={{width:160, height: 90, borderRadius: 10}}
+                />
+                <Text
+                style={{fontFamily:"Medium", fontSize: 11, color: '#403B91'}}
+                >{title.length > limite ?
+                title.substring(0, limite) + '...' 
+                : ""}</Text>
+              </View>
+           </TouchableOpacity>
+>>>>>>> 761afca11dd9561429928107262286623b647d2f
       </View>
     );
   }

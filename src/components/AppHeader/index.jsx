@@ -36,7 +36,7 @@ export const AppHeader = () => {
 const styles = StyleSheet.create({
     header: {
         paddingTop:35,
-        height: 100,
+        height: 90,
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',

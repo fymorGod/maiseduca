@@ -14,6 +14,10 @@ export const Conquistas = () => {
     return (
         <View style={styles.Container}>
             <AppHeader/>
+<<<<<<< HEAD
+=======
+           
+>>>>>>> 761afca11dd9561429928107262286623b647d2f
         </View>
     )
 }
