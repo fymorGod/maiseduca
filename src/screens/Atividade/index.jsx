@@ -21,11 +21,7 @@ export const Atividade = ({route}) => {
 
     useEffect(() => {
         const getAtv = async () => {
-<<<<<<< HEAD
             const response = await axios.get(`https://mais-educacao.herokuapp.com/atividadeQuestoes/${id}`)
-=======
-            const response = await axios.get(`http://192.168.6.20:3010/atividadeQuestoes/${id}`)
->>>>>>> 761afca11dd9561429928107262286623b647d2f
            
             setAtv(response.data["questoes"]);
             

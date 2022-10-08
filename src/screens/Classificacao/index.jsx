@@ -12,11 +12,7 @@ export const Classificacao = () => {
   useEffect(() => {
     const getRank = async () => {
       const response = await axios.get(
-<<<<<<< HEAD
         `https://mais-educacao.herokuapp.com/ranks/1/${userInfo.user.id}`
-=======
-        `http://192.168.6.20:3010/ranks/1/${userInfo.user.id}`
->>>>>>> 761afca11dd9561429928107262286623b647d2f
       );
       setRank(response.data["top_3_rank"]);
       setPosition(response.data["my_position"]);
@@ -202,8 +198,4 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#EDF2FF",
   },
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 761afca11dd9561429928107262286623b647d2f

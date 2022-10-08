@@ -12,12 +12,9 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Video } from "expo-av";
 import { useNavigation } from "@react-navigation/native";
-<<<<<<< HEAD
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import  Icon2  from 'react-native-vector-icons/Ionicons';
 import  Icon3  from 'react-native-vector-icons/MaterialIcons';
-=======
->>>>>>> 761afca11dd9561429928107262286623b647d2f
 
 
 const Player = ({ route }) => {
@@ -44,11 +41,7 @@ const Player = ({ route }) => {
       );
       setVideos(response.data.conteudo.Aula);
       setAtv(response.data["conteudo"]["atividade"])
-<<<<<<< HEAD
       console.log(response.data["conteudo"])
-=======
-      console.log(response.data["conteudo"]["atividade"])
->>>>>>> 761afca11dd9561429928107262286623b647d2f
     };
     getVideosContent();
   }, []);
