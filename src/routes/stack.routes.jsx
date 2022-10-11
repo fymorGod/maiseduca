@@ -24,6 +24,8 @@ import { Player } from "../screens/Player";
 import { Classificacao } from "../screens/Classificacao";
 import { AtividadeInicio } from "../screens/AtividadeInicio";
 import { Atividade } from "../screens/Atividade";
+import { AnotationAula } from "../screens/AnotationAula";
+import { MinhasNotas } from "../screens/MinhasNotas";
 
 export function StackRoutes() {
   const { userInfo } = useContext(AuthContext);
@@ -76,6 +78,12 @@ export function StackRoutes() {
           />
 
           <Stack.Screen
+          name="MinhasNotas"
+          component={MinhasNotas}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
           name="Configuracao"
           component={Configuracao}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
@@ -108,6 +116,12 @@ export function StackRoutes() {
           <Stack.Screen
           name="Atividade"
           component={Atividade}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
+          <Stack.Screen
+          name="AnotationAula"
+          component={AnotationAula}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
 

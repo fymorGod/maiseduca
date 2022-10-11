@@ -1,11 +1,10 @@
 import React, {useEffect, useContext, useState} from "react";
 import axios from 'axios';
-import { Text, View, StyleSheet, Image, TouchableOpacity, } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
-import { FavItem } from "../../components/favoritos/favoritoItem";
 import { useFonts } from "expo-font";
-import { FlatList } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -22,7 +21,7 @@ export const Home = () => {
 
     const getFav = async() => {
         try {
-            const res = await axios.get(`https://mais-educacao.herokuapp.com/favoritos/${userInfo.user.id}`)
+            const res = await axios.get(`http://192.168.6.20:3010/favoritos/${userInfo.user.id}`)
             setFav(res.data['favoritos']);
             console.log(res.data['favoritos'])
         } catch (error) {
@@ -58,6 +57,7 @@ export const Home = () => {
            
            <View style={{}}>
            <FlatList
+           showsHorizontalScrollIndicator={false}
            horizontal={true}
                 data={fav}
                 keyExtractor={(x, i) => i}
@@ -87,6 +87,7 @@ export const Home = () => {
            
            <View style={{marginBottom:20}}>
            <FlatList
+           showsHorizontalScrollIndicator={false}
            horizontal={true}
                 data={fav}
                 keyExtractor={(x, i) => i}

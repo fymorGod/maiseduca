@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState,  useRef, useCallback} from "rea
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import Tags from "react-native-tags";
 import { AppHeader } from "../../components/AppHeader";
+import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 
 
@@ -12,7 +13,7 @@ export const EditAnotation = ({route}) => {
     const [fontsLoaded] = useFonts({
         Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
     })
-
+    const navigation = useNavigation();
     const { userInfo } = useContext(AuthContext);
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState();
@@ -48,7 +49,9 @@ export const EditAnotation = ({route}) => {
                 "id_aluno": `${userInfo.user.id}`,
                 "array_tags": tags
             })
-            console.log(response)
+            if(response.status === 200){
+                navigation.goBack()
+            }
         } catch (error) {
             console.log(error)
         }
@@ -68,6 +71,7 @@ export const EditAnotation = ({route}) => {
         }}>Editar anotação</Text>
         </View>
                 <TextInput
+                multiline={true}
                 style={styles.input}
                 value={title}
                 placeholder='Title'

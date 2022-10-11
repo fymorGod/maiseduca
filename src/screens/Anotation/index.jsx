@@ -115,7 +115,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     paddingHorizontal: 10,
-    height: 110,
+    height: 200,
     backgroundColor: "white",
     marginBottom: 15,
     borderRadius: 10,

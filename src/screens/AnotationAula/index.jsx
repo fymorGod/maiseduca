@@ -8,7 +8,7 @@ import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 
-export const CreateAnotation = ({}) => {
+export const AnotationAula = ({}) => {
     const [fontsLoaded] = useFonts({
         Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
     })
@@ -48,6 +48,7 @@ export const CreateAnotation = ({}) => {
         <View style={styles.textbox}>
             <TextInput
             multiline={true}
+            multilinejuguy
             style={styles.input}
             value={descricao}
             onChangeText={text => setDescricao(text)}

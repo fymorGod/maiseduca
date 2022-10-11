@@ -28,7 +28,7 @@ export const TrocarSenha = () => {
   const mudarSenha = async() => {
     try {
       const response = await axios
-      .put(`https://mais-educacao.herokuapp.com/escolas/users/change_password`, {
+      .put(`http://192.168.6.20:3010/escolas/users/change_password`, {
         'actual_password' : atual,
         'new_password': novaSenha1,
         'id_user': `${id}`

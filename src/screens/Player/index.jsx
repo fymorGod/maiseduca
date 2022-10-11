@@ -12,12 +12,11 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Video } from "expo-av";
 import { useNavigation } from "@react-navigation/native";
-import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
-import  Icon2  from 'react-native-vector-icons/Ionicons';
-import  Icon3  from 'react-native-vector-icons/MaterialIcons';
+import { TabsFavoritos } from "../../components/tabsFavoritos/tabsFavoritos";
+import { RenderListVideos } from "../../components/RenderListVideos";
+import { RenderTabs } from "../../components/RenderTabs";
 
-
-const Player = ({ route }) => {
+export const Player = ({ route }) => {
   let id = route.params.id;
   const navigation = useNavigation();
   const v = React.useRef(null);
@@ -27,28 +26,28 @@ const Player = ({ route }) => {
   const [position, setPosition] = useState(0);
   const { width, height } = Dimensions.get("screen");
   const [ atv, setAtv ] = useState([]);
+  const [ favo, setFavo ] = useState(false);
 
-  const detailsTabs = [
-    {id: 1, label: 'Aulas'},
-    {id: 2, label: 'Atividades'},
-    {id: 3, label: 'Material'},
-  ]
+
 
   useEffect(() => {
     const getVideosContent = async () => {
       const response = await axios.get(
-        `https://mais-educacao.herokuapp.com/conteudos/${id}/${userInfo.user.id}`
+        `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
       );
       setVideos(response.data.conteudo.Aula);
       setAtv(response.data["conteudo"]["atividade"])
-      console.log(response.data["conteudo"])
+      
+      // console.log(response.data["conteudo"])
     };
     getVideosContent();
-  }, []);
-
+  }, [favo]);
+  
+  // console.log(videos[position]?.favorite)
   const handleClick = (id) => {
     setClicked(id)
   }
+
   const renderTabs = () => {
     return (
       <View style={{
@@ -80,42 +79,7 @@ const Player = ({ route }) => {
     );
   } 
 
-  const renderListVideos = (videos) => {
-    return (
-      <>
-        {videos.map((video, index) => {
-        return (
-          <View key={index} style={styles.infoDetailsVideo}>
-            <TouchableOpacity onPress={() => setPosition(index)}>
-              <View
-                style={{
-                  width: "100%",
-                  margin: 10,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Image
-                  source={{ uri: `${video.thumb}` }}
-                  resizeMode="contain"
-                  style={{ width: 100, height: 60 }}
-                />
-                <View
-                  style={{ width: "80%", paddingLeft: 5, paddingRight: 5 }}
-                >
-                  <Text style={styles.title}>{video.title}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        );
-      })
-      }
-      </>
-    );
-  }
-  
+
   const renderListAtividades = () => {
     return (
       <View >
@@ -162,65 +126,25 @@ const Player = ({ route }) => {
             width: "100%",
             backgroundColor: "black",
           }}
-        >
-        {
-          <View>
+        >        
             <Video
+            style={styles.video} 
             ref={v}
             source={{ uri: videos[position]?.file }}
             useNativeControls
-            resizeMode="contain"
-            style={styles.video}
-          />
+            resizeMode="contain" /> 
 
-          </View>
-        }
-                  <View style={{backgroundColor:'#fff', width:'100%', alignItems:'center', height:'10%', marginBottom:10}}>
-          <View style={{backgroundColor:'#fff', flexDirection:'row', width:"90%", borderRadius:30, margin:10, alignItems:'center', justifyContent:'space-between', height:40}}>
-          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', marginRight: 5, marginLeft:3}}>
-            <Icon
-                name='sticker-text-outline'
-                size={25}
-                color='#4263EB'
-                style={{ alignItems: "center",marginRight:3}}
-                />
-            <Text style={{color:'#4263EB',fontWeight:'bold'}}>Tira-Dúvidas</Text>
-          </View>
-
-         <View style={{flexDirection:'row', alignItems:'center', marginRight:5}}>
-         <Icon2
-            name='newspaper-outline'
-            size={25}
-            color='#4263EB'
-            style={{ alignItems: "center",marginRight:3}}
-            />
-          <Text style={{color:'#4263EB', fontWeight:'bold'}}>Anotações</Text>
-
-         </View>
-
-          <View style={{flexDirection:'row', alignItems:'center', marginRight:5}}>
-          <Icon3
-            name='star-outline'
-            size={25}
-            color='#4263EB'
-            style={{ alignItems: "center",marginRight:3}}
-            />
-          
-          <Text style={{color:'#4263EB', fontWeight:'bold'}}>Favoritos</Text>
-
-          </View>
-        
-          </View>
+            <TabsFavoritos
+            position={position}
+            id_aula={videos[position]?.id} 
+            favorite={videos[position]?.favorite}
+            setFavo={setFavo}
+            />  
         </View>
-        </View>
-
-        {
-        renderTabs()
-        }
-
+          <RenderTabs handleClick={handleClick} clicked={clicked}/>
         {
           clicked === 0 ?
-          renderListVideos(videos) :
+          <RenderListVideos videos={videos} setPosition={setPosition}/> :
           clicked === 1 ? renderListAtividades() :
           clicked === 2 ? renderMaterialComplementar() : 
           '' 
@@ -275,5 +199,3 @@ export const styles = StyleSheet.create({
     height: "100%",
   },
 });
-
-export { Player };
