@@ -28,7 +28,7 @@ export const Player = ({ route }) => {
   const [ atv, setAtv ] = useState([]);
   const [ favo, setFavo ] = useState(false);
 
-
+  const [name,setName] = useState()
 
   useEffect(() => {
     const getVideosContent = async () => {
@@ -37,8 +37,7 @@ export const Player = ({ route }) => {
       );
       setVideos(response.data.conteudo.Aula);
       setAtv(response.data["conteudo"]["atividade"])
-      
-      // console.log(response.data["conteudo"])
+      setName(response.data["conteudo"]["disciplina"].name)
     };
     getVideosContent();
   }, [favo]);
@@ -139,6 +138,7 @@ export const Player = ({ route }) => {
             id_aula={videos[position]?.id} 
             favorite={videos[position]?.favorite}
             setFavo={setFavo}
+            name={name}
             />  
         </View>
           <RenderTabs handleClick={handleClick} clicked={clicked}/>

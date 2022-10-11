@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
-const TabsFavoritos = ({position, setFavo, id_aula, favorite}) => {
+const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
     const navigation = useNavigation();
     const [fav, setFav] = useState()
     const { userInfo } = useContext(AuthContext);
@@ -58,7 +58,7 @@ const TabsFavoritos = ({position, setFavo, id_aula, favorite}) => {
         </TouchableOpacity>
 
        <TouchableOpacity
-       onPress={() => navigation.navigate("AnotationAula",)}>
+       onPress={() => navigation.navigate("AnotationAula", {id: `${id_aula}`, name: `${name}`})}>
             <View style={{flexDirection:'row', alignItems:'center', marginRight:5}}>
             <Icon2
                 name='newspaper-outline'

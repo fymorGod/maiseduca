@@ -8,15 +8,17 @@ import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 
-export const AnotationAula = ({}) => {
+export const AnotationAula = ({route}) => {
     const [fontsLoaded] = useFonts({
         Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
     })
+    id = route.params.id
+    console.log(id)
 
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [ descricao, setDescricao ] = useState();
-  const [ tags, setTags ] = useState([]);
+  const [tags, setTags] = useState([route.params.name]);
 
   const onSubmit = (descricao) => {
       criarNota(descricao)
@@ -61,21 +63,21 @@ export const AnotationAula = ({}) => {
         <View style={styles.textbox}>
               <Text style={{position:"absolute", fontFamily:"Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Crie sua tag</Text>
               <Tags
-              style={{height:150}}
-              onChangeTags={tags => setTags(tags)}
-              onTagPress={(index, tagLabel, event, deleted) =>
-              console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
-              }
-              containerStyle={{ margin: 10,
+                key={tags}
+                initialTags={tags}
+                style={{height:150}}
+                onChangeTags={tags => setTags(tags)}
+                onTagPress={(index, tagLabel, event, deleted) =>
+                console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
+                }
+                containerStyle={{ margin: 10,
                 borderRadius: 10,
                 backgroundColor: '#FFFFFF',
                 justifyContent: 'flex-start', }}
-              inputStyle={{  backgroundColor: '#FFFFFF',
-              color: '#606060',
-              fontWeight: 'bold', }}
-
-              
-          />
+                inputStyle={{  backgroundColor: '#FFFFFF',
+                color: '#606060',
+                fontWeight: 'bold', }}
+                />
         </View>
           
 
