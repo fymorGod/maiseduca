@@ -47,38 +47,6 @@ export const Player = ({ route }) => {
     setClicked(id)
   }
 
-  const renderTabs = () => {
-    return (
-      <View style={{
-        width: '100%',
-        borderRadius: 8,
-        flexDirection:'row',
-        justifyContent: 'space-around',
-        paddingVertical: 15,
-        paddingHorizontal: 10,
-        backgroundColor: '#2F598431',
-        marginTop:60
-      }}>
-        {
-          detailsTabs.map((item, index) => {
-            return (
-              <TouchableOpacity 
-              key={index}
-              onPress={(item) => handleClick(index)}
-              style={
-                [ index === clicked ? styles.buttonTabsActive: styles.buttonTabs]          
-              }
-              >
-                <Text>{item.label}</Text>
-              </TouchableOpacity>
-            );
-          })
-        }
-      </View>
-    );
-  } 
-
-
   const renderListAtividades = () => {
     return (
       <View >

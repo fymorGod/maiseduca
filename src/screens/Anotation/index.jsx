@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { useFonts } from "expo-font";
+import  Icon2  from 'react-native-vector-icons/Octicons';
 
 export const Anotation = () => {
   const [fontsLoaded] = useFonts({
@@ -33,7 +34,7 @@ export const Anotation = () => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() =>
+    wait(5000).then(() =>
     getAnotacoes(),
     setRefreshing(false)
     );
@@ -44,6 +45,18 @@ export const Anotation = () => {
       const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
       setNote(res.data["anotacoes"]);
       console.log(res.data["anotacoes"]);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const delAnotacoes = async(id) => {
+    try {
+      const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)
+      if(res.status === 204){
+        onRefresh()
+        console.log('deu certo')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -68,7 +81,7 @@ export const Anotation = () => {
           }}
         >
           Minhas anotações
-        </Text>
+        </Text> 
       </View>
 
       <ScrollView
@@ -87,7 +100,18 @@ export const Anotation = () => {
               }
             >
               <View style={styles.card} key={notes.id}>
+                <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
                 <Text style={styles.text}>{notes.descricao}</Text>
+                <TouchableOpacity
+                onPress={() => delAnotacoes(notes.id)}
+                >
+                  <Icon2
+                  name='trash'
+                  size={25}
+                  color='red'
+                  />
+                </TouchableOpacity>
+                </View>
                 <View style={styles.tag}>
                 {notes.tags.map((tag) => (
                    <Text key={tag.id} style={styles.tagname}>{`#${tag.name}`} </Text>
