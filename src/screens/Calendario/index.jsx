@@ -1,79 +1,28 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from 'react-native';
-import { Calendar, LocaleConfig } from "react-native-calendars";
 import { AppHeader } from "../../components/AppHeader";
 import { FAB } from 'react-native-paper';
+import Agenda from "../../components/Agenda";
 
 
-LocaleConfig.locales['br'] = {
-    monthNames: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro'
-    ],
-    monthNamesShort: ['Jan.', 'Fev.', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dec'],
-    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-    dayNamesShort: ['Dom.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sab.'],
-    today: "Hoje"
-  };
-
-LocaleConfig.defaultLocale = 'br'
 
 
 export const Calendario = () => {
     const [selectedDay, setselectDay] = useState()
 
     return (
-        <View style={styles.Container}>
+      <View style={styles.Container}>
         <AppHeader/>
-        <View style={{}}>                
-            <Calendar
-            theme={{
-                'stylesheet.calendar.header':{
-                    week: {
-                        color: "#fff",
-                        marginTop: 5,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }
-                },
-                todayBackgroundColor:'#22C1C1',
-                calendarBackground:'#4263EB',
-                dayTextColor:"#fff",
-                monthTextColor: "#fff"
-                
-            }}
-            style={{elevation: 5}}
-            markedDates={{
-                '2022-10-05': {dotColor: 'red', marked: true, selectedColor: '#22C1C1'},
-                '2022-10-20': {marked: true},
-                '2022-10-17': {marked: true, dotColor: 'red', activeOpacity: 0},
-                '2022-10-15': {disabled: true, disableTouchEvent: true}
-              }}
-            minDate={'1990-01-01'}
-            hideExtraDays={true}
-            enableSwipeMonths={true}
-            hideArrows={true}
-            onDayPress={day=>{console.log('dia selecionado', day);}}
-            />
+        <View>
+          <Agenda/>
         </View>
-
         <FAB
         icon="plus"
         color="white"
         style={styles.fab}
         onPress={() => navigation.navigate("CreateAnotation")}
         />
-    </View>
+      </View>
     )
 }
 

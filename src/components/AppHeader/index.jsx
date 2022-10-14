@@ -1,5 +1,4 @@
 import React from 'react';
-import { Feather } from '@expo/vector-icons';
 import { View, StyleSheet, Text, Image} from 'react-native';
 import { Surface } from "react-native-paper";
 import  Icon  from 'react-native-vector-icons/FontAwesome5';
