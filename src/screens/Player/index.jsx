@@ -16,6 +16,7 @@ import { TabsFavoritos } from "../../components/tabsFavoritos/tabsFavoritos";
 import { RenderListVideos } from "../../components/RenderListVideos";
 import { RenderTabs } from "../../components/RenderTabs";
 
+
 export const Player = ({ route }) => {
   let id = route.params.id;
   const navigation = useNavigation();
@@ -83,6 +84,8 @@ export const Player = ({ route }) => {
     );
   }
   
+
+
   return (
     <View>
       <AppHeader />
