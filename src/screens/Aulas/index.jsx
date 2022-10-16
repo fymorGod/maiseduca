@@ -17,7 +17,7 @@ export const Aulas = () => {
 
     
     useEffect(() => {
-        axios.get(`http://192.168.6.20:3010/disciplinasAluno/${userInfo.user.id}`)
+        axios.get(`https://mais-edu.herokuapp.com/disciplinasAluno/${userInfo.user.id}`)
         .then(res=>{
             // s
             setMaterias(res.data['disciplinas']);

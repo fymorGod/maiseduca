@@ -13,7 +13,7 @@ export const MinhasNotas = () => {
 
   useEffect(()=> {
     const getNotas = async () => {
-      const response = await axios.get(`http://192.168.6.20:3010/medias/${userInfo.user.id}`);
+      const response = await axios.get(`https://mais-edu.herokuapp.com/medias/${userInfo.user.id}`);
       setData(response.data.medias);
     }
     getNotas();

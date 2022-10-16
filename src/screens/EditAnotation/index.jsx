@@ -30,7 +30,7 @@ export const EditAnotation = ({route}) => {
 
 
      useEffect(() => {
-         axios.get(`http://192.168.6.20:3010/anotacoes/${id}`)
+         axios.get(`https://mais-edu.herokuapp.com/anotacoes/${id}`)
          .then(res=>{
              setTitle(res.data['anotacao'].descricao);
              setTags(res.data['anotacao'].tags)

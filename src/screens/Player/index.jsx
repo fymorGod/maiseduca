@@ -34,7 +34,7 @@ export const Player = ({ route }) => {
   useEffect(() => {
     const getVideosContent = async () => {
       const response = await axios.get(
-        `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
+        `https://mais-edu.herokuapp.com/conteudos/${id}/${userInfo.user.id}`
       );
       setVideos(response.data.conteudo.Aula);
       setAtv(response.data["conteudo"]["atividade"])

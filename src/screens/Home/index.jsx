@@ -21,7 +21,7 @@ export const Home = () => {
 
     const getFav = async() => {
         try {
-            const res = await axios.get(`http://192.168.6.20:3010/favoritos/${userInfo.user.id}`)
+            const res = await axios.get(`https://mais-edu.herokuapp.com/favoritos/${userInfo.user.id}`)
             setFav(res.data['favoritos']);
             console.log(res.data['favoritos'])
         } catch (error) {
