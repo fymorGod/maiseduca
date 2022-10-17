@@ -42,7 +42,7 @@ export const Anotation = () => {
 
   const getAnotacoes = async() => {
     try {
-      const res = await axios.get(`https://mais-edu.herokuapp.com/anotacoesByAluno/${userInfo.user.id}`)
+      const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
       setNote(res.data["anotacoes"]);
       console.log(res.data["anotacoes"]);
     } catch (error) {
@@ -52,7 +52,7 @@ export const Anotation = () => {
 
   const delAnotacoes = async(id) => {
     try {
-      const res = await axios.delete(`https://mais-edu.herokuapp.com/anotacoes/${id}`)
+      const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)
       if(res.status === 204){
         onRefresh()
         console.log('deu certo')

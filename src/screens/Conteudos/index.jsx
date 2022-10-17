@@ -13,7 +13,7 @@ export const Conteudos = ({route}) => {
     let id = route.params.id;
 
      useEffect(() => {
-         axios.get(`https://mais-edu.herokuapp.com/conteudosAluno/${userInfo.user.id}/${id}`)
+         axios.get(`http://192.168.6.20:3010/conteudosAluno/${userInfo.user.id}/${id}`)
          .then(res=>{
              // s
              setConteudos(res.data['conteudo'].conteudo);

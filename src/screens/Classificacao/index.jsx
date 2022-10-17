@@ -23,7 +23,7 @@ export const Classificacao = () => {
   useEffect(() => {
     const getRank = async () => {
       const response = await axios.get(
-        `https://mais-edu.herokuapp.com/ranks/${userInfo.user.id}`
+        `http://192.168.6.20:3010/ranks/${userInfo.user.id}`
       );
       // console.log(response.data)
       setRank(response.data[choice]);

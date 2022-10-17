@@ -30,7 +30,7 @@ export const EditAnotation = ({route}) => {
 
 
      useEffect(() => {
-         axios.get(`https://mais-edu.herokuapp.com/anotacoes/${id}`)
+         axios.get(`http://192.168.6.20:3010/anotacoes/${id}`)
          .then(res=>{
              setTitle(res.data['anotacao'].descricao);
              setTags(res.data['anotacao'].tags)
@@ -44,7 +44,7 @@ export const EditAnotation = ({route}) => {
        const EditarNota = async() => {
         try {
             const response = await axios
-            .put(`https://mais-educacao.herokuapp.com/anotacoes/${id}`, {
+            .put(`http://192.168.6.20:3010/anotacoes/${id}`, {
                 "descricao": title,
                 "id_aluno": `${userInfo.user.id}`,
                 "array_tags": tags

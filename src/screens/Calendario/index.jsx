@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, Button } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
 import { FAB } from 'react-native-paper';
-import Agenda from "../../components/Agenda";
+import {Agenda} from "../../components/Agenda";
 import RBSheet from "react-native-raw-bottom-sheet";
 import MaskInput from 'react-native-mask-input';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
@@ -12,28 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import  Icon2  from 'react-native-vector-icons/Octicons';
 import { ScrollView } from "native-base";
 
-LocaleConfig.locales['br'] = {
-  monthNames: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro'
-  ],
-  monthNamesShort: ['Jan.', 'Fev.', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dec'],
-  dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-  dayNamesShort: ['Dom.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sab.'],
-  today: "Hoje"
-  };
-  
-  LocaleConfig.defaultLocale = 'br'
 
 export const Calendario = () => {
   const navigation = useNavigation();
@@ -53,7 +31,7 @@ export const Calendario = () => {
 
   const postLembrete = async() =>{
     try {
-      const res = await axios.post(`https://mais-edu.herokuapp.com/lembretes`, {
+      const res = await axios.post(`http://192.168.6.20:3010/lembretes`, {
         "title": titulo,
         "description": titulo,
         "data": date,
@@ -81,7 +59,7 @@ export const Calendario = () => {
   
   const delLembretes = async(id) =>{
     try {
-      const res = await axios.delete(`https://mais-edu.herokuapp.com/lembretes/${id}`)
+      const res = await axios.delete(`http://192.168.6.20:3010/lembretes/${id}`)
       if(res.status === 204){
         console.log(res)
       }
@@ -90,71 +68,16 @@ export const Calendario = () => {
     }
   }
 
-  const addZero = (a) => {
-    if (a < 10 && a > 0) {
-      return '0' + a.toString();
-    } else {
-      return a
-    }
-  }
-
-  const getCurrentDate = () => {
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
-  }
-
-  const getMinDate = () => {
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
-  }
-
 
 
     return (
       <View style={styles.Container}>
         <AppHeader/>
-        <View style={[styles.calendar, styles.shadowProp]}>
-        <Calendar
-        theme={{
-
-          'stylesheet.calendar.header':{
-              week: {
-                  backgroundColor:'#4263EB',
-                  color: "#fff",                                                                                                                                                         marginTop: 5,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between'
-                },
-          },
-          todayTextColor:"#fff",
-          todayBackgroundColor:'#22C1C1',
-          calendarBackground:'#4263EB',
-          dayTextColor:"#fff",
-          monthTextColor: "#fff",
-      }}
-      // markedDates={{
-      //     '2022-10-05': {dotColor: 'red', marked: true, selectedColor: '#fff'},
-      //     '2022-10-20': {marked: true},
-      //     '2022-10-17': {marked: true, dotColor: 'red', activeOpacity: 0},
-      //     '2022-10-15': {disabled: true, disableTouchEvent: true}
-      //   }}
-        current={getCurrentDate().toString()}
-        minDate={getMinDate().toString()}
-        maxDate={'2050-01-01'}
-        monthFormat={'MMMM yyyy'}
-        onDayPress={day => {
-          console.log("dia selecionado", day)
-          setDate(day.dateString)
-        }}
-
-        hideExtraDays={true}
-        enableSwipeMonths={true}
-        hideArrows={true}
-        />
+       
+        <View style={[styles.shadowProp, styles.calendar]}>
+        <Agenda setDate={setDate}/>
         </View>
+       
         
         {/* Cards Lembretes */}
         <ScrollView>
@@ -182,6 +105,7 @@ export const Calendario = () => {
         </View>
         </ScrollView>
         <View>
+
         {/* BottomSheet */}
         <RBSheet
           ref={refRBSheet}
@@ -234,7 +158,6 @@ export const Calendario = () => {
               onChangeText={(masked, unmasked, obfuscated) => {
                 setInicio(masked);}}
             />
-
             <MaskInput
               style={styles.Input3}
               value={fim}
@@ -279,6 +202,7 @@ export const Calendario = () => {
           </View>
         </RBSheet>
         </View>
+
         <FAB
         icon="plus"
         color="white"
@@ -294,13 +218,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#EDF2FF'
     },
-    calendar:{height:'50%', 
-    backgroundColor:"#4263EB", 
-    borderBottomLeftRadius:28, 
-    borderBottomRightRadius:28, 
-    shadowColor: "#000",
-    elevation:2
-  },
     fab: {
         backgroundColor: "#4263EB",
         borderRadius: 50,
@@ -332,12 +249,6 @@ export const styles = StyleSheet.create({
       borderRadius: 8,
       backgroundColor: "#fff",
     },
-    shadowProp: {
-      shadowColor: '#171717',
-      shadowOffset: {width: -2, height: 4},
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
-    },
     card: {
       width:'90%',
       marginTop:20,
@@ -354,6 +265,19 @@ export const styles = StyleSheet.create({
       margin: 10,
       fontSize: 16,
       fontWeight:'bold'
+    },
+    calendar:{height:'50%', 
+    backgroundColor:"#4263EB", 
+    borderBottomLeftRadius:28, 
+    borderBottomRightRadius:28, 
+    shadowColor: "#000",
+    elevation:2
+    },
+    shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
     },
 
 })

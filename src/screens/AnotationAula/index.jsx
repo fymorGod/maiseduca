@@ -27,7 +27,7 @@ export const AnotationAula = ({route}) => {
   const criarNota = async() => {
       try {
           const response = await axios
-          .post(`https://mais-edu.herokuapp.com/anotacoes`, {
+          .post(`http://192.168.6.20:3010/anotacoes`, {
               "descricao": descricao,
               "id_aluno": `${userInfo.user.id}`,
               "array_tags": tags

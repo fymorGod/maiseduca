@@ -16,7 +16,7 @@ export const Perfil = () => {
 
   useEffect(() => {
     axios
-      .get(`https://mais-edu.herokuapp.com/escolas/users/alunos/${id}`)
+      .get(`http://192.168.6.20:3010/escolas/users/alunos/${id}`)
       .then((res) => {
         // s
         setPerfil(res.data["aluno"]);
