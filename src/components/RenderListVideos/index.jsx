@@ -17,19 +17,18 @@ function RenderListVideos({ videos, setPosition }) {
               <View
                 style={{
                   width: "100%",
-                  margin: 10,
                   flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  justifyContent: "space-evenly",
                 }}
               >
                 <Image
                   source={{ uri: `${video.thumb}` }}
                   resizeMode="contain"
-                  style={{ width: 100, height: 60 }}
+                  style={{height: 60, width: 80}}
                 />
                 <View
-                  style={{ width: "80%", paddingLeft: 5, paddingRight: 5 }}
+                  style={{ width: "80%",paddingRight: 5, alignItems: 'center'}}
                 >
                   <Text style={styles.title}>{video.title}</Text>
                 </View>
@@ -43,17 +42,18 @@ function RenderListVideos({ videos, setPosition }) {
   )
 }
 export const styles = StyleSheet.create({
-
     infoDetailsVideo: {
-      marginLeft:20,
+      marginLeft: 20,
       marginRight:20,
       justifyContent: "flex-start",
-      backgroundColor: "#e2e2e2",
+      backgroundColor: "#EDF2FF",
       marginTop: 10,
       flexWrap: "wrap",
     },
     title: {
       marginTop: 10,
+      fontSize: 12,
+      textAlign: 'left',
       color: "#181818",
     }
   });

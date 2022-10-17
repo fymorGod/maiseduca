@@ -49,7 +49,7 @@ export const Atividade = ({route}) => {
             })
             console.log(response.status)
             if(response.status == 201){
-                navigation.navigate('home')
+                navigation.popToTop();
             }
         } catch (error) {
             console.log(error)
@@ -248,7 +248,6 @@ export const Atividade = ({route}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-        <StatusBar barStyle="light-content" backgroundColor="#252c4a"/>
         <View style={{flex:1, paddingVertical:40, paddingHorizontal:16, backgroundColor:"#252C4A", position:'relative'}}>
         
         {/* ProgressBar */}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity,  Dimensions, Platform, Button } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
 import { FAB } from 'react-native-paper';
 import {Agenda} from "../../components/Agenda";
@@ -12,17 +12,21 @@ import { useNavigation } from "@react-navigation/native";
 import  Icon2  from 'react-native-vector-icons/Octicons';
 import { ScrollView } from "native-base";
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height; 
 
 export const Calendario = () => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
   const [titulo, setTitulo] = useState("");
+  const [descricao, setDescricao] = useState("");
   const [date, setDate] = useState('')
   const [inicio, setInicio] = useState('');
   const [fim, setFim] = useState('');
   const [lembretes, setLembretes] = useState([]);
   const { userInfo } = useContext(AuthContext);
   const horaMask = [/\d/, /\d/, ':', /\d/, /\d/];
+  console.log(date)
 
   useEffect(() => {
     getLembrete();
@@ -33,7 +37,7 @@ export const Calendario = () => {
     try {
       const res = await axios.post(`http://192.168.6.20:3010/lembretes`, {
         "title": titulo,
-        "description": titulo,
+        "description": descricao,
         "data": date,
         "start": `${date} ${inicio}`,
         "end": `${date} ${fim}`,
@@ -49,7 +53,7 @@ export const Calendario = () => {
 
   const getLembrete = async() =>{
     try {
-      const res = await axios.get(`https://mais-edu.herokuapp.com/lembretesByAluno/${userInfo.user.id}`)
+      const res = await axios.get(`http://192.168.6.20:3010/lembretesByAluno/${userInfo.user.id}`)
       setLembretes(res.data["lembretes"]);
       // console.log(res.data["lembretes"])
     } catch (error) {
@@ -73,7 +77,6 @@ export const Calendario = () => {
     return (
       <View style={styles.Container}>
         <AppHeader/>
-       
         <View style={[styles.shadowProp, styles.calendar]}>
         <Agenda setDate={setDate}/>
         </View>
@@ -81,7 +84,7 @@ export const Calendario = () => {
         
         {/* Cards Lembretes */}
         <ScrollView>
-        <View style={{alignItems:'center'}}>
+        <View style={styles.cards}>
           {lembretes.map((avisos)=>(
             <View style={styles.card} key={avisos.id}>
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
@@ -109,7 +112,7 @@ export const Calendario = () => {
         {/* BottomSheet */}
         <RBSheet
           ref={refRBSheet}
-          height={550}
+          height={600}
           openDuration={250}
           closeOnDragDown={true}
           closeOnPressMask={false}
@@ -122,84 +125,99 @@ export const Calendario = () => {
               backgroundColor: "#000"
             }
           }}>
-          <View style={{paddingHorizontal:20, paddingVertical:30}}>
-            {/* Titulo */}
-            <Text style={{color:'#403B91', fontSize:18}}>Título</Text>
-            <View style={{marginTop:10, marginBottom:10}}>
-              <TextInput
-              style={styles.Input}
-              value={titulo}
-              placeholder="Digite um título"
-              onChangeText={text => setTitulo(text)}
-              />
-            </View>
-            {/* data */}
-            <Text style={{color:'#403B91', fontSize:18}}>Data</Text>
-            <View style={{marginTop:10}}>
-              <TextInput
-              style={styles.Input}
-              value={date}
-              onChangeText={text => setDate(text)}
-              />
-            </View>
-
-            {/* Inicio e fim */}
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-              <Text style={{color:'#403B91', fontSize:18}}>Início</Text>
-              <View style={{marginRight:153}}>
-              <Text style={{color:'#403B91', fontSize:18}}>Fim</Text>
+            <ScrollView>
+              <View style={{paddingHorizontal:20, paddingVertical:30}}>
+              {/* Titulo */}
+              <Text style={{color:'#403B91', fontSize:18}}>Título</Text>
+              <View style={{marginTop:10, marginBottom:10}}>
+                <TextInput
+                style={styles.Input}
+                value={titulo}
+                placeholder="Digite um título"
+                onChangeText={text => setTitulo(text)}
+                />
               </View>
-            </View>
-            <View style={{marginTop:10, flexDirection:'row', justifyContent:'flex-start', marginRight:20}}>
-            <MaskInput
-              style={styles.Input2}
-              value={inicio}
-              mask={horaMask}
-              onChangeText={(masked, unmasked, obfuscated) => {
-                setInicio(masked);}}
-            />
-            <MaskInput
-              style={styles.Input3}
-              value={fim}
-              mask={horaMask}
-              onChangeText={(masked, unmasked, obfuscated) => {
-                setFim(masked);}}
-            />
-            </View>
+              {/* Descrcao */}
+              <Text style={{color:'#403B91', fontSize:18}}>Descrição</Text>
+              <View style={{marginTop:10, marginBottom:10}}>
+                <TextInput
+                maxLength={30}
+                style={styles.Input}
+                value={descricao}
+                placeholder="Digite uma descrição"
+                onChangeText={text => setDescricao(text)}
+                />
+              </View>
+              {/* data */}
+              <Text style={{color:'#403B91', fontSize:18}}>Data</Text>
+              <View style={{marginTop:10}}>
+                <TextInput
+                maxLength={10}
+                keyboardType="number-pad"
+                style={styles.Input}
+                value={date}
+                onChangeText={text => setDate(text)}
+                />
+              </View>
 
-          {/* Buttons */}
-          <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems:'flex-start' }}>
-              <TouchableOpacity
-                style={{
-                  width: "47%",
-                  alignItems: "center",
-                  marginRight:5,
-                  marginTop: 20,
-                  paddingVertical: 10,
-                  borderRadius: 28,
-                  elevation: 0,
-                  backgroundColor: "#BAC8FF",
-                }}
-                onPress={() => navigation.goBack()}
-              >
-                <Text style={{ color: "#4263EB" }}>Cancelar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={()=>postLembrete()}
-                style={{
-                  width: "47%",
-                  alignItems: "center",
-                  marginTop: 20,
-                  paddingVertical: 10,
-                  borderRadius: 28,
-                  elevation: 0,
-                  backgroundColor: "#4263EB",
-                }}
-              >
-                <Text style={{ color: "#fff" }}>Confirmar</Text>
-              </TouchableOpacity>
-          </View>
-          </View>
+              {/* Inicio e fim */}
+              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text style={{color:'#403B91', fontSize:18}}>Início</Text>
+                <View style={{marginRight:153}}>
+                <Text style={{color:'#403B91', fontSize:18}}>Fim</Text>
+                </View>
+              </View>
+              <View style={{marginTop:10, flexDirection:'row', justifyContent:'flex-start', marginRight:20}}>
+              <MaskInput
+                style={styles.Input2}
+                value={inicio}
+                mask={horaMask}
+                onChangeText={(masked, unmasked, obfuscated) => {
+                  setInicio(masked);}}
+              />
+              <MaskInput
+                style={styles.Input3}
+                value={fim}
+                mask={horaMask}
+                onChangeText={(masked, unmasked, obfuscated) => {
+                  setFim(masked);}}
+              />
+              </View>
+
+            {/* Buttons */}
+            <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems:'flex-start' }}>
+                <TouchableOpacity
+                  style={{
+                    width: "47%",
+                    alignItems: "center",
+                    marginRight:5,
+                    marginTop: 20,
+                    paddingVertical: 10,
+                    borderRadius: 28,
+                    elevation: 0,
+                    backgroundColor: "#BAC8FF",
+                  }}
+                  onPress={()=>refRBSheet.current.close()}
+                >
+                  <Text style={{ color: "#4263EB" }}>Cancelar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={()=>postLembrete()}
+                  style={{
+                    width: "47%",
+                    alignItems: "center",
+                    marginTop: 20,
+                    paddingVertical: 10,
+                    borderRadius: 28,
+                    elevation: 0,
+                    backgroundColor: "#4263EB",
+                  }}
+                >
+                  <Text style={{ color: "#fff" }}>Confirmar</Text>
+                </TouchableOpacity>
+            </View>
+              </View>
+            </ScrollView>
         </RBSheet>
         </View>
 
@@ -266,18 +284,23 @@ export const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight:'bold'
     },
-    calendar:{height:'50%', 
-    backgroundColor:"#4263EB", 
-    borderBottomLeftRadius:28, 
-    borderBottomRightRadius:28, 
-    shadowColor: "#000",
-    elevation:2
+    calendar:{
+      height: 380, 
+      backgroundColor:"#4263EB", 
+      borderBottomLeftRadius:28, 
+      borderBottomRightRadius:28, 
+      shadowColor: "#000",
+      elevation:2
     },
     shadowProp: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+      shadowColor: '#171717',
+      shadowOffset: {width: -2, height: 4},
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
     },
+    cards:{
+      alignItems:'center',
+       height: windowHeight 
+    }
 
 })

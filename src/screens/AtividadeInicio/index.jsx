@@ -16,7 +16,6 @@ export const AtividadeInicio = ({route}) => {
 
     return (
         <View style={styles.Container}>
-        <StatusBar barStyle="light-content" backgroundColor="#252c4a"/>
             <View style={{flexDirection:'column', alignItems:"center", justifyContent:'center'}}>
                 <Image
                 style={{height: "60%", width:"60%", marginTop:20}}

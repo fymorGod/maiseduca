@@ -1,4 +1,4 @@
-import { VictoryBar } from 'victory-native';
+import { VictoryBar, VictoryChart, VictoryTheme } from 'victory-native';
 import { ScrollView } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
@@ -14,7 +14,7 @@ export const MinhasNotas = () => {
   useEffect(()=> {
     const getNotas = async () => {
       const response = await axios.get(`http://192.168.6.20:3010/medias/${userInfo.user.id}`);
-      setData(response.data.medias);
+      setData(response.data["medias"]);
     }
     getNotas();
   }, [])
@@ -38,10 +38,20 @@ export const MinhasNotas = () => {
         </View>
         </View>
         <View style={styles.boxGrafico}>
-        
+          <VictoryChart theme={VictoryTheme.material}>
+            <VictoryBar
+            style={{data:{width:30}}}
+            barWidth={15}
+            height={1}
+            animate
+            data={data}
+            x="disciplina"
+            y="value"
+            />
+          </VictoryChart>
         </View>
         <View style={styles.boxTable}>
-        <Text>tabela</Text>
+       
         </View>
       
        </View>

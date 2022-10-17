@@ -20,21 +20,18 @@ export const Anotation = () => {
   const [fontsLoaded] = useFonts({
     Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
   })
-
   const { userInfo } = useContext(AuthContext);
   const navigation = useNavigation();
   const [note, setNote] = useState([]);
-  const [tags, setTags] = useState([]);
   const [refreshing, setRefreshing] = useState(false)
-
+  var listaNotes = [];
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
 
-
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    wait(5000).then(() =>
+    wait(3000).then(() =>
     getAnotacoes(),
     setRefreshing(false)
     );
@@ -44,11 +41,14 @@ export const Anotation = () => {
     try {
       const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
       setNote(res.data["anotacoes"]);
+      listaNotes.push(res.data["anotacoes"])
       console.log(res.data["anotacoes"]);
     } catch (error) {
       console.log(error)
     }
   }
+
+
 
   const delAnotacoes = async(id) => {
     try {
@@ -62,9 +62,11 @@ export const Anotation = () => {
     }
   }
 
-
   useEffect(() => {
-      getAnotacoes();
+      // setInterval(() => {
+      //   getAnotacoes();
+      // }, 5000);
+      getAnotacoes()
   }, []);
 
   return (
@@ -92,7 +94,7 @@ export const Anotation = () => {
       }
       >
         <View style={{ paddingHorizontal: 25, paddingVertical:10 }}>
-          {note.map((notes) => (
+          {note.map((notes, index) => (
             <TouchableOpacity
               key={notes.id}
               onPress={() =>
@@ -103,7 +105,8 @@ export const Anotation = () => {
                 <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
                 <Text style={styles.text}>{notes.descricao}</Text>
                 <TouchableOpacity
-                onPress={() => delAnotacoes(notes.id)}
+                onPress={() => delAnotacoes(notes.id)
+}
                 >
                   <Icon2
                   name='trash'

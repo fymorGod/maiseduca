@@ -1,8 +1,11 @@
-import { View, Text, StyleSheet, Image,TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image,TouchableOpacity, Dimensions } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height; 
 
 export const Classificacao = () => {
   const [finalRank, setFinalRank] = useState([]);
@@ -12,7 +15,7 @@ export const Classificacao = () => {
   const [position, setPosition] = useState(0);
   const [points, setPoints] = useState([]);
   const [ clicked, setClicked ] = useState(0);
-  const [img, setImg ] = useState();
+  
 
   const listImagesMedalhas = [
     "../../../assets/prata.png",
@@ -28,12 +31,11 @@ export const Classificacao = () => {
       // console.log(response.data)
       setRank(response.data[choice]);
       setPoints(response.data["points"]);
-      setImg(response.data["imgs"][0])
     };
     getRank(); 
   }, [choice]);
   
-  console.log(img)
+
 
   const detailsTabs = [
     {id: 1, label: "escola"},
@@ -77,6 +79,7 @@ export const Classificacao = () => {
       </View> 
     );
   }
+  
   return (
     <View style={styles.Container}>
       <AppHeader />
@@ -93,19 +96,19 @@ export const Classificacao = () => {
         </Text>
       </View>
 
-      <View style={{ alignItems: "center" }}>
+      <View style={{ alignItems: "center", marginBottom:20 }}>
         {renderTabsRanking()}
       </View>
 
     <View style={{paddingHorizontal: 20, height: '100%'}}>
     <View
     style={{      
-      height: "60%",
+      height: windowHeight * 0.55,
       backgroundColor: "white",
       width: "100%",
       borderRadius: 28,
       elevation: 4,          
-      
+      position:'relative'
     }}
   >
     <View
@@ -127,21 +130,22 @@ export const Classificacao = () => {
         rank.map((ranks, index) => {
           return (
             <View  key={ranks.name}  style={{flexDirection: 'column',justifyContent:'space-between', height: 80, }}>
-            <View  style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}>
-            <Image
-            source={{uri:`${img}`}}
-            />
-            <Text>{ranks.name}</Text>
-              <Text>{ranks.points}</Text>
-                   
-            </View>
+           {index < 3 &&  <View  style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}>
+           <Image
+           style={{ height: 50, width: 50 }}
+           resizeMode="contain"
+           source={{uri:`${ranks.img}`}}
+           />
+           <Text>{ranks.name}</Text>
+             <Text>{ranks.points}</Text>     
+           </View>}
             {
               ranks.my_position && 
               <View
               style={{
                 width: '100%',
                 backgroundColor: "#4263EB",
-                height: 120,
+                height: windowHeight * 0.180,
                 borderBottomLeftRadius: 15,
                 borderBottomRightRadius: 15,
                 justifyContent: "center",

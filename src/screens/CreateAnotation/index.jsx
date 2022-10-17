@@ -13,13 +13,13 @@ export const CreateAnotation = ({}) => {
         Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
     })
 
-  const navigation = useNavigation();
-  const { userInfo } = useContext(AuthContext);
-  const [ descricao, setDescricao ] = useState();
-  const [ tags, setTags ] = useState([]);
-
-  const onSubmit = (descricao) => {
-      criarNota(descricao)
+    const navigation = useNavigation();
+    const { userInfo } = useContext(AuthContext);
+    const [ descricao, setDescricao ] = useState();
+    const [ tags, setTags ] = useState([]);
+    const value = 1;
+    const onSubmit = (descricao) => {
+        criarNota(descricao)
     };
     
   const criarNota = async() => {
@@ -31,7 +31,7 @@ export const CreateAnotation = ({}) => {
               "array_tags": tags
           })
           if(response.status === 201){
-            navigation.goBack()
+            navigation.navigate('home')
           }
       } catch (error) {
           console.log(error)

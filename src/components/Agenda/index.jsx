@@ -54,7 +54,7 @@ function Agenda(props) {
   }
 
   return (
-    <View>
+    
     <Calendar
     theme={{
       'stylesheet.calendar.header':{
@@ -71,18 +71,18 @@ function Agenda(props) {
       dayTextColor:"#fff",
       monthTextColor: "#fff",
   }}
-  markedDates={{
-      '2022-10-05': {dotColor: 'red', marked: true, selectedColor: '#fff'},
-      '2022-10-20': {marked: true},
-      '2022-10-17': {marked: true, dotColor: 'red', activeOpacity: 0},
-      '2022-10-15': {disabled: true, disableTouchEvent: true}
-    }}
+  // markedDates={{
+  //     '2022-10-05': {dotColor: 'red', marked: true, selectedColor: '#fff'},
+  //     '2022-10-20': {marked: true},
+  //     '2022-10-17': {marked: true, dotColor: 'red', activeOpacity: 0},
+  //     '2022-10-15': {disabled: true, disableTouchEvent: true}
+  //   }}
     current={getCurrentDate().toString()}
     minDate={getMinDate().toString()}
     maxDate={'2050-01-01'}
     monthFormat={'MMMM yyyy'}
     onDayPress={day => {
-      console.log("dia selecionado", day)
+      // console.log("dia selecionado", day)
       setDate(day.dateString)
       props.setDate(date)
     }}
@@ -90,7 +90,6 @@ function Agenda(props) {
     enableSwipeMonths={true}
     hideArrows={true}
     />
-  </View>
   )
 }
 

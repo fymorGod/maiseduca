@@ -36,6 +36,7 @@ export const Player = ({ route }) => {
       const response = await axios.get(
         `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
       );
+      console.log(response.data)
       setVideos(response.data.conteudo.Aula);
       setAtv(response.data["conteudo"]["atividade"])
       setName(response.data["conteudo"]["disciplina"].name)
@@ -58,9 +59,9 @@ export const Player = ({ route }) => {
               onPress={
                 () => navigation.navigate('AtividadeInicio', {id: `${atvs.id}`})
               }>
-              <View style={{flexDirection: "row", width:"100%", padding:10, justifyContent:'space-evenly', alignItems:'center'}}>
+              <View style={{flexDirection: "row", width:"100%",  justifyContent:'space-evenly', alignItems:'center'}}>
               <Image
-              style={{height: 40, width: 60}}
+              style={{height: 60, width: 80, backgroundColor: '#333'}}
               resizeMode="contain" 
               source={require("../../../assets/atividade.png")} 
               />
@@ -127,23 +128,9 @@ export const Player = ({ route }) => {
 
 export const styles = StyleSheet.create({
   PlayerView: {
+    height: '100%',
     alignItems: "center",
-  },
-  buttonTabsActive: {
-    flexDirection:'row',
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#4162EB'
-  }, 
-  buttonTabs: {
-    flexDirection:'row',
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#2F598431'
+    backgroundColor: "#EDF2FF"
   },
   infoDetailsVideo: {
     marginLeft:20,

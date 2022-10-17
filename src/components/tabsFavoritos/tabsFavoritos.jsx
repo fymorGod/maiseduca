@@ -40,7 +40,6 @@ const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
         
     }
 
-
     return (
         <View style={{backgroundColor:'#333', width:'100%', alignItems:'center', height:'32%', marginBottom:10}}>
         <View style={{padding:10, backgroundColor:'#fff', flexDirection:'row', width:"95%", borderRadius:30, margin:10, alignItems:'center', justifyContent:'space-between', height:40}}>
@@ -71,7 +70,7 @@ const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
        </TouchableOpacity>
 
        {
-        favorite === true ? 
+        favorite == true ? 
         <TouchableOpacity
         onPress={()=> changeFavorito()}>
         <View style={{flexDirection:'row', alignItems:'center', marginRight:5}}>
