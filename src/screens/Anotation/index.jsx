@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import {
   Text,
   View,
-  
+  RefreshControl,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -13,21 +13,58 @@ import { AuthContext } from "../../context/AuthContext";
 import Icon from "react-native-vector-icons/AntDesign";
 import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
+import { useFonts } from "expo-font";
+import  Icon2  from 'react-native-vector-icons/Octicons';
 
 export const Anotation = () => {
+  const [fontsLoaded] = useFonts({
+    Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
+
   const { userInfo } = useContext(AuthContext);
   const navigation = useNavigation();
   const [note, setNote] = useState([]);
   const [tags, setTags] = useState([]);
+  const [refreshing, setRefreshing] = useState(false)
+
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(5000).then(() =>
+    getAnotacoes(),
+    setRefreshing(false)
+    );
+  }, []);
+
+  const getAnotacoes = async() => {
+    try {
+      const res = await axios.get(`https://mais-edu.herokuapp.com/anotacoesByAluno/${userInfo.user.id}`)
+      setNote(res.data["anotacoes"]);
+      console.log(res.data["anotacoes"]);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const delAnotacoes = async(id) => {
+    try {
+      const res = await axios.delete(`https://mais-edu.herokuapp.com/anotacoes/${id}`)
+      if(res.status === 204){
+        onRefresh()
+        console.log('deu certo')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   useEffect(() => {
-    axios
-      .get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
-      .then((res) => {
-        // s
-        setNote(res.data["anotacoes"]);
-        console.log(res.data["anotacoes"]);
-      });
+      getAnotacoes();
   }, []);
 
   return (
@@ -36,7 +73,7 @@ export const Anotation = () => {
       <View>
         <Text
           style={{
-            fontFamily: "Poppins_500Medium",
+            fontFamily: "Medium",
             fontSize: 18,
             color: "#403B91",
             paddingTop: 20,
@@ -44,10 +81,16 @@ export const Anotation = () => {
           }}
         >
           Minhas anotações
-        </Text>
+        </Text> 
       </View>
 
-      <ScrollView>
+      <ScrollView
+        refreshControl={<RefreshControl
+          refreshing={refreshing}
+          onRefresh={getAnotacoes}
+        />
+      }
+      >
         <View style={{ paddingHorizontal: 25, paddingVertical:10 }}>
           {note.map((notes) => (
             <TouchableOpacity
@@ -57,7 +100,18 @@ export const Anotation = () => {
               }
             >
               <View style={styles.card} key={notes.id}>
+                <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
                 <Text style={styles.text}>{notes.descricao}</Text>
+                <TouchableOpacity
+                onPress={() => delAnotacoes(notes.id)}
+                >
+                  <Icon2
+                  name='trash'
+                  size={25}
+                  color='red'
+                  />
+                </TouchableOpacity>
+                </View>
                 <View style={styles.tag}>
                 {notes.tags.map((tag) => (
                    <Text key={tag.id} style={styles.tagname}>{`#${tag.name}`} </Text>
@@ -85,7 +139,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     paddingHorizontal: 10,
-    height: 110,
+    height: 200,
     backgroundColor: "white",
     marginBottom: 15,
     borderRadius: 10,

@@ -16,7 +16,7 @@ export const Perfil = () => {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.6.20:3010/escolas/users/alunos/${id}`)
+      .get(`https://mais-edu.herokuapp.com/escolas/users/alunos/${id}`)
       .then((res) => {
         // s
         setPerfil(res.data["aluno"]);
@@ -144,7 +144,9 @@ export const Perfil = () => {
       </View>
       <View style={{ flexDirection: "column" }}>
         <View>
-          <TouchableOpacity style={styles.button} onPress={() => {}}>
+          <TouchableOpacity style={styles.button} onPress={() => {
+            navigation.navigate("MinhasNotas")
+          }}>
             <Text style={styles.text}>Minhas Notas</Text>
           </TouchableOpacity>
         </View>
@@ -158,7 +160,7 @@ export const Perfil = () => {
               elevation: 3,
               backgroundColor: "#00B7B7",
             }}
-            onPress={() => {}}
+            onPress={() => navigation.navigate("Classificacao")}
           >
             <Text style={styles.text}>Classificação</Text>
           </TouchableOpacity>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Feather } from '@expo/vector-icons';
 import { View, StyleSheet, Text, Image} from 'react-native';
 import { Surface } from "react-native-paper";
 import  Icon  from 'react-native-vector-icons/FontAwesome5';
@@ -36,7 +35,7 @@ export const AppHeader = () => {
 const styles = StyleSheet.create({
     header: {
         paddingTop:35,
-        height: 100,
+        height: 90,
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
