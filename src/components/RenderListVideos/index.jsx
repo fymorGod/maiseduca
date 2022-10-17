@@ -19,7 +19,7 @@ function RenderListVideos({ videos, setPosition }) {
                   width: "100%",
                   flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "space-evenly",
+                  justifyContent: "center",
                 }}
               >
                 <Image
@@ -51,10 +51,12 @@ export const styles = StyleSheet.create({
       flexWrap: "wrap",
     },
     title: {
+      fontSize:14,
+      color:'#868E96',
       marginTop: 10,
       fontSize: 12,
-      textAlign: 'left',
-      color: "#181818",
+      textAlign: 'center',
+     
     }
   });
   

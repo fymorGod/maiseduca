@@ -61,7 +61,7 @@ export const Player = ({ route }) => {
               }>
               <View style={{flexDirection: "row", width:"100%",  justifyContent:'space-evenly', alignItems:'center'}}>
               <Image
-              style={{height: 60, width: 80, backgroundColor: '#333'}}
+              style={{height: 50, width: 80,}}
               resizeMode="contain" 
               source={require("../../../assets/atividade.png")} 
               />

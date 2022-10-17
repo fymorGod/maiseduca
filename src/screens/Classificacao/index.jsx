@@ -103,7 +103,7 @@ export const Classificacao = () => {
     <View style={{paddingHorizontal: 20, height: '100%'}}>
     <View
     style={{      
-      height: windowHeight * 0.55,
+      height: windowHeight * 0.50,
       backgroundColor: "white",
       width: "100%",
       borderRadius: 28,
@@ -131,14 +131,14 @@ export const Classificacao = () => {
           return (
             <View  key={ranks.name}  style={{flexDirection: 'column',justifyContent:'space-between', height: 80, }}>
            {index < 3 &&  <View  style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}>
-           <Image
-           style={{ height: 50, width: 50 }}
-           resizeMode="contain"
-           source={{uri:`${ranks.img}`}}
-           />
-           <Text>{ranks.name}</Text>
-             <Text>{ranks.points}</Text>     
-           </View>}
+            <Image
+            style={{ height: 50, width: 50 }}
+            resizeMode="contain"
+            source={{uri:`${ranks.img}`}}
+            />
+            <Text>{ranks.name}</Text>
+              <Text>{ranks.points}</Text>     
+            </View>}
             {
               ranks.my_position && 
               <View
