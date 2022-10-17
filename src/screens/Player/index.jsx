@@ -15,7 +15,7 @@ import { Video } from "expo-av";
 const Player = ({ route }) => {
   let id = route.params.id;
 
-  const v = React.useRef(null);
+  const videoPlayer = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
   const [ clicked, setClicked ] = useState(0);
   const [videos, setVideos] = useState([]);
@@ -27,7 +27,7 @@ const Player = ({ route }) => {
     {id: 2, label: 'Atividades'},
     {id: 3, label: 'Material'},
   ]
-
+  console.log(videoPlayer.current)
   useEffect(() => {
     const getVideosContent = async () => {
       const response = await axios.get(
@@ -135,11 +135,10 @@ const Player = ({ route }) => {
           }}
         >
         {
-            <Video
-            
-            ref={v}
+          <Video            
+            ref={ref => (videoPlayer.current = ref)}
             source={{ uri: videos[position]?.file }}
-            useNativeControls
+            useNativeControls            
             resizeMode="contain"
             style={styles.video}
           />
