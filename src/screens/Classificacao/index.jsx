@@ -3,11 +3,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import { useFonts } from "expo-font";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height; 
 
 export const Classificacao = () => {
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
+
   const [finalRank, setFinalRank] = useState([]);
   const { userInfo } = useContext(AuthContext);
   const [choice,  setChoice] = useState("escola")
@@ -16,19 +21,11 @@ export const Classificacao = () => {
   const [points, setPoints] = useState([]);
   const [ clicked, setClicked ] = useState(0);
   
-
-  const listImagesMedalhas = [
-    "../../../assets/prata.png",
-    "../../../assets/ouro.png",
-    "../../../assets/bronze.png"
-  ]
-
   useEffect(() => {
     const getRank = async () => {
       const response = await axios.get(
         `http://192.168.6.20:3010/ranks/${userInfo.user.id}`
       );
-      // console.log(response.data)
       setRank(response.data[choice]);
       setPoints(response.data["points"]);
     };
@@ -86,6 +83,7 @@ export const Classificacao = () => {
       <View>
         <Text
           style={{
+            fontFamily:"Medium",
             fontSize: 16,
             color: "#403B91",
             paddingTop: 20,
@@ -129,15 +127,15 @@ export const Classificacao = () => {
       {
         rank.map((ranks, index) => {
           return (
-            <View  key={ranks.name}  style={{flexDirection: 'column',justifyContent:'space-between', height: 80, }}>
+            <View  key={index}  style={{flexDirection: 'column',justifyContent:'space-between', height: 80}}>
            {index < 3 &&  <View  style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}>
             <Image
             style={{ height: 50, width: 50 }}
             resizeMode="contain"
             source={{uri:`${ranks.img}`}}
             />
-            <Text>{ranks.name}</Text>
-              <Text>{ranks.points}</Text>     
+            <Text style={{color: "#403B91", fontSize: 16}}>{ranks.name}</Text>
+              <Text style={{color: "#403B91", fontSize: 14}}>{ranks.points}</Text>     
             </View>}
             {
               ranks.my_position && 

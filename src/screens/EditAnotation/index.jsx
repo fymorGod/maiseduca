@@ -8,11 +8,10 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 
 
-
 export const EditAnotation = ({route}) => {
-    const [fontsLoaded] = useFonts({
-        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
-    })
+    let [fontsLoaded] = useFonts({
+        'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+      })
     const navigation = useNavigation();
     const { userInfo } = useContext(AuthContext);
     const [title, setTitle] = useState('');

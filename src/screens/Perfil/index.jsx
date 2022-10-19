@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 
 export const Perfil = () => {
+
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [perfil, setPerfil] = useState([]);

@@ -5,27 +5,40 @@ import { View, Text, StyleSheet } from "react-native";
 import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import { useFonts } from "expo-font";
+
+
 
 export const MinhasNotas = () => {
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
+
   //get dados do aluno - notas
   const { userInfo } = useContext(AuthContext)
   const [ data, setData ] = useState([]);
 
-  useEffect(()=> {
-    const getNotas = async () => {
-      const response = await axios.get(`http://192.168.6.20:3010/medias/${userInfo.user.id}`);
+  const getNotas = async () => {
+    const response = await axios.get(`http://192.168.6.20:3010/medias/${userInfo.user.id}`);
       setData(response.data["medias"]);
-    }
+      console.log(response.data["medias"])
+  }
+
+  useEffect(()=> {
+
     getNotas();
   }, [])
-  console.log(data);
+  // console.log(data);
   return (
     <View style={styles.container}>
       <AppHeader />
       <ScrollView>
        <View style={{padding: 15}}>
         <View style={styles.header}>
-            <Text style={styles.title}>Minhas Notas</Text>
+            <Text style={{fontFamily:'Medium',
+            color: "#403B91",
+            fontSize: 18,
+            fontWeight: '500'}}>Minhas Notas</Text>
         </View>
         <View style={styles.infoMaterias}>
         <View style={styles.boxInfo}>
@@ -38,10 +51,10 @@ export const MinhasNotas = () => {
         </View>
         </View>
         <View style={styles.boxGrafico}>
-          <VictoryChart theme={VictoryTheme.material}>
+          <VictoryChart theme={VictoryTheme.material}> 
             <VictoryBar
             style={{data:{width:30}}}
-            barWidth={15}
+            barWidth={40}
             height={1}
             animate
             data={data}
@@ -51,7 +64,7 @@ export const MinhasNotas = () => {
           </VictoryChart>
         </View>
         <View style={styles.boxTable}>
-       
+
         </View>
       
        </View>
@@ -67,11 +80,6 @@ export const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-  },
-  title: {
-    color: "#403B91",
-    fontSize: 18,
-    fontWeight: '500'
   },
   infoMaterias: {
     flexDirection: "column",

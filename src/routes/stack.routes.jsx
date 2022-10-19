@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Image, Text, Platform, StyleSheet } from "react-native";
+import { Image, Text, Platform, StyleSheet, Button } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -62,7 +62,7 @@ export function StackRoutes() {
           <Stack.Screen
           name="EditAnotation"
           component={EditAnotation}
-          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          options={{ headerTransparent: true, headerShown: false, title: "",}}
           />
 
           <Stack.Screen

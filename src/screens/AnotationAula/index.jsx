@@ -9,9 +9,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 
 export const AnotationAula = ({route}) => {
-    const [fontsLoaded] = useFonts({
-        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+
+    let [fontsLoaded] = useFonts({
+        'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
     })
+
     id = route.params.id
     console.log(id)
 

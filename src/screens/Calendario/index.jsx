@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity,  Dimensions, Platform, Button } from 'react-native';
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity,  Dimensions, RefreshControl } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
 import { FAB } from 'react-native-paper';
 import {Agenda} from "../../components/Agenda";
@@ -25,13 +25,24 @@ export const Calendario = () => {
   const [fim, setFim] = useState('');
   const [lembretes, setLembretes] = useState([]);
   const { userInfo } = useContext(AuthContext);
+  const [refreshing, setRefreshing] = useState(false)
   const horaMask = [/\d/, /\d/, ':', /\d/, /\d/];
-  console.log(date)
 
   useEffect(() => {
     getLembrete();
 }, []);
 
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
+  const onRefresh = useCallback(()=>{
+    setRefreshing(true);
+    wait(2000).then(()=>
+    getLembrete(),
+    setRefreshing(false)
+    )
+  }, []);
 
   const postLembrete = async() =>{
     try {
@@ -44,7 +55,8 @@ export const Calendario = () => {
         "id_aluno": `${userInfo.user.id}`
       })
       if(res.status === 201){
-        console.log(res)
+        refRBSheet.current.close()
+        onRefresh()
       }
     } catch (error) {
       console.log(error)
@@ -55,7 +67,6 @@ export const Calendario = () => {
     try {
       const res = await axios.get(`http://192.168.6.20:3010/lembretesByAluno/${userInfo.user.id}`)
       setLembretes(res.data["lembretes"]);
-      // console.log(res.data["lembretes"])
     } catch (error) {
       console.log(error)
     }
@@ -65,7 +76,7 @@ export const Calendario = () => {
     try {
       const res = await axios.delete(`http://192.168.6.20:3010/lembretes/${id}`)
       if(res.status === 204){
-        console.log(res)
+        onRefresh()
       }
     } catch (error) {
       console.log(error)
@@ -83,7 +94,12 @@ export const Calendario = () => {
        
         
         {/* Cards Lembretes */}
-        <ScrollView>
+        <ScrollView
+        refreshControl={<RefreshControl
+          refreshing={refreshing}
+          onRefresh={getLembrete}
+          />}
+        >
         <View style={styles.cards}>
           {lembretes.map((avisos)=>(
             <View style={styles.card} key={avisos.id}>

@@ -1,17 +1,19 @@
 import React from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity} from "react-native";
-import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 
 
 export function FavItem({ id_favorito, title, thumb }) {
-    const navigation = useNavigation();
-    const limite = 42
 
-    const [fontsLoaded] = useFonts({
-      Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
   })
 
+
+
+    const navigation = useNavigation();
+    const limite = 42
 
 
   

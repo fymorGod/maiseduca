@@ -2,7 +2,6 @@ import React, {useEffect, useContext, useState} from "react";
 import axios from 'axios';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Modal, Animated, ScrollView, StatusBar, SafeAreaView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 
@@ -148,23 +147,23 @@ export const Atividade = ({route}) => {
                         style={{
                             borderWidth: 3, 
                             borderColor: option==correctOption 
-                            ? '#00C851'
+                            ? '#00C851' 
                             : option==currentOptionSelected 
-                            ? '#ff4444' 
-                            : '#1E90FF'+'40',
+                            ? 'red'
+                            : '#92A7FD',
                             backgroundColor: option==correctOption 
                             ? '#00C851' +'20'
                             : option==currentOptionSelected 
-                            ? '#ff4444' +'20'
-                            : '#1E90FF'+'20',
+                            ? '#92A7FD'
+                            : '#92A7FD',
                             height: 100, borderRadius: 20,
                             flexDirection: 'row',
                             alignItems: 'center', justifyContent: 'space-between',
                             paddingHorizontal: 20,
-                            marginVertical: 10
+                            marginVertical: 5
                         }}
                         >
-                            <Text style={{fontSize: 16, color:"#FFFFFF"}}>{option}</Text>
+                            <Text style={{fontSize: 16, color:"#FFF", fontWeight:'bold'}}>{option}</Text>
 
                             {/* Show Check Or Cross Icon based on correct answer*/}
                             {
@@ -179,7 +178,7 @@ export const Atividade = ({route}) => {
                                             fontSize: 20
                                         }} />
                                     </View>
-                                ): option == currentOptionSelected ? (
+                                ):  option == currentOptionSelected ? (
                                     <View style={{
                                         width: 30, height: 30, borderRadius: 30/2,
                                         backgroundColor:'#ff4444',
@@ -206,9 +205,9 @@ export const Atividade = ({route}) => {
                 <TouchableOpacity
                 onPress={handleNext}
                 style={{
-                    marginTop: 20, width: '100%', backgroundColor:'#3498db', padding: 20, borderRadius: 5
+                    marginTop: 20, width: '100%', backgroundColor:'#403B91', padding: 20, borderRadius: 50
                 }}>
-                    <Text style={{fontSize: 20, color:"#FFFFFF", textAlign: 'center'}}>Next</Text>
+                    <Text style={{fontSize: 20, color:"#FFFFFF", textAlign: 'center'}}>Próxima Questão</Text>
                 </TouchableOpacity>
             )
         }else{
@@ -235,7 +234,7 @@ export const Atividade = ({route}) => {
                 <Animated.View style={[{
                     height: 20,
                     borderRadius: 20,
-                    backgroundColor:'#3498db'
+                    backgroundColor:'#00B7B7'
                 },{
                     width: progressAnim
                 }]}>
@@ -248,7 +247,7 @@ export const Atividade = ({route}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-        <View style={{flex:1, paddingVertical:40, paddingHorizontal:16, backgroundColor:"#252C4A", position:'relative'}}>
+        <View style={{flex:1, paddingTop:40, paddingBottom:5, paddingHorizontal:16, backgroundColor:"#4263EB", position:'relative'}}>
         
         {/* ProgressBar */}
         { renderProgressBar() }
@@ -286,7 +285,7 @@ export const Atividade = ({route}) => {
                            padding: 20,
                            alignItems: 'center'
                        }}>
-                           <Text style={{fontSize: 30, fontWeight: 'bold'}}>{ score> (allQuestions.length/2) ? 'Parabéns!' : 'Oops!' }</Text>
+                           <Text style={{fontSize: 30, fontWeight: 'bold'}}>{ score> (allQuestions.length/2) ? 'Parabéns!' : 'Quase lá!' }</Text>
 
                            <View style={{
                                flexDirection: 'row',

@@ -14,6 +14,7 @@ import { AuthContext } from "../../context/AuthContext";
 ("react-native");
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "native-base";
+import { useFonts } from "expo-font";
 
 export const TrocarSenha = () => {
   const {logout} = useContext(AuthContext);
@@ -24,6 +25,9 @@ export const TrocarSenha = () => {
   const [novaSenha1, setNovaSenha1] = useState();
   let id = userInfo.user.id_senha;
 
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
 
   const mudarSenha = async() => {
     try {
@@ -51,7 +55,7 @@ export const TrocarSenha = () => {
       <View>
         <Text
           style={{
-            fontFamily: "Poppins_500Medium",
+            fontFamily: "Medium",
             fontSize: 16,
             color: "#403B91",
             paddingTop: 20,
@@ -65,7 +69,7 @@ export const TrocarSenha = () => {
         <View>
           <Text
             style={{
-              fontFamily: "Poppins_500Medium",
+              fontFamily: "Medium",
               fontSize: 16,
               color: "#403B91",
               paddingTop: 20,
@@ -93,7 +97,7 @@ export const TrocarSenha = () => {
         <View>
           <Text
             style={{
-              fontFamily: "Poppins_500Medium",
+              fontFamily: "Medium",
               fontSize: 16,
               color: "#403B91",
               paddingTop: 20,
@@ -120,7 +124,7 @@ export const TrocarSenha = () => {
         <View>
           <Text
             style={{
-              fontFamily: "Poppins_500Medium",
+              fontFamily: "Medium",
               fontSize: 16,
               color: "#403B91",
               paddingTop: 20,

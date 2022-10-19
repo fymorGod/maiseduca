@@ -13,28 +13,35 @@ import { AuthContext } from "../../context/AuthContext";
 import Icon from "react-native-vector-icons/AntDesign";
 import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
-import { useFonts } from "expo-font";
 import  Icon2  from 'react-native-vector-icons/Octicons';
+import { useFonts } from "expo-font";
 
 export const Anotation = () => {
-  const [fontsLoaded] = useFonts({
-    Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
   })
+
   const { userInfo } = useContext(AuthContext);
   const navigation = useNavigation();
   const [note, setNote] = useState([]);
-  const [refreshing, setRefreshing] = useState(false)
   var listaNotes = [];
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    getAnotacoes()
+  }, []);
+
   const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
+  return new Promise(resolve => setTimeout(resolve, timeout));
   }
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(()=>{
     setRefreshing(true);
-    wait(3000).then(() =>
+    wait(2000).then(()=>
     getAnotacoes(),
     setRefreshing(false)
-    );
+    )
   }, []);
 
   const getAnotacoes = async() => {
@@ -48,26 +55,17 @@ export const Anotation = () => {
     }
   }
 
-
-
   const delAnotacoes = async(id) => {
     try {
       const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)
       if(res.status === 204){
         onRefresh()
-        console.log('deu certo')
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  useEffect(() => {
-      // setInterval(() => {
-      //   getAnotacoes();
-      // }, 5000);
-      getAnotacoes()
-  }, []);
 
   return (
     <View style={styles.Container}>
@@ -75,7 +73,7 @@ export const Anotation = () => {
       <View>
         <Text
           style={{
-            fontFamily: "Medium",
+            fontFamily:"Medium",
             fontSize: 18,
             color: "#403B91",
             paddingTop: 20,
@@ -94,7 +92,7 @@ export const Anotation = () => {
       }
       >
         <View style={{ paddingHorizontal: 25, paddingVertical:10 }}>
-          {note.map((notes, index) => (
+          {note?.map((notes, index) => (
             <TouchableOpacity
               key={notes.id}
               onPress={() =>
@@ -142,7 +140,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     paddingHorizontal: 10,
-    height: 200,
+    height: 160,
     backgroundColor: "white",
     marginBottom: 15,
     borderRadius: 10,

@@ -7,8 +7,9 @@ import { MateriaItem } from "../../components/materias";
 import { AuthContext } from "../../context/AuthContext";
 
 export const Aulas = () => {
-    const [fontsLoaded] = useFonts({
-        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+
+    let [fontsLoaded] = useFonts({
+        'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
     })
 
     const { userInfo } = useContext(AuthContext);

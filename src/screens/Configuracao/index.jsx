@@ -16,8 +16,8 @@ import { useFonts } from "expo-font";
 
 
 export const Configuracao = () => {
-  const [fontsLoaded] = useFonts({
-    Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
   })
 
   const {logout} = useContext(AuthContext);
@@ -553,7 +553,7 @@ export const Configuracao = () => {
              }}
              onPress={() => {}}
            >
-             <Text style={{ color: "#005858" }}>Idioma</Text>
+             <Text style={{ color: "#005858" }}>Termos de Uso</Text>
            </TouchableOpacity>
          </View>
          <View>

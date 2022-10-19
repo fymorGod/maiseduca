@@ -5,19 +5,20 @@ import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-
-
-
+import AppLoading from 'expo-app-loading';
 
 export const Home = () => {
+
+    let [fontsLoaded] = useFonts({
+        'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+    })
+
+
+
     const { userInfo } = useContext(AuthContext);
     const [fav, setFav] = useState([]);
     const navigation = useNavigation();
     const limite = 42
-
-    const [fontsLoaded] = useFonts({
-        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
-    })
 
     const getFav = async() => {
         try {
@@ -31,7 +32,7 @@ export const Home = () => {
 
     useEffect(() => {
         getFav();
-        
+
       }, [])
     
 
@@ -52,7 +53,7 @@ export const Home = () => {
                 />
             </View>
             <View style={styles.aulasVideos}>
-                <Text style={{fontFamily:"Medium", fontSize: 16, color: '#403B91'}}> Favoritos</Text>
+                <Text style={{fontFamily: "Medium", fontSize: 16, color: '#403B91'}}> Favoritos</Text>
             </View>
            
            <View style={{}}>
@@ -64,7 +65,7 @@ export const Home = () => {
                 renderItem={({item})=> 
                 <View style={styles.Image}>
                     <TouchableOpacity 
-                    onPress={() => navigation.navigate('Player', {id: `${item.conteudo}`})}
+                    onPress={() => navigation.navigate('Player', {id: `${item.conteudo}`, position:`${item.index}`})}
                     >
                         <Image 
                         source={{uri: `${item.thumb}`}}

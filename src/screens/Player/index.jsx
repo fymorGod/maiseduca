@@ -19,6 +19,7 @@ import { RenderTabs } from "../../components/RenderTabs";
 
 export const Player = ({ route }) => {
   let id = route.params.id;
+  const posicao = route.params.position;
   const navigation = useNavigation();
   const v = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
@@ -28,8 +29,9 @@ export const Player = ({ route }) => {
   const { width, height } = Dimensions.get("screen");
   const [ atv, setAtv ] = useState([]);
   const [ favo, setFavo ] = useState(false);
-
   const [name,setName] = useState()
+
+  console.log(posicao);
 
   useEffect(() => {
     const getVideosContent = async () => {
@@ -44,7 +46,7 @@ export const Player = ({ route }) => {
     getVideosContent();
   }, [favo]);
   
-  // console.log(videos[position]?.favorite)
+
   const handleClick = (id) => {
     setClicked(id)
   }
@@ -85,7 +87,7 @@ export const Player = ({ route }) => {
     );
   }
   
-
+  console.log(videos[position])
 
   return (
     <View>
@@ -101,7 +103,7 @@ export const Player = ({ route }) => {
             <Video
             style={styles.video} 
             ref={v}
-            source={{ uri: videos[position]?.file }}
+            source={{ uri: posicao != null ? videos[posicao]?.file :videos[position]?.file }}
             useNativeControls
             resizeMode="contain" /> 
 
