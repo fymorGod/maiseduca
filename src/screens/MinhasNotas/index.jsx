@@ -9,6 +9,7 @@ import { useFonts } from "expo-font";
 
 
 
+
 export const MinhasNotas = () => {
   let [fontsLoaded] = useFonts({
     'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
@@ -17,6 +18,17 @@ export const MinhasNotas = () => {
   //get dados do aluno - notas
   const { userInfo } = useContext(AuthContext)
   const [ data, setData ] = useState([]);
+
+  const colors = [
+    "violet",
+    "cornflowerblue",
+    "gold",
+    "orange",
+    "turquoise",
+    "tomato",
+    "greenyellow"
+  ];
+  // var randColor = colors[Math.floor(Math.random() * colors.length)];
 
   const getNotas = async () => {
     const response = await axios.get(`http://192.168.6.20:3010/medias/${userInfo.user.id}`);
@@ -43,20 +55,20 @@ export const MinhasNotas = () => {
         <View style={styles.infoMaterias}>
         <View style={styles.boxInfo}>
             <Text style={styles.subTitle}>Melhor matéria: </Text>
-            <Text style={styles.infoText}>Geografia</Text>
+            <Text style={styles.infoText}>Matemática</Text>
         </View>
         <View style={styles.boxInfo}>
             <Text style={styles.subTitle}>Tempo na Plataforma: </Text>
-            <Text style={styles.infoText}>15 Minutos</Text>
+            <Text style={styles.infoText}>3 Horas e 45 minutos</Text>
         </View>
         </View>
         <View style={styles.boxGrafico}>
-          <VictoryChart theme={VictoryTheme.material}> 
+          <VictoryChart theme={VictoryTheme.material} animate={{duration: 500}}> 
             <VictoryBar
-            style={{data:{width:30}}}
+            alignment='start'
+            style={{data:{width:30, fill:'#00B7B7',}}}
             barWidth={40}
             height={1}
-            animate
             data={data}
             x="disciplina"
             y="value"
