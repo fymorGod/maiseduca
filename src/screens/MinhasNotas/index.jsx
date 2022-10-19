@@ -108,7 +108,7 @@ export const styles = StyleSheet.create({
   boxInfo: {
     flexDirection: "row",
     width: "100%",
-    paddingVertical: 10,
+    paddingVertical:5,
   },
   boxGrafico: {
     width: '100%',
