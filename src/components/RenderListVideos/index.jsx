@@ -25,10 +25,10 @@ function RenderListVideos({ videos, setPosition }) {
                 <Image
                   source={{ uri: `${video.thumb}` }}
                   resizeMode="contain"
-                  style={{height: 60, width: 80}}
+                  style={{height: 45, width: 80, borderRadius:4}}
                 />
                 <View
-                  style={{ width: "80%",paddingRight: 5, alignItems: 'center'}}
+                  style={{ width: "80%",paddingRight: 5, alignItems: 'flex-start', alignSelf:'flex-start', paddingTop:7}}
                 >
                   <Text style={styles.title}>{video.title}</Text>
                 </View>
@@ -53,9 +53,9 @@ export const styles = StyleSheet.create({
     title: {
       fontSize:14,
       color:'#868E96',
-      marginTop: 10,
-      fontSize: 12,
-      textAlign: 'center',
+      fontSize: 14,
+      textAlign: 'justify',
+      marginLeft:20
      
     }
   });

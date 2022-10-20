@@ -205,7 +205,7 @@ export const Atividade = ({route}) => {
                 <TouchableOpacity
                 onPress={handleNext}
                 style={{
-                    marginTop: 20, width: '100%', backgroundColor:'#403B91', padding: 20, borderRadius: 50
+                    marginTop: 20, width: '100%', backgroundColor:'#403B91', padding: 15, borderRadius: 50
                 }}>
                     <Text style={{fontSize: 20, color:"#FFFFFF", textAlign: 'center'}}>Próxima Questão</Text>
                 </TouchableOpacity>
@@ -246,7 +246,7 @@ export const Atividade = ({route}) => {
     }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor:"#4263EB"}}>
         <View style={{flex:1, paddingTop:40, paddingBottom:5, paddingHorizontal:16, backgroundColor:"#4263EB", position:'relative'}}>
         
         {/* ProgressBar */}

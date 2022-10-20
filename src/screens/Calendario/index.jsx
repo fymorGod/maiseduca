@@ -11,6 +11,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import  Icon2  from 'react-native-vector-icons/Octicons';
 import { ScrollView } from "native-base";
+import ToastManager, { Toast } from 'toastify-react-native'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height; 
@@ -55,8 +56,11 @@ export const Calendario = () => {
         "id_aluno": `${userInfo.user.id}`
       })
       if(res.status === 201){
-        refRBSheet.current.close()
-        onRefresh()
+        showToasts()
+        setTimeout(() => {
+          refRBSheet.current.close()
+          onRefresh()
+        }, 1000);
       }
     } catch (error) {
       console.log(error)
@@ -76,18 +80,28 @@ export const Calendario = () => {
     try {
       const res = await axios.delete(`http://192.168.6.20:3010/lembretes/${id}`)
       if(res.status === 204){
-        onRefresh()
+        showToastDel()
+        setTimeout(() => {
+          onRefresh()
+        }, 3000);
       }
     } catch (error) {
       console.log(error)
     }
   }
 
+  const showToasts = () => {
+    Toast.success("Lembrete criado  ")
+  }
 
+  const showToastDel = () => {
+    Toast.success("Lembrete deletado ")
+  }
 
     return (
       <View style={styles.Container}>
         <AppHeader/>
+        <ToastManager />
         <View style={[styles.shadowProp, styles.calendar]}>
         <Agenda setDate={setDate}/>
         </View>

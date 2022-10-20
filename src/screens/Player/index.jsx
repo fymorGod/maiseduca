@@ -31,14 +31,14 @@ export const Player = ({ route }) => {
   const [ favo, setFavo ] = useState(false);
   const [name,setName] = useState()
 
-  console.log(posicao);
+
 
   useEffect(() => {
     const getVideosContent = async () => {
       const response = await axios.get(
         `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
       );
-      console.log(response.data)
+      // console.log(response.data)
       setVideos(response.data.conteudo.Aula);
       setAtv(response.data["conteudo"]["atividade"])
       setName(response.data["conteudo"]["disciplina"].name)
@@ -56,18 +56,32 @@ export const Player = ({ route }) => {
       <View >
         {
           atv.map((atvs)=>(
-            <View style={{flexDirection: "column", marginTop: 10}} key={atvs.id}>
+            <View style={{marginLeft: 20,
+              marginRight:20,
+              justifyContent: "flex-start",
+              backgroundColor: "#EDF2FF",
+              marginTop: 10,
+              flexWrap: "wrap",}} key={atvs.id}>
             <TouchableOpacity
               onPress={
-                () => navigation.navigate('AtividadeInicio', {id: `${atvs.id}`})
+                () => navigation.navigate('AtividadeInicio', {id: `${atvs.id}`, title: `${atvs.title}`})
               }>
-              <View style={{flexDirection: "row", width:"100%",  justifyContent:'space-evenly', alignItems:'center'}}>
+              <View style={{width: "100%",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"}}>
               <Image
-              style={{height: 50, width: 80,}}
+              style={{height: 45, width: 80}}
               resizeMode="contain" 
-              source={require("../../../assets/atividade.png")} 
+              source={require("../../../assets/ATIVIDADE.png")} 
               />
-              <Text style={{fontSize:14, color:'#868E96' }}>{atvs.title}</Text>
+              <View style={{width: "80%",paddingRight: 5, alignItems: 'flex-start', alignSelf:'flex-start', paddingTop:7}}>
+                <Text style={{fontSize:14,
+                  color:'#868E96',
+                  fontSize: 14,
+                  textAlign: 'justify',
+                  marginLeft:20}}>{atvs.title}</Text>
+              </View>
               </View>
             </TouchableOpacity>
             </View>
@@ -87,8 +101,10 @@ export const Player = ({ route }) => {
     );
   }
   
-  console.log(videos[position])
-
+  const [status, setStatus] = useState({});
+  console.log(status)
+  
+  
   return (
     <View>
       <AppHeader />
@@ -104,6 +120,7 @@ export const Player = ({ route }) => {
             style={styles.video} 
             ref={v}
             source={{ uri: posicao != null ? videos[posicao]?.file :videos[position]?.file }}
+            onPlaybackStatusUpdate={status => setStatus(() => status)}
             useNativeControls
             resizeMode="contain" /> 
 

@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import ToastManager, { Toast } from 'toastify-react-native'
 
 export const CreateAnotation = ({}) => {
     let [fontsLoaded] = useFonts({
@@ -18,9 +19,14 @@ export const CreateAnotation = ({}) => {
     const [ descricao, setDescricao ] = useState();
     const [ tags, setTags ] = useState([]);
     const value = 1;
+    
     const onSubmit = (descricao) => {
         criarNota(descricao)
     };
+
+    const showToasts = () => {
+        Toast.success('Anotação criada', )
+    }
     
   const criarNota = async() => {
       try {
@@ -31,7 +37,11 @@ export const CreateAnotation = ({}) => {
               "array_tags": tags
           })
           if(response.status === 201){
-            navigation.navigate('home')
+            showToasts()
+            setTimeout(() => {
+                navigation.navigate('home')
+            }, 3000);
+            
           }
       } catch (error) {
           console.log(error)
@@ -42,6 +52,7 @@ export const CreateAnotation = ({}) => {
     return (
         <View style={styles.Container}>
         <AppHeader/>
+        <ToastManager />
         <View>                
             <Text style={{fontFamily:"Medium", fontSize: 18, color: '#403B91', paddingTop:20, paddingLeft:20}}>Criar anotação</Text> 
         </View>
@@ -82,6 +93,7 @@ export const CreateAnotation = ({}) => {
         
         <View style={{flexDirection:'row', justifyContent: "space-between", paddingHorizontal: 20}}>
         <Text></Text>
+        
         <TouchableOpacity
         style={styles.button}
         onPress={() => {

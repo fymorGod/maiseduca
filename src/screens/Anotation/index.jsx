@@ -15,6 +15,7 @@ import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
 import  Icon2  from 'react-native-vector-icons/Octicons';
 import { useFonts } from "expo-font";
+import ToastManager, { Toast } from 'toastify-react-native'
 
 export const Anotation = () => {
 
@@ -31,6 +32,10 @@ export const Anotation = () => {
   useEffect(() => {
     getAnotacoes()
   }, []);
+
+  const showToasts = () => {
+    Toast.success('Anotação deletada')
+}
 
   const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -59,7 +64,8 @@ export const Anotation = () => {
     try {
       const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)
       if(res.status === 204){
-        onRefresh()
+        showToasts();
+        onRefresh();
       }
     } catch (error) {
       console.log(error)
@@ -70,6 +76,7 @@ export const Anotation = () => {
   return (
     <View style={styles.Container}>
       <AppHeader />
+      <ToastManager />
       <View>
         <Text
           style={{
