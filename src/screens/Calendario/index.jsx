@@ -13,6 +13,7 @@ import  Icon2  from 'react-native-vector-icons/Octicons';
 import { ScrollView } from "native-base";
 import ToastManager, { Toast } from 'toastify-react-native'
 
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height; 
 
@@ -31,7 +32,7 @@ export const Calendario = () => {
 
   useEffect(() => {
     getLembrete();
-}, []);
+  }, []);
 
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -75,6 +76,8 @@ export const Calendario = () => {
       console.log(error)
     }
   }
+
+
   
   const delLembretes = async(id) =>{
     try {
@@ -181,13 +184,15 @@ export const Calendario = () => {
               {/* data */}
               <Text style={{color:'#403B91', fontSize:18}}>Data</Text>
               <View style={{marginTop:10}}>
-                <TextInput
-                maxLength={10}
-                keyboardType="number-pad"
-                style={styles.Input}
-                value={date}
-                onChangeText={text => setDate(text)}
-                />
+                
+              <TextInput
+              maxLength={10}
+              keyboardType="datetime"
+              style={styles.Input}
+              value={date}
+              onChangeText={text => setDate(text)}
+            />
+
               </View>
 
               {/* Inicio e fim */}

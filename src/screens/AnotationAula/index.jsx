@@ -2,11 +2,11 @@ import axios from "axios";
 import "react-native-gesture-handler";
 import React, { useContext, useRef, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, Alert,} from 'react-native';
-import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 export const AnotationAula = ({route}) => {
 
@@ -45,7 +45,7 @@ export const AnotationAula = ({route}) => {
 
     return (
         <View style={styles.Container}>
-        <AppHeader/>
+        <AppHeader2/>
         <View>                
             <Text style={{fontFamily:"Medium", fontSize: 18, color: '#403B91', paddingTop:20, paddingLeft:20}}>Criar anotação</Text> 
         </View>

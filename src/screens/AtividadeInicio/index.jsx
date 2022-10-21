@@ -33,14 +33,6 @@ export const AtividadeInicio = ({route}) => {
                 fontSize: 28,
                 textAlign:'center', paddingHorizontal:15}}>{title}</Text>
                 
-                <Image
-                style={{height:430}}
-                resizeMode="contain" 
-                source={require("../../../assets/1.png")} 
-                 />
-
-
-              
 
                <View style={{width:'100%', alignItems:'center',  justifyContent:'flex-end',paddingHorizontal:20,}}>
                     <TouchableOpacity

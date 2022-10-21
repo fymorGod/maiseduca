@@ -6,8 +6,8 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  Button,
 } from "react-native";
-import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Video } from "expo-av";
@@ -15,11 +15,12 @@ import { useNavigation } from "@react-navigation/native";
 import { TabsFavoritos } from "../../components/tabsFavoritos/tabsFavoritos";
 import { RenderListVideos } from "../../components/RenderListVideos";
 import { RenderTabs } from "../../components/RenderTabs";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 
 export const Player = ({ route }) => {
   let id = route.params.id;
-  const posicao = route.params.position;
+  const posicaoFav = route.params.position;
   const navigation = useNavigation();
   const v = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
@@ -101,13 +102,30 @@ export const Player = ({ route }) => {
     );
   }
   
+  const postProgresso = async() =>{
+    try {
+      const res = await axios.post(`http://192.168.6.20:3010/progressos`, {
+        "id_aluno": `${userInfo.user.id}`,
+        "id_aula": videos[position].id,
+        "progress": status.positionMillis
+      })
+      if(res.status === 201){
+        console.log(res)
+        
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const [status, setStatus] = useState({});
+  
   console.log(status)
   
   
   return (
     <View>
-      <AppHeader />
+      <AppHeader2/>
       <View style={styles.PlayerView}>
         <View
           style={{
@@ -119,10 +137,16 @@ export const Player = ({ route }) => {
             <Video
             style={styles.video} 
             ref={v}
-            source={{ uri: posicao != null ? videos[posicao]?.file :videos[position]?.file }}
+            source={{ uri: posicaoFav != null ? videos[posicaoFav]?.file :videos[position]?.file }}
+            shouldPlay={true}
             onPlaybackStatusUpdate={status => setStatus(() => status)}
             useNativeControls
-            resizeMode="contain" /> 
+            positionMillis={videos[position]?.progress}
+            resizeMode="contain"/>
+            
+            {status.isPLaying == false ? postProgresso(): null}
+
+
 
             <TabsFavoritos
             position={position}

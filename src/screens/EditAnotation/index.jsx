@@ -3,9 +3,9 @@ import { useFonts } from "expo-font";
 import React, { useContext, useEffect, useState,  useRef, useCallback} from "react";
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import Tags from "react-native-tags";
-import { AppHeader } from "../../components/AppHeader";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 
 export const EditAnotation = ({route}) => {
@@ -60,7 +60,7 @@ export const EditAnotation = ({route}) => {
 
     return (
         <View style={styles.Container}>
-        <AppHeader/>
+        <AppHeader2/>
         <View>
             <Text style={{fontFamily: "Medium",
             fontSize: 18,

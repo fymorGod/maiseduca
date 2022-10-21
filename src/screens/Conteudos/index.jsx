@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { AppHeader } from "../../components/AppHeader";
+import { AppHeader2 } from "../../components/AppHeader2";
 import { AuthContext } from "../../context/AuthContext";
 
 export const Conteudos = ({route}) => {
@@ -25,7 +25,7 @@ export const Conteudos = ({route}) => {
 
     return (
         <View style={styles.Container}>
-        <AppHeader/>
+        <AppHeader2/>
         <View>                
             <Text style={styles.text}> {titulo} </Text>
         </View>

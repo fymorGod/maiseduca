@@ -9,10 +9,10 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import { AppHeader } from "../../components/AppHeader";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 
 export const Configuracao = () => {
@@ -33,7 +33,7 @@ export const Configuracao = () => {
 
   return (
     <View style={styles.Container}>
-      <AppHeader />
+      <AppHeader2 />
       {Platform.OS === "ios" ? (
         <ScrollView>
           <View>

@@ -75,7 +75,7 @@ export const Home = () => {
                         style={{fontFamily:"Medium", fontSize: 11, color: '#403B91'}}
                         >{item.title.length > limite ?
                         item.title.substring(0, limite) + '...' 
-                        : ""}</Text>
+                        : item.title}</Text>
                     </TouchableOpacity>
                 </View>
                 }
@@ -105,7 +105,7 @@ export const Home = () => {
                         style={{fontFamily:"Medium", fontSize: 11, color: '#403B91'}}
                         >{item.title.length > limite ?
                         item.title.substring(0, limite) + '...' 
-                        : ""}</Text>
+                        : item.title}</Text>
                     </TouchableOpacity>
                 </View>
                 }
