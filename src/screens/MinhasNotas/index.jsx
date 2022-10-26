@@ -2,10 +2,10 @@ import { VictoryBar, VictoryChart, VictoryTheme } from 'victory-native';
 import { ScrollView } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
+import { AppHeader2 } from '../../components/AppHeader2';
 
 
 
@@ -43,7 +43,7 @@ export const MinhasNotas = () => {
   // console.log(data);
   return (
     <View style={styles.container}>
-      <AppHeader />
+      <AppHeader2 />
       <ScrollView>
        <View style={{padding: 15}}>
         <View style={styles.header}>
