@@ -17,13 +17,12 @@ const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
     const [fav, setFav] = useState()
     const { userInfo } = useContext(AuthContext);
     let id = userInfo.user.id
-    console.log(fav)
 
     async function changeFavorito() {
         try {
             const response = await axios.post(`http://192.168.6.20:3010/favoritos/${id}`, {
             "id_aula": `${id_aula}`,
-            "index": position
+            "index": position,
             });
             console.log(response.mensage)
             if(response.status === 201){
@@ -44,7 +43,8 @@ const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
         <View style={{backgroundColor:'black', width:'100%', alignItems:'center', height:'32%', marginBottom:10}}>
         <View style={{padding:10, backgroundColor:'#fff', flexDirection:'row', width:"95%", borderRadius:30, margin:10, alignItems:'center', justifyContent:'space-between', height:40}}>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => navigation.navigate("Chat")}>
             <View style={{flexDirection:'row', alignItems:'center',                 justifyContent:'center', marginRight: 5, marginLeft:3}}>
                 <Icon
                 name='sticker-text-outline'

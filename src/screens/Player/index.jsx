@@ -31,7 +31,9 @@ export const Player = ({ route }) => {
   const [ atv, setAtv ] = useState([]);
   const [ favo, setFavo ] = useState(false);
   const [name,setName] = useState()
-
+  const [ progresso, setProgresso ] = useState(false);
+  const [status, setStatus] = useState({});
+  
 
 
   useEffect(() => {
@@ -45,6 +47,7 @@ export const Player = ({ route }) => {
       setName(response.data["conteudo"]["disciplina"].name)
     };
     getVideosContent();
+
   }, [favo]);
   
 
@@ -102,30 +105,30 @@ export const Player = ({ route }) => {
     );
   }
   
-  const postProgresso = async() =>{
-    try {
-      const res = await axios.post(`http://192.168.6.20:3010/progressos`, {
+  const postProgresso = async() => {
+   try {
+    const res = await axios.post(`http://192.168.6.20:3010/progressos`, {
         "id_aluno": `${userInfo.user.id}`,
         "id_aula": videos[position].id,
         "progress": status.positionMillis
       })
       if(res.status === 201){
-        console.log(res)
-        
+        console.log(res)        
       }
-    } catch (error) {
-      console.log(error)
-    }
+   } catch (error) {
+    console.log(error)
+   }
   }
 
-  const [status, setStatus] = useState({});
-  
-  console.log(status)
-  
+
+  if (status.isPlaying == false) {
+    postProgresso()
+  }
+
   
   return (
     <View>
-      <AppHeader2/>
+      <AppHeader2 setProgresso={setProgresso} progresso={progresso}/>
       <View style={styles.PlayerView}>
         <View
           style={{
@@ -143,11 +146,9 @@ export const Player = ({ route }) => {
             useNativeControls
             positionMillis={videos[position]?.progress}
             resizeMode="contain"/>
-            
-            {status.isPLaying == false ? postProgresso(): null}
 
 
-
+             
             <TabsFavoritos
             position={position}
             id_aula={videos[position]?.id} 
