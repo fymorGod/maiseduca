@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { Text, View, StyleSheet, Image, TouchableOpacity, } from "react-native";
-import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 
 export const Perfil = () => {
@@ -27,7 +27,7 @@ export const Perfil = () => {
 
   return (
     <View style={styles.Container}>
-      <AppHeader />
+      <AppHeader2 />
       <View style={[styles.bannerBox, styles.shadowProp]}>
         <View style={[styles.imgBox]}>
             <Image

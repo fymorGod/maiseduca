@@ -11,38 +11,52 @@ export const AppHeader2 = () => {
 
   return (
     <Surface style={styles.header}>
-      <View style={{}}>
-        <Icon3
-          name="arrowleft"
-          size={25}
-          color="#fff"
-          style={{ alignItems: "center" }}
-          onPress={() => navigation.goBack()}
-        />
-      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{ marginLeft: 15 }}>
+            <Icon3
+              name="arrowleft"
+              size={25}
+              color="#fff"
+              style={{ alignItems: "center" }}
+              onPress={() => navigation.goBack()}
+            />
+          </View>
 
-      <View style={styles.boxLogo}>
-        <Image
-          style={styles.logo}
-          resizeMode="contain"
-          source={require("../../../assets/logo.png")}
-        />
-      </View>
-      <View style={styles.icon}>
-        <View style={{ width: 50 }}>
-          <Icon2
-            name="notifications-none"
-            size={25}
-            color="#fff"
-            style={{ alignItems: "center", marginRight: 25 }}
-          />
+          <View style={{ marginLeft: 10 }}>
+            <Image
+              style={{ width: 120 }}
+              resizeMode="contain"
+              source={require("../../../assets/logo.png")}
+            />
+          </View>
         </View>
-        <Icon2
-          name="person"
-          size={25}
-          color="#fff"
-          onPress={() => navigation.navigate("Perfil")}
-        />
+
+        <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
+          <View style={{ marginHorizontal: 20 }}>
+            <Icon2
+              name="notifications-none"
+              size={25}
+              color="#fff"
+              style={{ alignItems: "center" }}
+            />
+          </View>
+
+          <View>
+            <Icon2
+              name="person"
+              size={25}
+              color="#fff"
+              onPress={() => navigation.navigate("Perfil")}
+            />
+          </View>
+        </View>
       </View>
     </Surface>
   );
@@ -52,23 +66,6 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 35,
     height: 90,
-    justifyContent: "space-around",
-    alignItems: "center",
-    flexDirection: "row",
     backgroundColor: "#4263EB",
-  },
-  view: {
-    flex: 1,
-  },
-  logo: {
-    width: 120,
-  },
-  boxLogo: {
-    marginLeft: 20,
-  },
-  icon: {
-    marginRight: 20,
-    justifyContent: "space-between",
-    flexDirection: "row",
   },
 });

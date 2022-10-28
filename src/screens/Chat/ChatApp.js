@@ -59,6 +59,7 @@ export default function ChatApp() {
     };
     onLogin();
   }, [])
+
   const findUser = async name => {
     const database = getDatabase();
 
