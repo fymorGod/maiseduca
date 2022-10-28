@@ -26,7 +26,7 @@ import { AtividadeInicio } from "../screens/AtividadeInicio";
 import { Atividade } from "../screens/Atividade";
 import { AnotationAula } from "../screens/AnotationAula";
 import { MinhasNotas } from "../screens/MinhasNotas";
-import { Chat } from "../screens/Chat";
+import { Chats } from "../screens/Chat";
 
 export function StackRoutes() {
   const { userInfo } = useContext(AuthContext);
@@ -128,9 +128,10 @@ export function StackRoutes() {
 
           <Stack.Screen
           name="Chat"
-          component={Chat}
+          component={Chats}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
+
 
         </Stack.Group>
       ) : (

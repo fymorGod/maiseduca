@@ -33,6 +33,8 @@ export const Player = ({ route }) => {
   const [name,setName] = useState()
   const [ progresso, setProgresso ] = useState(false);
   const [status, setStatus] = useState({});
+  const [idBimestre, setIdBimestre] = useState();
+  const [idProfessor, setIdProfessor] = useState('');
   
 
 
@@ -41,10 +43,14 @@ export const Player = ({ route }) => {
       const response = await axios.get(
         `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
       );
-      // console.log(response.data)
       setVideos(response.data.conteudo.Aula);
-      setAtv(response.data["conteudo"]["atividade"])
-      setName(response.data["conteudo"]["disciplina"].name)
+      setAtv(response.data["conteudo"]["atividade"]);
+      setName(response.data["conteudo"]["disciplina"].name);
+      setIdBimestre(response.data["conteudo"].id_bimestre);
+      setIdProfessor(response.data["conteudo"].created_by);
+
+
+
     };
     getVideosContent();
 
@@ -110,7 +116,8 @@ export const Player = ({ route }) => {
     const res = await axios.post(`http://192.168.6.20:3010/progressos`, {
         "id_aluno": `${userInfo.user.id}`,
         "id_aula": videos[position].id,
-        "progress": status.positionMillis
+        "progress": status.positionMillis,
+        "id_bimestre": idBimestre
       })
       if(res.status === 201){
         console.log(res)        
@@ -155,6 +162,7 @@ export const Player = ({ route }) => {
             favorite={videos[position]?.favorite}
             setFavo={setFavo}
             name={name}
+            id_professor={idProfessor}
             />  
         </View>
           <RenderTabs handleClick={handleClick} clicked={clicked}/>

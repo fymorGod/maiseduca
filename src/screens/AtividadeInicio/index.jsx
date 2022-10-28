@@ -20,12 +20,17 @@ export const AtividadeInicio = ({route}) => {
     return (
         <View style={styles.Container}>
            <View style={{flexDirection:'column', alignItems:"center", marginTop:50}}>
-            <Text style={{color: '#67D4D4',
+            <Text style={{color: '#EEBC4E',
+            textShadowOffset: { height: 1, width: 1 },
+            textShadowColor: '#EEBC4E',
+            textShadowRadius:3,
+            shadowOpacity:0.3,
             fontFamily: "Bold",
             fontSize: 28,
             textAlign:'center', paddingHorizontal:15}}>{title}</Text>
            </View>
           
+          <View style={{height:'60%'}}>
             <ImageSlider
             data={[
                 { img: require('../../../assets/intro.png',) },
@@ -33,18 +38,25 @@ export const AtividadeInicio = ({route}) => {
                 { img: require('../../../assets/introoo.png') },
                 { img: require('../../../assets/introooo.png') }
             ]}
-            headerStyle={{ padding: 10, backgroundColor: 'rgba(0,0,0, 0.6)', }}
             localImg
-            caroselImageStyle={{ resizeMode: 'stretch', height: 450, marginRight:70, width:350, marginLeft:5}}
+            caroselImageStyle={{ resizeMode: 'contain', height: '100%', justifyContent:'center', alignItems:'center', marginHorizontal:5}}
             autoPlay={true}
             timer={2500}
             preview={false}
             showIndicator={false}
             />        
+          </View>
            
            <View style={{width:'100%', alignItems:'center',  justifyContent:'flex-end',paddingHorizontal:20, marginBottom: 20}}>
            <TouchableOpacity
-           style={{ marginTop: 20, width: '100%',backgroundColor:'#fff', padding: 15, borderRadius: 50}}
+           style={{marginTop: 20, width: '100%',backgroundColor:'#fff', padding: 15, borderRadius: 50, shadowColor: "#fff",
+           shadowOffset: {
+             width: -40,
+             height: 50,
+           },
+           shadowOpacity: 0.2,
+           shadowRadius: 7,
+           elevation: 4, backfaceVisibility:'hidden'}}
            onPress={() => navigation.navigate("Atividade", {id: `${id}`})}
            >
            <Text style={{color: '#403B91',

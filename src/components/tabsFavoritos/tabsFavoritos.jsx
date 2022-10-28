@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
   } from "react-native";
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import  Icon2  from 'react-native-vector-icons/Ionicons';
@@ -11,8 +11,13 @@ import  Icon4  from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import { ChatFunction } from "../../function/chatFunction";
+import RBSheet from "react-native-raw-bottom-sheet";
+import { Chat } from "../../screens/Chat/Chat";
 
-const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
+
+const TabsFavoritos = ({position, setFavo, id_aula, favorite, name, idProfessor}) => {
+    const refRBSheet = useRef();
     const navigation = useNavigation();
     const [fav, setFav] = useState()
     const { userInfo } = useContext(AuthContext);

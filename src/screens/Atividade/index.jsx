@@ -92,7 +92,7 @@ export const Atividade = ({ route }) => {
           nota: pontos,
           id_aluno: `${userInfo.user.id}`,
           id_atividade: `${id}`,
-          timer: time
+          // time: time
         }
       );
       console.log(response.status);
@@ -107,10 +107,10 @@ export const Atividade = ({ route }) => {
   const validateAnswer = (selectedOption) => {
     let correct_option = allQuestions[currentQuestionIndex]["correct_option"];
     setCurrentOptionSelected(selectedOption);
-    setCorrectOption(correct_option);
     setIsOptionsDisabled(true);
     if (selectedOption == correct_option) {
       // Set Score
+      setCorrectOption(correct_option);
       setScore(score + 1);
       setPontos(pontos + allQuestions[currentQuestionIndex]["grade"]);
     }
@@ -219,47 +219,6 @@ export const Atividade = ({ route }) => {
             <Text style={{ fontSize: 16, color: "#FFF", fontWeight: "bold" }}>
               {option}
             </Text>
-
-            {/* Show Check Or Cross Icon based on correct answer*/}
-            {option == correctOption ? (
-              <View
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 30 / 2,
-                  backgroundColor: "#00C851",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="check"
-                  style={{
-                    color: "#FFFFFF",
-                    fontSize: 20,
-                  }}
-                />
-              </View>
-            ) : option == currentOptionSelected ? (
-              <View
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 30 / 2,
-                  backgroundColor: "#ff4444",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="close"
-                  style={{
-                    color: "#FFFFFF",
-                    fontSize: 20,
-                  }}
-                />
-              </View>
-            ) : null}
           </TouchableOpacity>
         ))}
       </View>

@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Image,TouchableOpacity, Dimensions } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useFonts } from "expo-font";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height; 
@@ -79,7 +79,7 @@ export const Classificacao = () => {
   
   return (
     <View style={styles.Container}>
-      <AppHeader />
+      <AppHeader2 />
       <View>
         <Text
           style={{
