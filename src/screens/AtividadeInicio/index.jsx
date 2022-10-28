@@ -31,10 +31,6 @@ export const AtividadeInicio = ({ route }) => {
         <Text
           style={{
             color: "#EEBC4E",
-            textShadowOffset: { height: 1, width: 1 },
-            textShadowColor: "#EEBC4E",
-            textShadowRadius: 3,
-            shadowOpacity: 0.3,
             fontFamily: "Bold",
             fontSize: 28,
             textAlign: "center",
@@ -80,18 +76,18 @@ export const AtividadeInicio = ({ route }) => {
         <TouchableOpacity
           style={{
             marginTop: 20,
+            marginBottom:20,
             width: "100%",
             backgroundColor: "#fff",
             padding: 15,
             borderRadius: 50,
             shadowColor: "#fff",
             shadowOffset: {
-              width: -40,
-              height: 50,
+              height: 3,
             },
-            shadowOpacity: 0.2,
-            shadowRadius: 7,
-            elevation: 4,
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            elevation: 2,
             backfaceVisibility: "hidden",
           }}
           onPress={() => navigation.navigate("Atividade", { id: `${id}` })}
