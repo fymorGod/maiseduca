@@ -13,15 +13,30 @@ import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { ImageSlider } from "react-native-image-slider-banner";
 
+
 export const AtividadeInicio = ({ route }) => {
   let id = route.params.id;
   let title = route.params.title;
   const navigation = useNavigation();
 
   let [fontsLoaded] = useFonts({
-    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
     Bold: require("../../../assets/fonts/Poppins-Bold.ttf"),
   });
+  if (! fontsLoaded ){
+    return null;
+  }
+
+  const hadleNotification = () =>{
+    Notification.scheduleNotificationAsync({
+      content:{
+        title:"Parabéns",
+        body:"Voce finalizou uma atividade"
+      },
+      trigger:{
+        seconds:2
+      }
+    })
+  }
 
   return (
     <View style={styles.Container}>

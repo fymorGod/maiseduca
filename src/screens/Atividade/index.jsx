@@ -15,6 +15,7 @@ import {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import * as Notification from 'expo-notifications';
 
 
 
@@ -22,14 +23,11 @@ export const Atividade = ({ route }) => {
   const navigation = useNavigation();
   let id = route.params.id;
   const { userInfo } = useContext(AuthContext);
-  const [numero, setNumero] = useState(0);
-  const [botao, setBotao] = useState("VAI");
-  const [ultimo, setUltimo] = useState(null);
-
-
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(0);
+
+
 
   useEffect(() => {
     let interval = null;
@@ -54,9 +52,6 @@ export const Atividade = ({ route }) => {
   const handlePauseResume = () => {
     setIsPaused(!isPaused);
   };
-  
-
-
 
   Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)];

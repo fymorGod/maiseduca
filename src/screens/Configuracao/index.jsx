@@ -15,10 +15,14 @@ import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
 
 
+
 export const Configuracao = () => {
   let [fontsLoaded] = useFonts({
     'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
   })
+
+
+
 
   const {logout} = useContext(AuthContext);
   const navigation = useNavigation();
