@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { AppHeader } from "../../components/AppHeader";
+import { AppHeader2 } from "../../components/AppHeader2";
 import { AuthContext } from "../../context/AuthContext";
 
 export const Conteudos = ({route}) => {
@@ -13,7 +13,7 @@ export const Conteudos = ({route}) => {
     let id = route.params.id;
 
      useEffect(() => {
-         axios.get(`https://mais-edu.herokuapp.com/conteudosAluno/${userInfo.user.id}/${id}`)
+         axios.get(`http://192.168.6.20:3010/conteudosAluno/${userInfo.user.id}/${id}`)
          .then(res=>{
              // s
              setConteudos(res.data['conteudo'].conteudo);
@@ -25,21 +25,21 @@ export const Conteudos = ({route}) => {
 
     return (
         <View style={styles.Container}>
-        <AppHeader/>
+        <AppHeader2/>
         <View>                
             <Text style={styles.text}> {titulo} </Text>
         </View>
 
         <ScrollView>
         {conteudos.map((cont)=>(
-            <View style={{padding:10}} key={cont.id}>
+            <TouchableOpacity key={cont.id} onPress={() => navigation.navigate('Player', {id: `${cont.id}`})}>
+                <View style={{padding:10}} key={cont.id}>
                  <View style={styles.container2}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Player', {id: `${cont.id}`})}>
                         <Text style={styles.text1}> {cont.name}</Text>
-                    </TouchableOpacity>
+                    </View>
+                        
                 </View>
-            
-            </View>
+            </TouchableOpacity>
  
             ))}
         </ScrollView>

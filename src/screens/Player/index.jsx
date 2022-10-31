@@ -6,8 +6,8 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  Button,
 } from "react-native";
-import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Video } from "expo-av";
@@ -15,10 +15,12 @@ import { useNavigation } from "@react-navigation/native";
 import { TabsFavoritos } from "../../components/tabsFavoritos/tabsFavoritos";
 import { RenderListVideos } from "../../components/RenderListVideos";
 import { RenderTabs } from "../../components/RenderTabs";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 
 export const Player = ({ route }) => {
   let id = route.params.id;
+  const posicaoFav = route.params.position;
   const navigation = useNavigation();
   const v = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
@@ -28,22 +30,33 @@ export const Player = ({ route }) => {
   const { width, height } = Dimensions.get("screen");
   const [ atv, setAtv ] = useState([]);
   const [ favo, setFavo ] = useState(false);
-
   const [name,setName] = useState()
+  const [ progresso, setProgresso ] = useState(false);
+  const [status, setStatus] = useState({});
+  const [idBimestre, setIdBimestre] = useState();
+  const [idProfessor, setIdProfessor] = useState('');
+  
+
 
   useEffect(() => {
     const getVideosContent = async () => {
       const response = await axios.get(
-        `https://mais-edu.herokuapp.com/conteudos/${id}/${userInfo.user.id}`
+        `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
       );
       setVideos(response.data.conteudo.Aula);
-      setAtv(response.data["conteudo"]["atividade"])
-      setName(response.data["conteudo"]["disciplina"].name)
+      setAtv(response.data["conteudo"]["atividade"]);
+      setName(response.data["conteudo"]["disciplina"].name);
+      setIdBimestre(response.data["conteudo"].id_bimestre);
+      setIdProfessor(response.data["conteudo"].created_by);
+
+
+
     };
     getVideosContent();
+
   }, [favo]);
   
-  // console.log(videos[position]?.favorite)
+
   const handleClick = (id) => {
     setClicked(id)
   }
@@ -53,18 +66,32 @@ export const Player = ({ route }) => {
       <View >
         {
           atv.map((atvs)=>(
-            <View style={{flexDirection: "column", marginTop: 10}} key={atvs.id}>
+            <View style={{marginLeft: 20,
+              marginRight:20,
+              justifyContent: "flex-start",
+              backgroundColor: "#EDF2FF",
+              marginTop: 10,
+              flexWrap: "wrap",}} key={atvs.id}>
             <TouchableOpacity
               onPress={
-                () => navigation.navigate('AtividadeInicio', {id: `${atvs.id}`})
+                () => navigation.navigate('AtividadeInicio', {id: `${atvs.id}`, title: `${atvs.title}`})
               }>
-              <View style={{flexDirection: "row", width:"100%", padding:10, justifyContent:'space-evenly', alignItems:'center'}}>
+              <View style={{width: "100%",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"}}>
               <Image
-              style={{height: 40, width: 60}}
+              style={{height: 45, width: 80}}
               resizeMode="contain" 
-              source={require("../../../assets/atividade.png")} 
+              source={require("../../../assets/ATIVIDADE.png")} 
               />
-              <Text style={{fontSize:14, color:'#868E96' }}>{atvs.title}</Text>
+              <View style={{width: "80%",paddingRight: 5, alignItems: 'flex-start', alignSelf:'flex-start', paddingTop:7}}>
+                <Text style={{fontSize:14,
+                  color:'#868E96',
+                  fontSize: 14,
+                  textAlign: 'justify',
+                  marginLeft:20}}>{atvs.title}</Text>
+              </View>
               </View>
             </TouchableOpacity>
             </View>
@@ -84,11 +111,31 @@ export const Player = ({ route }) => {
     );
   }
   
+  const postProgresso = async() => {
+   try {
+    const res = await axios.post(`http://192.168.6.20:3010/progressos`, {
+        "id_aluno": `${userInfo.user.id}`,
+        "id_aula": videos[position].id,
+        "progress": status.positionMillis,
+        "id_bimestre": idBimestre
+      })
+      if(res.status === 201){
+        console.log(res)        
+      }
+   } catch (error) {
+    console.log(error)
+   }
+  }
 
 
+  if (status.isPlaying == false) {
+    postProgresso()
+  }
+
+  
   return (
     <View>
-      <AppHeader />
+      <AppHeader2 setProgresso={setProgresso} progresso={progresso}/>
       <View style={styles.PlayerView}>
         <View
           style={{
@@ -100,16 +147,22 @@ export const Player = ({ route }) => {
             <Video
             style={styles.video} 
             ref={v}
-            source={{ uri: videos[position]?.file }}
+            source={{ uri: posicaoFav != null ? videos[posicaoFav]?.file :videos[position]?.file }}
+            shouldPlay={true}
+            onPlaybackStatusUpdate={status => setStatus(() => status)}
             useNativeControls
-            resizeMode="contain" /> 
+            positionMillis={videos[position]?.progress}
+            resizeMode="contain"/>
 
+
+             
             <TabsFavoritos
             position={position}
             id_aula={videos[position]?.id} 
             favorite={videos[position]?.favorite}
             setFavo={setFavo}
             name={name}
+            id_professor={idProfessor}
             />  
         </View>
           <RenderTabs handleClick={handleClick} clicked={clicked}/>
@@ -127,23 +180,9 @@ export const Player = ({ route }) => {
 
 export const styles = StyleSheet.create({
   PlayerView: {
+    height: '100%',
     alignItems: "center",
-  },
-  buttonTabsActive: {
-    flexDirection:'row',
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#4162EB'
-  }, 
-  buttonTabs: {
-    flexDirection:'row',
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#2F598431'
+    backgroundColor: "#EDF2FF"
   },
   infoDetailsVideo: {
     marginLeft:20,

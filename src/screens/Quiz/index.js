@@ -8,7 +8,7 @@ const Quiz = () => {
     
     useEffect(() => {
         const getAtv = async () => {
-            const response = await axios.get(`https://mais-edu.herokuapp.com/atividadeQuestoes/d33337fe-35ba-4c83-9086-0baac2272cff`)
+            const response = await axios.get(`http://192.168.6.20:3010/atividadeQuestoes/d33337fe-35ba-4c83-9086-0baac2272cff`)
             setAtv(response.data["questoes"]);
         }
        getAtv();

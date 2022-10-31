@@ -13,37 +13,47 @@ import { AuthContext } from "../../context/AuthContext";
 import Icon from "react-native-vector-icons/AntDesign";
 import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
-import { useFonts } from "expo-font";
 import  Icon2  from 'react-native-vector-icons/Octicons';
+import { useFonts } from "expo-font";
+import ToastManager, { Toast } from 'toastify-react-native'
 
 export const Anotation = () => {
-  const [fontsLoaded] = useFonts({
-    Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
   })
 
   const { userInfo } = useContext(AuthContext);
   const navigation = useNavigation();
   const [note, setNote] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [refreshing, setRefreshing] = useState(false)
+  var listaNotes = [];
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    getAnotacoes()
+  }, []);
+
+  const showToasts = () => {
+    Toast.success('Anotação deletada')
+}
 
   const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
+  return new Promise(resolve => setTimeout(resolve, timeout));
   }
 
-
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(()=>{
     setRefreshing(true);
-    wait(5000).then(() =>
+    wait(2000).then(()=>
     getAnotacoes(),
     setRefreshing(false)
-    );
+    )
   }, []);
 
   const getAnotacoes = async() => {
     try {
-      const res = await axios.get(`https://mais-edu.herokuapp.com/anotacoesByAluno/${userInfo.user.id}`)
+      const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
       setNote(res.data["anotacoes"]);
+      listaNotes.push(res.data["anotacoes"])
       console.log(res.data["anotacoes"]);
     } catch (error) {
       console.log(error)
@@ -52,10 +62,10 @@ export const Anotation = () => {
 
   const delAnotacoes = async(id) => {
     try {
-      const res = await axios.delete(`https://mais-edu.herokuapp.com/anotacoes/${id}`)
+      const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)
       if(res.status === 204){
-        onRefresh()
-        console.log('deu certo')
+        showToasts();
+        onRefresh();
       }
     } catch (error) {
       console.log(error)
@@ -63,17 +73,14 @@ export const Anotation = () => {
   }
 
 
-  useEffect(() => {
-      getAnotacoes();
-  }, []);
-
   return (
     <View style={styles.Container}>
       <AppHeader />
+      <ToastManager />
       <View>
         <Text
           style={{
-            fontFamily: "Medium",
+            fontFamily:"Medium",
             fontSize: 18,
             color: "#403B91",
             paddingTop: 20,
@@ -92,7 +99,7 @@ export const Anotation = () => {
       }
       >
         <View style={{ paddingHorizontal: 25, paddingVertical:10 }}>
-          {note.map((notes) => (
+          {note?.map((notes, index) => (
             <TouchableOpacity
               key={notes.id}
               onPress={() =>
@@ -103,7 +110,8 @@ export const Anotation = () => {
                 <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
                 <Text style={styles.text}>{notes.descricao}</Text>
                 <TouchableOpacity
-                onPress={() => delAnotacoes(notes.id)}
+                onPress={() => delAnotacoes(notes.id)
+}
                 >
                   <Icon2
                   name='trash'
@@ -139,7 +147,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     paddingHorizontal: 10,
-    height: 200,
+    height: 160,
     backgroundColor: "white",
     marginBottom: 15,
     borderRadius: 10,

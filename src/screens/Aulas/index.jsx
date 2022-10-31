@@ -7,8 +7,9 @@ import { MateriaItem } from "../../components/materias";
 import { AuthContext } from "../../context/AuthContext";
 
 export const Aulas = () => {
-    const [fontsLoaded] = useFonts({
-        Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+
+    let [fontsLoaded] = useFonts({
+        'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
     })
 
     const { userInfo } = useContext(AuthContext);
@@ -17,7 +18,7 @@ export const Aulas = () => {
 
     
     useEffect(() => {
-        axios.get(`https://mais-edu.herokuapp.com/disciplinasAluno/${userInfo.user.id}`)
+        axios.get(`http://192.168.6.20:3010/disciplinasAluno/${userInfo.user.id}`)
         .then(res=>{
             // s
             setMaterias(res.data['disciplinas']);

@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Image, Text, Platform, StyleSheet } from "react-native";
+import { Image, Text, Platform, StyleSheet, Button } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -26,6 +26,7 @@ import { AtividadeInicio } from "../screens/AtividadeInicio";
 import { Atividade } from "../screens/Atividade";
 import { AnotationAula } from "../screens/AnotationAula";
 import { MinhasNotas } from "../screens/MinhasNotas";
+import { Chats } from "../screens/Chat";
 
 export function StackRoutes() {
   const { userInfo } = useContext(AuthContext);
@@ -62,7 +63,7 @@ export function StackRoutes() {
           <Stack.Screen
           name="EditAnotation"
           component={EditAnotation}
-          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          options={{ headerTransparent: true, headerShown: false, title: "",}}
           />
 
           <Stack.Screen
@@ -124,6 +125,13 @@ export function StackRoutes() {
           component={AnotationAula}
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
+
+          <Stack.Screen
+          name="Chat"
+          component={Chats}
+          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          />
+
 
         </Stack.Group>
       ) : (

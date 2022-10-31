@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
   } from "react-native";
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import  Icon2  from 'react-native-vector-icons/Ionicons';
@@ -11,19 +11,23 @@ import  Icon4  from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import { ChatFunction } from "../../function/chatFunction";
+import RBSheet from "react-native-raw-bottom-sheet";
+import { Chat } from "../../screens/Chat/Chat";
 
-const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
+
+const TabsFavoritos = ({position, setFavo, id_aula, favorite, name, idProfessor}) => {
+    const refRBSheet = useRef();
     const navigation = useNavigation();
     const [fav, setFav] = useState()
     const { userInfo } = useContext(AuthContext);
     let id = userInfo.user.id
-    console.log(fav)
 
     async function changeFavorito() {
         try {
             const response = await axios.post(`http://192.168.6.20:3010/favoritos/${id}`, {
             "id_aula": `${id_aula}`,
-            "index": position
+            "index": position,
             });
             console.log(response.mensage)
             if(response.status === 201){
@@ -40,12 +44,12 @@ const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
         
     }
 
-
     return (
-        <View style={{backgroundColor:'#333', width:'100%', alignItems:'center', height:'32%', marginBottom:10}}>
+        <View style={{backgroundColor:'black', width:'100%', alignItems:'center', height:'32%', marginBottom:10}}>
         <View style={{padding:10, backgroundColor:'#fff', flexDirection:'row', width:"95%", borderRadius:30, margin:10, alignItems:'center', justifyContent:'space-between', height:40}}>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => navigation.navigate("Chat")}>
             <View style={{flexDirection:'row', alignItems:'center',                 justifyContent:'center', marginRight: 5, marginLeft:3}}>
                 <Icon
                 name='sticker-text-outline'
@@ -71,7 +75,7 @@ const TabsFavoritos = ({position, setFavo, id_aula, favorite, name}) => {
        </TouchableOpacity>
 
        {
-        favorite === true ? 
+        favorite == true ? 
         <TouchableOpacity
         onPress={()=> changeFavorito()}>
         <View style={{flexDirection:'row', alignItems:'center', marginRight:5}}>

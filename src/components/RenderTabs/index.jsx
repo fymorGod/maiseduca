@@ -22,8 +22,8 @@ export function RenderTabs ({handleClick, clicked}) {
             justifyContent: 'space-around',
             paddingVertical: 15,
             paddingHorizontal: 10,
-            backgroundColor: '#2F598431',
-            marginTop:60
+            marginTop:60,
+            marginTop:70
           }}>
             {
               detailsTabs.map((item, index) => {

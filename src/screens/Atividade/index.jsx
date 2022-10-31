@@ -1,328 +1,389 @@
-import React, {useEffect, useContext, useState} from "react";
-import axios from 'axios';
-import { Text, View, StyleSheet, Image, TouchableOpacity, Modal, Animated, ScrollView, StatusBar, SafeAreaView } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { AppHeader } from "../../components/AppHeader";
+import React, { useEffect, useContext, useState } from "react";
+import axios from "axios";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Modal,
+  Animated,
+  ScrollView,
+  StatusBar,
+  SafeAreaView,
+} from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 
 
 
-export const Atividade = ({route}) => {
-    const navigation = useNavigation();
-    let id = route.params.id;
-    const { userInfo } = useContext(AuthContext);
+export const Atividade = ({ route }) => {
+  const navigation = useNavigation();
+  let id = route.params.id;
+  const { userInfo } = useContext(AuthContext);
+  const [numero, setNumero] = useState(0);
+  const [botao, setBotao] = useState("VAI");
+  const [ultimo, setUltimo] = useState(null);
 
-    Array.prototype.random = function () {
-        return this[Math.floor((Math.random()*this.length))];
+
+  const [isActive, setIsActive] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    let interval = null;
+  
+    if (isActive && isPaused === false) {
+      interval = setInterval(() => {
+        setTime((time) => time + 10);
+      }, 10);
+    } else {
+      clearInterval(interval);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isActive, isPaused]);
+
+  const handleStart = () => {
+    setIsActive(true);
+    setIsPaused(false);
+  };
+  
+  const handlePauseResume = () => {
+    setIsPaused(!isPaused);
+  };
+  
+
+
+
+  Array.prototype.random = function () {
+    return this[Math.floor(Math.random() * this.length)];
+  };
+
+  useEffect(() => {
+    const getAtv = async () => {
+      const response = await axios.get(
+        `http://192.168.6.20:3010/atividadeQuestoes/${id}`
+      );
+      setAtv(response.data["questoes"]);
+      handleStart()
+    };
+    getAtv();
+  }, []);
+
+  const [atv, setAtv] = useState([]);
+  const allQuestions = atv;
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentOptionSelected, setCurrentOptionSelected] = useState(null);
+  const [correctOption, setCorrectOption] = useState(null);
+  const [isOptionsDisabled, setIsOptionsDisabled] = useState(false);
+  const [score, setScore] = useState(0);
+  const [pontos, setPontos] = useState(0);
+  const [showNextButton, setShowNextButton] = useState(false);
+  const [showScoreModal, setShowScoreModal] = useState(false);
+
+  const enviarNota = async () => {
+    try {
+      const response = await axios.post(
+        `http://192.168.6.20:3010/aluno_responde_atividade`,
+        {
+          nota: pontos,
+          id_aluno: `${userInfo.user.id}`,
+          id_atividade: `${id}`,
+          // time: time
+        }
+      );
+      console.log(response.status);
+      if (response.status == 201) {
+        navigation.popToTop();
       }
-
-
-
-    useEffect(() => {
-        const getAtv = async () => {
-            const response = await axios.get(`https://mais-edu.herokuapp.com/atividadeQuestoes/${id}`)
-           
-            setAtv(response.data["questoes"]);
-            
-        }
-       getAtv();
-      }, []);
-
-      const [atv, setAtv] = useState([])
-      const allQuestions = atv;
-      const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-      const [currentOptionSelected, setCurrentOptionSelected] = useState(null);
-      const [correctOption, setCorrectOption] = useState(null);
-      const [isOptionsDisabled, setIsOptionsDisabled] = useState(false);
-      const [score, setScore] = useState(0)
-      const [ pontos, setPontos ] = useState(0)
-      const [showNextButton, setShowNextButton] = useState(false)
-      const [showScoreModal, setShowScoreModal] = useState(false)
-      
-      const enviarNota = async() =>{
-        try {
-            const response = await axios.post(`http://192.168.6.20:3010/aluno_responde_atividade`, {
-                'nota' : pontos,
-                'id_aluno': `${userInfo.user.id}`,
-                'id_atividade': `${id}`,
-            })
-            console.log(response.status)
-            if(response.status == 201){
-                navigation.navigate('home')
-            }
-        } catch (error) {
-            console.log(error)
-        }
-      }
-
-      const validateAnswer = (selectedOption) => {
-        let correct_option = allQuestions[currentQuestionIndex]['correct_option'];
-        setCurrentOptionSelected(selectedOption);
-        setCorrectOption(correct_option);
-        setIsOptionsDisabled(true);
-        if(selectedOption==correct_option){
-            // Set Score
-            setScore(score+1)
-            setPontos(pontos + allQuestions[currentQuestionIndex]["grade"])
-           
-        }
-        // Show Next Button
-        setShowNextButton(true)
+    } catch (error) {
+      console.log(error);
     }
-    
-    const handleNext = () => {
-        if(currentQuestionIndex== allQuestions.length-1){
-            // Last Question
-            // Show Score Modal
-            setShowScoreModal(true)
-        }else{
-            setCurrentQuestionIndex(currentQuestionIndex+1);
-            setCurrentOptionSelected(null);
-            setCorrectOption(null);
-            setIsOptionsDisabled(false);
-            setShowNextButton(false);
-        }
-        Animated.timing(progress, {
-            toValue: currentQuestionIndex+1,
-            duration: 1000,
-            useNativeDriver: false
-        }).start();
+  };
+
+  const validateAnswer = (selectedOption) => {
+    let correct_option = allQuestions[currentQuestionIndex]["correct_option"];
+    setCurrentOptionSelected(selectedOption);
+    setIsOptionsDisabled(true);
+    if (selectedOption == correct_option) {
+      // Set Score
+      setCorrectOption(correct_option);
+      setScore(score + 1);
+      setPontos(pontos + allQuestions[currentQuestionIndex]["grade"]);
     }
-    
-    // const restartQuiz = () => {
-    //     setShowScoreModal(false);
+    // Show Next Button
+    setShowNextButton(true);
+  };
 
-    //     setCurrentQuestionIndex(0);
-    //     setScore(0);
-
-    //     setCurrentOptionSelected(null);
-    //     setCorrectOption(null);
-    //     setIsOptionsDisabled(false);
-    //     setShowNextButton(false);
-    //     Animated.timing(progress, {
-    //         toValue: 0,
-    //         duration: 1000,
-    //         useNativeDriver: false
-    //     }).start();
-    // }
-
-
-
-    const renderQuestion = () => {
-        return (
-            <View style={{
-                marginVertical: 40
-            }}>
-                {/* Question Counter */}
-                <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'flex-end'
-                }}>
-                    <Text style={{color:"#FFFFFF", fontSize: 20, opacity: 0.6, marginRight: 2}}>{currentQuestionIndex+1}</Text>
-                    <Text style={{color:"#FFFFFF", fontSize: 18, opacity: 0.6}}>/ {allQuestions.length}</Text>
-                </View>
-
-                {/* Question */}
-                <Text style={{
-                    color:"#FFFFFF",
-                    fontSize: 20
-                }}>{allQuestions[currentQuestionIndex]?.title}</Text>
-            </View>
-        )
+  const handleNext = () => {
+    if (currentQuestionIndex == allQuestions.length - 1) {
+      // Last Question
+      // Show Score Modal
+      setShowScoreModal(true);
+      handlePauseResume()
+    } else {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setCurrentOptionSelected(null);
+      setCorrectOption(null);
+      setIsOptionsDisabled(false);
+      setShowNextButton(false);
     }
+    Animated.timing(progress, {
+      toValue: currentQuestionIndex + 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  };
 
 
-     var alternativas = allQuestions[currentQuestionIndex]?.opcoes.sort((a, b) => a > b? 1 :-1);
-    console.log(alternativas)
+  const renderQuestion = () => {
+    return (
+      <View
+        style={{
+          marginVertical: 40,
+        }}
+      >
+        {/* Question Counter */}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "flex-end",
+          }}
+        >
+          <Text
+            style={{
+              color: "#FFFFFF",
+              fontSize: 20,
+              opacity: 0.6,
+              marginRight: 2,
+            }}
+          >
+            {currentQuestionIndex + 1}
+          </Text>
+          <Text style={{ color: "#FFFFFF", fontSize: 18, opacity: 0.6 }}>
+            / {allQuestions.length}
+          </Text>
+        </View>
 
-    const renderOptions = () => {
-        return (
-            <View>
-                {
-                    allQuestions[currentQuestionIndex]?.opcoes.map(option => (
-                        <TouchableOpacity 
-                        onPress={()=> validateAnswer(option)}
-                        disabled={isOptionsDisabled}
-                        key={option}
-                        style={{
-                            borderWidth: 3, 
-                            borderColor: option==correctOption 
-                            ? '#00C851'
-                            : option==currentOptionSelected 
-                            ? '#ff4444' 
-                            : '#1E90FF'+'40',
-                            backgroundColor: option==correctOption 
-                            ? '#00C851' +'20'
-                            : option==currentOptionSelected 
-                            ? '#ff4444' +'20'
-                            : '#1E90FF'+'20',
-                            height: 100, borderRadius: 20,
-                            flexDirection: 'row',
-                            alignItems: 'center', justifyContent: 'space-between',
-                            paddingHorizontal: 20,
-                            marginVertical: 10
-                        }}
-                        >
-                            <Text style={{fontSize: 16, color:"#FFFFFF"}}>{option}</Text>
+        {/* Question */}
+        <Text
+          style={{
+            color: "#FFFFFF",
+            fontSize: 20,
+          }}
+        >
+          {allQuestions[currentQuestionIndex]?.title}
+        </Text>
+      </View>
+    );
+  };
 
-                            {/* Show Check Or Cross Icon based on correct answer*/}
-                            {
-                                option==correctOption ? (
-                                    <View style={{
-                                        width: 30, height: 30, borderRadius: 30/2,
-                                        backgroundColor:'#00C851',
-                                        justifyContent: 'center', alignItems: 'center'
-                                    }}>
-                                        <MaterialCommunityIcons name="check" style={{
-                                            color:"#FFFFFF",
-                                            fontSize: 20
-                                        }} />
-                                    </View>
-                                ): option == currentOptionSelected ? (
-                                    <View style={{
-                                        width: 30, height: 30, borderRadius: 30/2,
-                                        backgroundColor:'#ff4444',
-                                        justifyContent: 'center', alignItems: 'center'
-                                    }}>
-                                        <MaterialCommunityIcons name="close" style={{
-                                            color:"#FFFFFF",
-                                            fontSize: 20
-                                        }} />
-                                    </View>
-                                ) : null
-                            }
+  var alternativas = allQuestions[currentQuestionIndex]?.opcoes.sort((a, b) =>
+    a > b ? 1 : -1
+  );
 
-                        </TouchableOpacity>
-                    ))
-                }
-            </View>
-        )
+  const renderOptions = () => {
+    return (
+      <View>
+        {allQuestions[currentQuestionIndex]?.opcoes.map((option) => (
+          <TouchableOpacity
+            onPress={() => validateAnswer(option)}
+            disabled={isOptionsDisabled}
+            key={option}
+            style={{
+              borderWidth: 3,
+              borderColor:
+                option == correctOption
+                  ? "#00C851"
+                  : option == currentOptionSelected
+                  ? "red"
+                  : "#92A7FD",
+              backgroundColor:
+                option == correctOption
+                  ? "#00C851" + "20"
+                  : option == currentOptionSelected
+                  ? "#92A7FD"
+                  : "#92A7FD",
+              height: 100,
+              borderRadius: 20,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingHorizontal: 20,
+              marginVertical: 5,
+            }}
+          >
+            <Text style={{ fontSize: 16, color: "#FFF", fontWeight: "bold" }}>
+              {option}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };
+
+  const renderNextButton = () => {
+    if (showNextButton) {
+      return (
+        <TouchableOpacity
+          onPress={handleNext}
+          style={{
+            marginTop: 20,
+            width: "100%",
+            backgroundColor: "#403B91",
+            padding: 15,
+            borderRadius: 50,
+          }}
+        >
+          <Text style={{ fontSize: 20, color: "#FFFFFF", textAlign: "center" }}>
+            Próxima Questão
+          </Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return null;
     }
+  };
 
-    const renderNextButton = () => {
-        if(showNextButton){
-            return (
-                <TouchableOpacity
-                onPress={handleNext}
-                style={{
-                    marginTop: 20, width: '100%', backgroundColor:'#3498db', padding: 20, borderRadius: 5
-                }}>
-                    <Text style={{fontSize: 20, color:"#FFFFFF", textAlign: 'center'}}>Next</Text>
-                </TouchableOpacity>
-            )
-        }else{
-            return null
-        }
-    }
+  const [progress, setProgress] = useState(new Animated.Value(0));
+  const progressAnim = progress.interpolate({
+    inputRange: [0, allQuestions.length],
+    outputRange: ["0%", "100%"],
+  });
 
-
-    const [progress, setProgress] = useState(new Animated.Value(0));
-    const progressAnim = progress.interpolate({
-        inputRange: [0, allQuestions.length],
-        outputRange: ['0%','100%']
-    })
-
-    const renderProgressBar = () => {
-        return (
-            <View style={{
-                width: '100%',
-                height: 20,
-                borderRadius: 20,
-                backgroundColor: '#00000020',
-
-            }}>
-                <Animated.View style={[{
-                    height: 20,
-                    borderRadius: 20,
-                    backgroundColor:'#3498db'
-                },{
-                    width: progressAnim
-                }]}>
-
-                </Animated.View>
-
-            </View>
-        )
-    }
+  const renderProgressBar = () => {
+    return (
+      <View
+        style={{
+          width: "100%",
+          height: 20,
+          borderRadius: 20,
+          backgroundColor: "#00000020",
+        }}
+      >
+        <Animated.View
+          style={[
+            {
+              height: 20,
+              borderRadius: 20,
+              backgroundColor: "#00B7B7",
+            },
+            {
+              width: progressAnim,
+            },
+          ]}
+        ></Animated.View>
+      </View>
+    );
+  };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-        <StatusBar barStyle="light-content" backgroundColor="#252c4a"/>
-        <View style={{flex:1, paddingVertical:40, paddingHorizontal:16, backgroundColor:"#252C4A", position:'relative'}}>
-        
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#4263EB" }}>
+      <View
+        style={{
+          flex: 1,
+          paddingTop: 40,
+          paddingBottom: 5,
+          paddingHorizontal: 16,
+          backgroundColor: "#4263EB",
+          position: "relative",
+        }}
+      >
         {/* ProgressBar */}
-        { renderProgressBar() }
+        {renderProgressBar()}
 
         <ScrollView>
-        
-        {/* Question */}
-        {renderQuestion()}
+          {/* Question */}
+          {renderQuestion()}
 
-        {/* Options */}
-        {renderOptions()}
+          {/* Options */}
+          {renderOptions()}
 
-        {/* Next Button */}
-        {renderNextButton()}
-
-        
+          {/* Next Button */}
+          {renderNextButton()}
         </ScrollView>
-       
+
         {/* Score Modal */}
         <Modal
-               animationType="slide"
-               transparent={true}
-               visible={showScoreModal}
-               >
-                   <View style={{
-                       flex: 1,
-                       backgroundColor: "#252c4a",
-                       alignItems: 'center',
-                       justifyContent: 'center'
-                   }}>
-                       <View style={{
-                           backgroundColor: "#fff",
-                           width: '90%',
-                           borderRadius: 20,
-                           padding: 20,
-                           alignItems: 'center'
-                       }}>
-                           <Text style={{fontSize: 30, fontWeight: 'bold'}}>{ score> (allQuestions.length/2) ? 'Parabéns!' : 'Oops!' }</Text>
+          animationType="slide"
+          transparent={true}
+          visible={showScoreModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#252c4a",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#fff",
+                width: "90%",
+                borderRadius: 20,
+                padding: 20,
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontSize: 30, fontWeight: "bold" }}>
+                {score > allQuestions.length / 2 ? "Parabéns!" : "Quase lá!"}
+              </Text>
 
-                           <View style={{
-                               flexDirection: 'row',
-                               justifyContent: 'flex-start',
-                               alignItems: 'center',
-                               marginVertical: 20
-                           }}>
-                               <Text style={{
-                                   fontSize: 30,
-                                   color: score> (allQuestions.length/2) ? '#00C851' : '#ff4444'
-                               }}>{score}</Text>
-                                <Text style={{
-                                    fontSize: 20, color: "#171717"
-                                }}>/ { allQuestions.length }</Text>
-                           </View>
-                           
-                           {/* Retry Quiz button */}
-                           <TouchableOpacity
-                           onPress={() => 
-                             enviarNota()}
-                           style={{
-                               backgroundColor:'#3498db',
-                               padding: 20, width: '100%', borderRadius: 20
-                           }}>
-                               <Text style={{
-                                   textAlign: 'center', color: "#fff", fontSize: 20
-                               }}>Voltar ao início</Text>
-                           </TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  marginVertical: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 30,
+                    color:
+                      score > allQuestions.length / 2 ? "#00C851" : "#ff4444",
+                  }}
+                >
+                  {score}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: "#171717",
+                  }}
+                >
+                  / {allQuestions.length}
+                </Text>
+              </View>
 
-                       </View>
-
-                   </View>
+              {/* Enviar Pontuação - Buttom*/}
+              <TouchableOpacity
+                onPress={() => enviarNota()}
+                style={{
+                  backgroundColor: "#3498db",
+                  padding: 20,
+                  width: "100%",
+                  borderRadius: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "#fff",
+                    fontSize: 20,
+                  }}
+                >
+                  Voltar ao início
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </Modal>
-
-        </View>
+      </View>
     </SafeAreaView>
-  )
-}
+  );
+};

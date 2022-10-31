@@ -1,47 +1,82 @@
-import { VictoryBar } from 'victory-native';
+import { VictoryBar, VictoryChart, VictoryTheme } from 'victory-native';
 import { ScrollView } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { AppHeader } from "../../components/AppHeader";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import { useFonts } from "expo-font";
+import { AppHeader2 } from '../../components/AppHeader2';
+
+
+
 
 export const MinhasNotas = () => {
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
+
   //get dados do aluno - notas
   const { userInfo } = useContext(AuthContext)
   const [ data, setData ] = useState([]);
 
+  const colors = [
+    "violet",
+    "cornflowerblue",
+    "gold",
+    "orange",
+    "turquoise",
+    "tomato",
+    "greenyellow"
+  ];
+  // var randColor = colors[Math.floor(Math.random() * colors.length)];
+
+  const getNotas = async () => {
+    const response = await axios.get(`http://192.168.6.20:3010/medias/${userInfo.user.id}`);
+      setData(response.data["medias"]);
+      console.log(response.data["medias"])
+  }
+
   useEffect(()=> {
-    const getNotas = async () => {
-      const response = await axios.get(`https://mais-edu.herokuapp.com/medias/${userInfo.user.id}`);
-      setData(response.data.medias);
-    }
+
     getNotas();
   }, [])
-  console.log(data);
+  // console.log(data);
   return (
     <View style={styles.container}>
-      <AppHeader />
+      <AppHeader2 />
       <ScrollView>
        <View style={{padding: 15}}>
         <View style={styles.header}>
-            <Text style={styles.title}>Minhas Notas</Text>
+            <Text style={{fontFamily:'Medium',
+            color: "#403B91",
+            fontSize: 18,
+            fontWeight: '500'}}>Minhas Notas</Text>
         </View>
         <View style={styles.infoMaterias}>
         <View style={styles.boxInfo}>
             <Text style={styles.subTitle}>Melhor matéria: </Text>
-            <Text style={styles.infoText}>Geografia</Text>
+            <Text style={styles.infoText}>Matemática</Text>
         </View>
         <View style={styles.boxInfo}>
             <Text style={styles.subTitle}>Tempo na Plataforma: </Text>
-            <Text style={styles.infoText}>15 Minutos</Text>
+            <Text style={styles.infoText}>3 Horas e 45 minutos</Text>
         </View>
         </View>
         <View style={styles.boxGrafico}>
-        
+          <VictoryChart theme={VictoryTheme.material} animate={{duration: 500}}> 
+            <VictoryBar
+            alignment='start'
+            style={{data:{width:30, fill:'#00B7B7',}}}
+            barWidth={40}
+            height={1}
+            data={data}
+            x="disciplina"
+            y="value"
+            />
+          </VictoryChart>
         </View>
         <View style={styles.boxTable}>
-        <Text>tabela</Text>
+
         </View>
       
        </View>
@@ -58,11 +93,6 @@ export const styles = StyleSheet.create({
   header: {
     width: "100%",
   },
-  title: {
-    color: "#403B91",
-    fontSize: 18,
-    fontWeight: '500'
-  },
   infoMaterias: {
     flexDirection: "column",
     width: "100%",    
@@ -78,7 +108,7 @@ export const styles = StyleSheet.create({
   boxInfo: {
     flexDirection: "row",
     width: "100%",
-    paddingVertical: 10,
+    paddingVertical:5,
   },
   boxGrafico: {
     width: '100%',

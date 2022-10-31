@@ -9,15 +9,15 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import { AppHeader } from "../../components/AppHeader";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 
 export const Configuracao = () => {
-  const [fontsLoaded] = useFonts({
-    Medium: require('../../../assets/fonts/Poppins-Medium.ttf')
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
   })
 
   const {logout} = useContext(AuthContext);
@@ -33,7 +33,7 @@ export const Configuracao = () => {
 
   return (
     <View style={styles.Container}>
-      <AppHeader />
+      <AppHeader2 />
       {Platform.OS === "ios" ? (
         <ScrollView>
           <View>
@@ -553,7 +553,7 @@ export const Configuracao = () => {
              }}
              onPress={() => {}}
            >
-             <Text style={{ color: "#005858" }}>Idioma</Text>
+             <Text style={{ color: "#005858" }}>Termos de Uso</Text>
            </TouchableOpacity>
          </View>
          <View>

@@ -1,13 +1,14 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { Text, View, StyleSheet, Image, TouchableOpacity, } from "react-native";
-import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 
 export const Perfil = () => {
+
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [perfil, setPerfil] = useState([]);
@@ -16,7 +17,7 @@ export const Perfil = () => {
 
   useEffect(() => {
     axios
-      .get(`https://mais-edu.herokuapp.com/escolas/users/alunos/${id}`)
+      .get(`http://192.168.6.20:3010/escolas/users/alunos/${id}`)
       .then((res) => {
         // s
         setPerfil(res.data["aluno"]);
@@ -26,7 +27,7 @@ export const Perfil = () => {
 
   return (
     <View style={styles.Container}>
-      <AppHeader />
+      <AppHeader2 />
       <View style={[styles.bannerBox, styles.shadowProp]}>
         <View style={[styles.imgBox]}>
             <Image
@@ -156,7 +157,7 @@ export const Perfil = () => {
               marginHorizontal: 6,
               marginTop: 10,
               paddingVertical: 10,
-              borderRadius: 28,
+              borderRadius: 10,
               elevation: 3,
               backgroundColor: "#00B7B7",
             }}
@@ -171,7 +172,7 @@ export const Perfil = () => {
               marginHorizontal: 6,
               marginTop: 10,
               paddingVertical: 10,
-              borderRadius: 28,
+              borderRadius: 10,
               elevation: 3,
               backgroundColor: "#67D4D4",
             }}
@@ -292,7 +293,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 6,
     marginTop: 20,
     paddingVertical: 10,
-    borderRadius: 28,
+    borderRadius: 10,
     elevation: 3,
     backgroundColor: "#00A1A1",
   },
