@@ -129,11 +129,11 @@ export const Classificacao = () => {
           return (
             <View  key={index}  style={{flexDirection: 'column',justifyContent:'space-between', height: 80}}>
            {index < 3 &&  <View  style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}>
-            <Image
-            style={{ height: 50, width: 50 }}
-            resizeMode="contain"
-            source={{uri:`${ranks.img}`}}
-            />
+           <Image
+           style={{ height: 50, width: 50 }}
+           resizeMode="contain"
+           source={{uri:`${ranks.img}`}}
+           />
             <Text style={{color: "#403B91", fontSize: 16}}>{ranks.name}</Text>
               <Text style={{color: "#403B91", fontSize: 14}}>{ranks.points}</Text>     
             </View>}

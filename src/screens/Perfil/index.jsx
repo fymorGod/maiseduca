@@ -157,7 +157,7 @@ export const Perfil = () => {
               marginHorizontal: 6,
               marginTop: 10,
               paddingVertical: 10,
-              borderRadius: 28,
+              borderRadius: 10,
               elevation: 3,
               backgroundColor: "#00B7B7",
             }}
@@ -172,7 +172,7 @@ export const Perfil = () => {
               marginHorizontal: 6,
               marginTop: 10,
               paddingVertical: 10,
-              borderRadius: 28,
+              borderRadius: 10,
               elevation: 3,
               backgroundColor: "#67D4D4",
             }}
@@ -293,7 +293,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 6,
     marginTop: 20,
     paddingVertical: 10,
-    borderRadius: 28,
+    borderRadius: 10,
     elevation: 3,
     backgroundColor: "#00A1A1",
   },

@@ -1,11 +1,10 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity,  Dimensions, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity,  Dimensions, RefreshControl, KeyboardAvoidingView } from 'react-native';
 import { AppHeader } from "../../components/AppHeader";
 import { FAB } from 'react-native-paper';
 import {Agenda} from "../../components/Agenda";
 import RBSheet from "react-native-raw-bottom-sheet";
 import MaskInput from 'react-native-mask-input';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
@@ -29,6 +28,7 @@ export const Calendario = () => {
   const { userInfo } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false)
   const horaMask = [/\d/, /\d/, ':', /\d/, /\d/];
+  const dataMask = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
 
   useEffect(() => {
     getLembrete();
@@ -148,7 +148,7 @@ export const Calendario = () => {
           height={600}
           openDuration={250}
           closeOnDragDown={true}
-          closeOnPressMask={false}
+          closeOnPressMask={true}
           customStyles={{
             container:{backgroundColor:'#F1F3F5', borderTopLeftRadius:28, borderTopRightRadius:28, elevation:30},
             wrapper: {
@@ -158,7 +158,7 @@ export const Calendario = () => {
               backgroundColor: "#000"
             }
           }}>
-            <ScrollView>
+            <KeyboardAvoidingView>
               <View style={{paddingHorizontal:20, paddingVertical:30}}>
               {/* Titulo */}
               <Text style={{color:'#403B91', fontSize:18}}>Título</Text>
@@ -170,7 +170,7 @@ export const Calendario = () => {
                 onChangeText={text => setTitulo(text)}
                 />
               </View>
-              {/* Descrcao */}
+              {/* Descricao */}
               <Text style={{color:'#403B91', fontSize:18}}>Descrição</Text>
               <View style={{marginTop:10, marginBottom:10}}>
                 <TextInput
@@ -185,9 +185,10 @@ export const Calendario = () => {
               <Text style={{color:'#403B91', fontSize:18}}>Data</Text>
               <View style={{marginTop:10}}>
                 
-              <TextInput
-              maxLength={10}
-              keyboardType="datetime"
+              <MaskInput
+              placeholder="Data do evento"
+              mask={dataMask}
+              keyboardType="decimal-pad"
               style={styles.Input}
               value={date}
               onChangeText={text => setDate(text)}
@@ -204,17 +205,23 @@ export const Calendario = () => {
               </View>
               <View style={{marginTop:10, flexDirection:'row', justifyContent:'flex-start', marginRight:20}}>
               <MaskInput
+                keyboardType="decimal-pad"
+                placeholder="Inicio do evento"
                 style={styles.Input2}
                 value={inicio}
                 mask={horaMask}
-                onChangeText={(masked, unmasked, obfuscated) => {
+                enablesReturnKeyAutomatically
+                onChangeText={(masked) => {
                   setInicio(masked);}}
               />
               <MaskInput
+              keyboardType="decimal-pad"
+                placeholder="fim do evento"
                 style={styles.Input3}
                 value={fim}
                 mask={horaMask}
-                onChangeText={(masked, unmasked, obfuscated) => {
+                enablesReturnKeyAutomatically
+                onChangeText={(masked) => {
                   setFim(masked);}}
               />
               </View>
@@ -252,7 +259,7 @@ export const Calendario = () => {
                 </TouchableOpacity>
             </View>
               </View>
-            </ScrollView>
+            </KeyboardAvoidingView>
         </RBSheet>
         </View>
 
@@ -293,7 +300,8 @@ export const styles = StyleSheet.create({
       marginBottom: 12,
       borderRadius: 8,
       backgroundColor: "#fff",
-      marginRight:20
+      marginRight:20,
+      paddingLeft:10
     },
     Input3: {
       width: "46%",
@@ -301,6 +309,7 @@ export const styles = StyleSheet.create({
       marginBottom: 12,
       borderRadius: 8,
       backgroundColor: "#fff",
+      paddingLeft:10
     },
     card: {
       width:'90%',
