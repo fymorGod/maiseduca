@@ -73,7 +73,7 @@ export const Calendario = () => {
     try {
       const res = await axios.get(`https://mais-edu.herokuapp.com/lembretesByAluno/${userInfo.user.id}`)
       setLembretes(res.data["lembretes"]);
-      // console.log(res.data["lembretes"])
+      console.log(res.data["lembretes"])
     } catch (error) {
       console.log(error)
     }
@@ -112,15 +112,12 @@ export const Calendario = () => {
     return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
   }
 
-
-
     return (
       <View style={styles.Container}>
         <AppHeader/>
         <View style={[styles.calendar, styles.shadowProp]}>
         <Calendar
         theme={{
-
           'stylesheet.calendar.header':{
               week: {
                   backgroundColor:'#4263EB',
@@ -159,26 +156,29 @@ export const Calendario = () => {
         {/* Cards Lembretes */}
         <ScrollView>
         <View style={{alignItems:'center'}}>
-          {lembretes.map((avisos)=>(
-            <View style={styles.card} key={avisos.id}>
-            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
-            <Text style={styles.text}>{avisos.title}</Text>
-            <TouchableOpacity
-            onPress={() => delLembretes(avisos.id)}
-            >
-              <Icon2
-              name='trash'
-              size={25}
-              color='red'
-              />
-            </TouchableOpacity>
-            </View>
-            <View style={{flexDirection:'column'}}>
-              <Text style={{color:'#495057', marginLeft:10}}>{avisos.description}</Text>
-              <Text style={{color:'#3B5BDB', marginLeft:10, marginTop:20}}>{avisos.start + ' - ' + avisos.end}</Text>
-            </View>
-          </View> 
-          ))}
+          {lembretes.map((avisos)=> (
+            date !== avisos.data &&
+             <View style={styles.card} key={avisos.id}>
+             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
+             <Text style={styles.text}>{avisos.title}</Text>
+             <TouchableOpacity
+             onPress={() => delLembretes(avisos.id)}
+             >
+               <Icon2
+               name='trash'
+               size={25}
+               color='red'
+               />
+             </TouchableOpacity>
+             </View>
+             <View style={{flexDirection:'column'}}>
+               <Text style={{color:'#495057', marginLeft:10}}>{avisos.description}</Text>
+               <Text style={{color:'#3B5BDB', marginLeft:10, marginTop:20}}>{avisos.start + ' - ' + avisos.end}</Text>
+             </View>
+           </View>
+          )
+          )
+          }
         </View>
         </ScrollView>
         <View>
