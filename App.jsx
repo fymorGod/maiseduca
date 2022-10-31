@@ -2,7 +2,6 @@ import { NativeBaseProvider } from 'native-base';
 import { AuthProvider } from './src/context/AuthContext';
 import { Routes } from './src/routes';
 import {useFonts} from "expo-font";
-import AppLoading from 'expo-app-loading';
 
 // Your web app's Firebase configuration
 
@@ -34,7 +33,7 @@ export default function App() {
     'Medium': require('./assets/fonts/Poppins-Medium.ttf')
   })
   if (! fontsLoaded ){
-    return <AppLoading/>
+    return null;
   }
 
   

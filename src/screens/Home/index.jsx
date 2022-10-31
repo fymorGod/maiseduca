@@ -13,7 +13,6 @@ import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import AppLoading from "expo-app-loading";
 
 export const Home = () => {
   let [fontsLoaded] = useFonts({
