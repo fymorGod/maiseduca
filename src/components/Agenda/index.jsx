@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {Calendar, CalendarList, LocaleConfig} from 'react-native-calendars';
 
@@ -30,6 +30,7 @@ LocaleConfig.locales['br'] = {
 function Agenda(props) {
 
   const [date, setDate] = useState('')
+  const [dateSelected, setDateSelected] = useState({})
 
   const addZero = (a) => {
     if (a < 10 && a > 0) {
@@ -53,21 +54,22 @@ function Agenda(props) {
     return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
   }
 
+  
+
   return (
-    
     <Calendar
     theme={{todayTextColor:"#fff",
     todayBackgroundColor:'#22C1C1',
     calendarBackground:'#4263EB',
     dayTextColor:"#fff",
     monthTextColor: "#fff",
-    selectedDayBackgroundColor: "#22C1C1" + 30,
+    selectedDayBackgroundColor: "#22C1C1",
     selectedDayTextColor: "red",
     selectedDotColor: '#red',
       'stylesheet.calendar.header':{
           week: {
               backgroundColor:'#4263EB',
-              color: "#fff",                                                                       marginTop: 5,
+              color: "#fff",
               flexDirection: 'row',
               justifyContent: 'space-between',
             },
@@ -82,6 +84,7 @@ function Agenda(props) {
       setDate(day.dateString)
       props.setDate(date)
     }}
+    markedDates={dateSelected}
     hideExtraDays={false}
     enableSwipeMonths={true}
     hideArrows={true}

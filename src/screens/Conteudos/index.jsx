@@ -32,7 +32,7 @@ export const Conteudos = ({route}) => {
 
         <ScrollView>
         {conteudos.map((cont)=>(
-            <TouchableOpacity key={cont.id} onPress={() => navigation.navigate('Player', {id: `${cont.id}`})}>
+            <TouchableOpacity key={cont.id} onPress={() => navigation.navigate('VideoAulas', {id: `${cont.id}`})}>
                 <View style={{padding:10}} key={cont.id}>
                  <View style={styles.container2}>
                         <Text style={styles.text1}> {cont.name}</Text>

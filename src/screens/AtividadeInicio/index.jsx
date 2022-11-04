@@ -1,18 +1,9 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  StatusBar,
-  FlatList,
-} from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { ImageSlider } from "react-native-image-slider-banner";
-
 
 export const AtividadeInicio = ({ route }) => {
   let id = route.params.id;
@@ -22,20 +13,8 @@ export const AtividadeInicio = ({ route }) => {
   let [fontsLoaded] = useFonts({
     Bold: require("../../../assets/fonts/Poppins-Bold.ttf"),
   });
-  if (! fontsLoaded ){
+  if (!fontsLoaded) {
     return null;
-  }
-
-  const hadleNotification = () =>{
-    Notification.scheduleNotificationAsync({
-      content:{
-        title:"Parabéns",
-        body:"Voce finalizou uma atividade"
-      },
-      trigger:{
-        seconds:2
-      }
-    })
   }
 
   return (
@@ -91,7 +70,7 @@ export const AtividadeInicio = ({ route }) => {
         <TouchableOpacity
           style={{
             marginTop: 20,
-            marginBottom:20,
+            marginBottom: 20,
             width: "100%",
             backgroundColor: "#fff",
             padding: 15,

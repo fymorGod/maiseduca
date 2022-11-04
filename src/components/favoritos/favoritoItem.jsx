@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import {Image} from 'react-native-expo-image-cache';
 
 export function FavItem({ id_favorito, title, thumb }) {
   let [fontsLoaded] = useFonts({
@@ -18,7 +19,7 @@ export function FavItem({ id_favorito, title, thumb }) {
       >
         <View style={styles.Image}>
           <Image
-            source={{ uri: `${thumb}` }}
+            uri={`${thumb}`}
             style={{ width: 160, height: 90, borderRadius: 10 }}
           />
           <Text

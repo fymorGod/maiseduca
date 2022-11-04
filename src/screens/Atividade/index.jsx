@@ -15,9 +15,7 @@ import {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
-import * as Notification from 'expo-notifications';
-
-
+import * as Notification from "expo-notifications";
 
 export const Atividade = ({ route }) => {
   const navigation = useNavigation();
@@ -27,11 +25,9 @@ export const Atividade = ({ route }) => {
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(0);
 
-
-
   useEffect(() => {
     let interval = null;
-  
+
     if (isActive && isPaused === false) {
       interval = setInterval(() => {
         setTime((time) => time + 10);
@@ -48,7 +44,7 @@ export const Atividade = ({ route }) => {
     setIsActive(true);
     setIsPaused(false);
   };
-  
+
   const handlePauseResume = () => {
     setIsPaused(!isPaused);
   };
@@ -63,7 +59,7 @@ export const Atividade = ({ route }) => {
         `http://192.168.6.20:3010/atividadeQuestoes/${id}`
       );
       setAtv(response.data["questoes"]);
-      handleStart()
+      handleStart();
     };
     getAtv();
   }, []);
@@ -87,7 +83,7 @@ export const Atividade = ({ route }) => {
           nota: pontos,
           id_aluno: `${userInfo.user.id}`,
           id_atividade: `${id}`,
-          // time: time
+          time: time
         }
       );
       console.log(response.status);
@@ -118,7 +114,7 @@ export const Atividade = ({ route }) => {
       // Last Question
       // Show Score Modal
       setShowScoreModal(true);
-      handlePauseResume()
+      handlePauseResume();
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setCurrentOptionSelected(null);
@@ -132,7 +128,6 @@ export const Atividade = ({ route }) => {
       useNativeDriver: false,
     }).start();
   };
-
 
   const renderQuestion = () => {
     return (

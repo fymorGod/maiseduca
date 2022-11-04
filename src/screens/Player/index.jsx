@@ -48,9 +48,6 @@ export const Player = ({ route }) => {
       setName(response.data["conteudo"]["disciplina"].name);
       setIdBimestre(response.data["conteudo"].id_bimestre);
       setIdProfessor(response.data["conteudo"].created_by);
-
-
-
     };
     getVideosContent();
 

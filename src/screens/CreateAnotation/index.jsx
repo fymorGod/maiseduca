@@ -56,90 +56,79 @@ export const CreateAnotation = ({}) => {
   };
 
   return (
-    <View style={styles.Container}>
-      <AppHeader2 />
-      <ToastManager />
-      <View>
-        <Text
-          style={{
-            fontFamily: "Medium",
-            fontSize: 18,
-            color: "#403B91",
-            paddingTop: 20,
-            paddingLeft: 20,
-          }}
-        >
-          Criar anotação
-        </Text>
-      </View>
+    <KeyboardAvoidingView
+    style = {styles.Container}
+    behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <AppHeader2 />
+    <ToastManager />
+    <ScrollView>
+    <View>
+    <Text
+      style={{
+        fontFamily: "Medium",
+        fontSize: 18,
+        color: "#403B91",
+        paddingTop: 20,
+        paddingLeft: 20,
+      }}
+    >
+      Criar anotação
+    </Text>
+    </View>
 
-      <ScrollView>
-        <View style={styles.textbox}>
-          <TextInput
-            multiline={true}
-            style={styles.input}
-            value={descricao}
-            onChangeText={(text) => setDescricao(text)}
-          />
+    <View style={{paddingHorizontal:25, paddingVertical:10}}>
+    <TextInput
+    multiline={true}
+    style={styles.input}
+    value={descricao}
+    onChangeText={(text) => setDescricao(text)}
+    />
+    <View style={styles.textbox}>
+      <Text
+        style={{
+          position: "absolute",
+          fontFamily: "Medium",
+          fontSize: 16,
+          color: "#403B91",
+          paddingTop: 1,
+          paddingLeft: 5,
+          marginBottom:20
+        }}
+      >
+        Tags
+      </Text>
+      <Tags
+        key={tags}
+        initialTags={tags}
+        style={{ height: 100, marginTop:20, paddingTop:10, paddingLeft:10, fontSize:14,  }}
+        onChangeTags={(tags) => setTags(tags)}
+        onTagPress={(index, tagLabel, event, deleted) =>
+          console.log(
+            index,
+            tagLabel,
+            event,
+            deleted ? "deleted" : "not deleted"
+          )
+        }
+        containerStyle={{
+          borderRadius: 10,
+          backgroundColor: "#FFFFFF",
+          justifyContent: "flex-start",
+        }}
+        inputStyle={{
+          backgroundColor: "#FFFFFF",
+          color: "#606060",
+          fontWeight: "bold",
+        }}
+      />
+    </View>
 
-          <View>
-            <Text
-              style={{
-                fontFamily: "Medium",
-                fontSize: 18,
-                color: "#403B91",
-                paddingTop: 20,
-                paddingLeft: 20,
-              }}
-            >
-              Tags
-            </Text>
-          </View>
-
-          <View style={styles.textbox}>
-            <Text
-              style={{
-                position: "absolute",
-                fontFamily: "Medium",
-                fontSize: 12,
-                color: "#403B91",
-                paddingTop: 1,
-                paddingLeft: 20,
-              }}
-            >
-              Crie sua tag
-            </Text>
-            <Tags
-              style={{ height: 150 }}
-              onChangeTags={(tags) => setTags(tags)}
-              onTagPress={(index, tagLabel, event, deleted) =>
-                console.log(
-                  index,
-                  tagLabel,
-                  event,
-                  deleted ? "deleted" : "not deleted"
-                )
-              }
-              containerStyle={{
-                margin: 10,
-                borderRadius: 10,
-                backgroundColor: "#FFFFFF",
-                justifyContent: "flex-start",
-              }}
-              inputStyle={{
-                backgroundColor: "#FFFFFF",
-                color: "#606060",
-                fontWeight: "bold",
-              }}
-            />
-          </View>
-        </View>
-
-        <View
+    <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
             paddingHorizontal: 20,
+            marginTop:10
           }}
         >
           <Text></Text>
@@ -150,11 +139,13 @@ export const CreateAnotation = ({}) => {
               onSubmit(descricao);
             }}
           >
-            <Text style={styles.textButtom}>Salvar</Text>
+            <Text style={styles.text}>Salvar</Text>
           </TouchableOpacity>
-        </View>
-      </ScrollView>
     </View>
+    
+ </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -163,39 +154,28 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#EDF2FF",
   },
-  textbox: {
-    padding: 10,
-  },
   input: {
-    marginHorizontal: 10,
-    padding: 10,
+    paddingVertical:10,
+    paddingHorizontal:10,
+    fontSize:16,
+    textAlignVertical: 'top',
+    height:450,
     backgroundColor: "white",
-    height: 110,
-
     borderRadius: 10,
-  },
-  text: {
-    color: "#fff",
-    fontWeight: "600",
-    fontSize: 14,
   },
   button: {
     marginHorizontal: 6,
     width: "45%",
-    marginTop: 30,
     paddingVertical: 10,
     borderRadius: 28,
     elevation: 3,
     backgroundColor: "#364FC7",
   },
-  textButtom: {
+  text: {
     textAlign: "center",
     color: "white",
   },
-  input2: {
-    borderRadius: 28,
-    backgroundColor: "white",
-    height: 90,
-    border: "none",
+  textbox: {
+    paddingTop:10
   },
 });

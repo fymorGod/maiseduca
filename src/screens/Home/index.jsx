@@ -30,7 +30,6 @@ export const Home = () => {
         `http://192.168.6.20:3010/favoritos/${userInfo.user.id}`
       );
       setFav(res.data["favoritos"]);
-      console.log(res.data["favoritos"]);
     } catch (error) {
       console.log(error);
     }
@@ -75,9 +74,9 @@ export const Home = () => {
               <View style={styles.Image}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("Player", {
+                    navigation.navigate("VideoAulas", {
                       id: `${item.conteudo}`,
-                      position: `${item.index}`,
+                      file: `${item.file}`,
                     })
                   }
                 >

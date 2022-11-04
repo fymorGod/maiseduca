@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Image, StyleSheet, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { Image } from 'react-native-expo-image-cache';
 
 export function MateriaItem({ id, name, bk_img}) {
   
@@ -16,7 +17,7 @@ export function MateriaItem({ id, name, bk_img}) {
         <View style={styles.Image}>
           <TouchableOpacity onPress={() => navigation.navigate("Conteudos", {id: `${id}`})}>
             <Image 
-            source={{uri: `${bk_img}?`}}
+            uri={`${bk_img}?`}
             style={{width:160, height: 90,}}
             />
           </TouchableOpacity>
