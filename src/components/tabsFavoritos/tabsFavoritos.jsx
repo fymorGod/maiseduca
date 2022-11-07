@@ -24,6 +24,8 @@ const TabsFavoritos = ({
   const { userInfo } = useContext(AuthContext);
   let id = userInfo.user.id;
 
+  console.log(first_idAula)
+
   async function changeFavorito() {
     try {
       const response = await axios.post(

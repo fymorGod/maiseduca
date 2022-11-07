@@ -1,7 +1,7 @@
 import axios from "axios";
 import "react-native-gesture-handler";
 import React, { useContext, useRef, useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, Alert,} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, Alert, KeyboardAvoidingView,Platform, ScrollView} from 'react-native';
 import { AuthContext } from "../../context/AuthContext";
 import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
@@ -44,108 +44,123 @@ export const AnotationAula = ({route}) => {
 
 
     return (
-        <View style={styles.Container}>
-        <AppHeader2/>
-        <View>                
-            <Text style={{fontFamily:"Medium", fontSize: 18, color: '#403B91', paddingTop:20, paddingLeft:20}}>Criar anotação</Text> 
+        <KeyboardAvoidingView
+        style = {styles.Container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <AppHeader2 />
+        <ScrollView scrollEnabled
+        contentContainerStyle={{
+          flexGrow: 1,}}>
+        <View>
+        <Text
+        style={{
+          fontFamily: "Medium",
+          fontSize: 18,
+          color: "#403B91",
+          paddingTop: 20,
+          paddingLeft: 20,
+        }}
+      >
+        Criar anotação
+        </Text>
         </View>
-        <View style={styles.textbox}>
-            <TextInput
-            multiline={true}
-            multilinejuguy
-            style={styles.input}
-            value={descricao}
-            onChangeText={text => setDescricao(text)}
-            />
-
-        <View>                
-            <Text style={{fontFamily:"Medium", fontSize: 18, color: '#403B91', paddingTop:20, paddingLeft:20}}>Tags</Text> 
-        </View>
-        
-        <View style={styles.textbox}>
-              <Text style={{position:"absolute", fontFamily:"Medium", fontSize: 12, color: '#403B91', paddingTop:1, paddingLeft:20}}>Crie sua tag</Text>
-              <Tags
-                key={tags}
-                initialTags={tags}
-                style={{height:150}}
-                onChangeTags={tags => setTags(tags)}
-                onTagPress={(index, tagLabel, event, deleted) =>
+    
+        <View style={{paddingHorizontal:25, paddingVertical:10}}>
+           <TextInput
+             multiline={true}
+             style={styles.input}
+             placeholder="Digite sua anotação"
+             value={descricao}
+             onChangeText={text => setDescricao(text)}
+           />
+           <View style={styles.textbox}>
+             <Text
+               style={{
+                 position: "absolute",
+                 fontFamily: "Medium",
+                 fontSize: 16,
+                 color: "#403B91",
+                 paddingTop: 1,
+                 paddingLeft: 5,
+                 marginBottom:20
+               }}
+             >
+               Tags
+             </Text>
+             <Tags
+               key={tags}
+               initialTags={tags}
+               style={{ height: 100, marginTop:20, paddingTop:10, paddingLeft:10, fontSize:14,  }}
+               onChangeTags={(tags) => setTags(tags)}
+               onTagPress={(index, tagLabel, event, deleted) =>
                 console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
                 }
-                containerStyle={{ margin: 10,
-                borderRadius: 10,
-                backgroundColor: '#FFFFFF',
-                justifyContent: 'flex-start', }}
-                inputStyle={{  backgroundColor: '#FFFFFF',
-                color: '#606060',
-                fontWeight: 'bold', }}
-                />
+               containerStyle={{
+                 borderRadius: 10,
+                 backgroundColor: "#FFFFFF",
+                 justifyContent: "flex-start",
+               }}
+               inputStyle={{
+                 backgroundColor: "#FFFFFF",
+                 color: "#606060",
+                 fontWeight: "bold",
+               }}
+             />
+           </View>
+           
         </View>
-          
-
+    
+        <View
+             style={{
+               flexDirection: "row",
+               justifyContent: "space-between",
+               paddingHorizontal: 20,
+             }}
+           >
+             <Text></Text>
+             <TouchableOpacity
+               style={styles.button}
+               onPress={() => {
+                onSubmit(descricao);
+                }}
+             >
+               <Text style={styles.text}>Salvar</Text>
+             </TouchableOpacity>
         </View>
-        
-        <View style={{flexDirection:'row', justifyContent: "space-between", paddingHorizontal: 20}}>
-        <Text></Text>
-        <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-           onSubmit(descricao);
-        }}
-        >
-
-        <Text style={styles.textButtom}>Salvar</Text>
-      </TouchableOpacity>
-      
-
-        </View>
-          
-      
-     
-    </View>
+    
+        </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
 export const styles = StyleSheet.create({
     Container: {
-        flex: 1,
-        backgroundColor: '#EDF2FF' 
+      flex: 1,
+      backgroundColor: "#EDF2FF",
     },
-    textbox:{
-        padding:10
+  
+    input: {
+      paddingVertical:10,
+      paddingHorizontal:10,
+      fontSize:16,
+      textAlignVertical: 'top',
+      height:450,
+      backgroundColor: "white",
+      borderRadius: 10,
     },
-    input:{
-        marginHorizontal:10,
-        padding:10,
-        backgroundColor:"white",
-        height:110,
-        
-        borderRadius: 10,
+    button: {
+      marginHorizontal: 6,
+      width: "45%",
+      paddingVertical: 10,
+      borderRadius: 28,
+      elevation: 3,
+      backgroundColor: "#364FC7",
     },
     text: {
-        color: "#fff",
-        fontWeight: "600",
-        fontSize: 14,
-      },
-      button: {
-        marginHorizontal: 6,
-        width:'45%',
-        marginTop: 30,
-        paddingVertical: 10,
-        borderRadius: 28,
-        elevation: 3,
-        backgroundColor: "#364FC7",
-        },
-    textButtom:{
-        textAlign:'center',
-        color:'white',
+      textAlign: "center",
+      color: "white",
     },
-    input2:{
-        borderRadius: 28,
-        backgroundColor:"white",
-        height:90,
-        border: "none"
+    textbox: {
+      paddingTop:10
     },
-    
-
-})
+  });
