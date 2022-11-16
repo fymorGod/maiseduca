@@ -3,8 +3,7 @@ import axios from "axios";
 import {
   Text,
   View,
-  StyleSheet,
-  Image,
+  BackHandler,
   TouchableOpacity,
   Modal,
   Animated,
@@ -12,10 +11,8 @@ import {
   StatusBar,
   SafeAreaView,
 } from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
-import * as Notification from "expo-notifications";
 
 export const Atividade = ({ route }) => {
   const navigation = useNavigation();
@@ -65,6 +62,9 @@ export const Atividade = ({ route }) => {
       );
       setAtv(response.data["questoes"]);
     };
+    BackHandler.addEventListener('hardwareBackPress', () =>{
+      return true
+    })
     getAtv();
     handleStart();
   }, []);

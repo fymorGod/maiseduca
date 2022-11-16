@@ -113,7 +113,7 @@ export function StackRoutes() {
           <Stack.Screen
           name="Atividade"
           component={Atividade}
-          options={{ headerTransparent: true, headerShown: false, title: "" }}
+          options={{ headerTransparent: true, headerShown: false, title: "", gestureEnabled: false }}
           />
 
           <Stack.Screen
