@@ -4,6 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Image } from 'react-native-expo-image-cache';
 
+//componente das matérias dos alunos
+
 export function MateriaItem({ id, name, bk_img}) {
   
   let [fontsLoaded] = useFonts({

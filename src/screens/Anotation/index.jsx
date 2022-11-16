@@ -34,14 +34,17 @@ export const Anotation = () => {
     getAnotacoes()
   }, []);
 
+  // função de alerta de notificação deletada e criada
   const showToasts = () => {
     Toast.success('Anotação deletada')
 }
 
+  //timer da duração de atalização
   const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
   }
 
+  //refresh da pagina
   const onRefresh = useCallback(()=>{
     setRefreshing(true);
     wait(2000).then(()=>
@@ -50,6 +53,7 @@ export const Anotation = () => {
     )
   }, []);
 
+  //carregando os lembretes
   const getAnotacoes = async() => {
     try {
       const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
@@ -61,6 +65,7 @@ export const Anotation = () => {
     }
   }
 
+  //deletando as anotações
   const delAnotacoes = async(id) => {
     try {
       const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)

@@ -10,22 +10,24 @@ import { AppHeader2 } from "../../components/AppHeader2";
 
 export const AnotationAula = ({route}) => {
 
+    //carregando a fonte de texto
     let [fontsLoaded] = useFonts({
         'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
     })
 
     id = route.params.id
-    console.log(id)
 
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [ descricao, setDescricao ] = useState();
   const [tags, setTags] = useState([route.params.name]);
 
+  //função para envio da criação da anotação
   const onSubmit = (descricao) => {
       criarNota(descricao)
     };
     
+    //função do post da anotação
   const criarNota = async() => {
       try {
           const response = await axios
@@ -115,6 +117,7 @@ export const AnotationAula = ({route}) => {
                flexDirection: "row",
                justifyContent: "space-between",
                paddingHorizontal: 20,
+               marginBottom:10
              }}
            >
              <Text></Text>

@@ -12,6 +12,7 @@ export const Conteudos = ({route}) => {
     const navigation = useNavigation();
     let id = route.params.id;
 
+    //get nos conteudos do alunos po rmateria
      useEffect(() => {
          axios.get(`http://192.168.6.20:3010/conteudosAluno/${userInfo.user.id}/${id}`)
          .then(res=>{
@@ -23,6 +24,7 @@ export const Conteudos = ({route}) => {
         
        }, [])
 
+       
     return (
         <View style={styles.Container}>
         <AppHeader2/>

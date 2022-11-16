@@ -31,40 +31,46 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export const Calendario = () => {
-  const navigation = useNavigation();
   const refRBSheet = useRef();
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState();
   const [inicio, setInicio] = useState("");
   const [fim, setFim] = useState("");
   const [lembretes, setLembretes] = useState([]);
+  const [data, setData] = useState('');
   const { userInfo } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
   const horaMask = [/\d/, /\d/, ":", /\d/, /\d/];
   const dataMask = [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/];
+  const limite = 10;
+
 
   useEffect(() => {
     getLembrete();
   }, []);
 
+    // timer da atualização da página
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
 
+    // atualizar página
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => getLembrete(), setRefreshing(false));
   }, []);
 
+    // postLembretes
   const postLembrete = async () => {
+    DataEnvio(date)
     try {
       const res = await axios.post(`http://192.168.6.20:3010/lembretes`, {
         title: titulo,
         description: descricao,
-        data: date,
-        start: `${date} ${inicio}`,
-        end: `${date} ${fim}`,
+        data: data,
+        start: `${data} ${inicio}`,
+        end: `${data} ${fim}`,
         id_aluno: `${userInfo.user.id}`,
       });
       if (res.status === 201) {
@@ -79,6 +85,15 @@ export const Calendario = () => {
     }
   };
 
+  //  função para alterar a data no formato p/ envio 
+  function DataEnvio(date) {
+    if (date?.length > limite) {
+      setData(date.substring(0, limite));
+    }
+  
+  }
+
+    // getLembretes
   const getLembrete = async () => {
     try {
       const res = await axios.get(
@@ -90,6 +105,7 @@ export const Calendario = () => {
     }
   };
 
+    // Deletar Lembrete
   const delLembretes = async (id) => {
     try {
       const res = await axios.delete(
@@ -106,13 +122,16 @@ export const Calendario = () => {
     }
   };
 
+    // alerta de criação do lembrete
   const showToasts = () => {
     Toast.success("Lembrete criado  ");
   };
 
+    // alerta de sucesso ao deletar lembrete
   const showToastDel = () => {
     Toast.success("Lembrete deletado ");
   };
+
 
   return (
     <View style={styles.Container}>

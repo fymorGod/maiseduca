@@ -17,7 +17,9 @@ import { Video } from "expo-av";
 import {Image as Image1}  from 'react-native-expo-image-cache';
 
 export const VideoAulas = ({ route }) => {
+  //id do conteudo favoritado
   let id = route.params.id;
+  //id do video favoritado
   let file = route.params.file;
 
   const navigation = useNavigation();
@@ -35,7 +37,7 @@ export const VideoAulas = ({ route }) => {
   const [favo, setFavo] = useState(false);
   const limite = 28;
 
-    
+  //get nos conteudos do vídeo/atividades/materiais
   useEffect(() => {
       if(id){
       const getVideosContent = async () => {
@@ -51,7 +53,7 @@ export const VideoAulas = ({ route }) => {
     }  
     }, [favo]);
  
-  // {função para alterar entre vídeos}
+  // função para alterar entre vídeos
   const videoRodando = (tudo) => {
     setFirstAula('')
     setVideoAula(tudo.aula.file)
@@ -61,6 +63,7 @@ export const VideoAulas = ({ route }) => {
     setFavo(tudo.aula.favorite)
   }
 
+  //renderização de video aulas
   const aulas = (tudo) => {
     return (
       <View>
@@ -87,6 +90,7 @@ export const VideoAulas = ({ route }) => {
     )
   }
 
+  //renderização de atividades
   const atividade = (tudo) => {
     return (
       <View>
@@ -114,6 +118,7 @@ export const VideoAulas = ({ route }) => {
     )
   }
   
+  //função de post do progresso das aulas
   const postProgresso = async() => {
     try {
       const res = await axios.post(`http://192.168.6.20:3010/progressos`, {
@@ -130,6 +135,7 @@ export const VideoAulas = ({ route }) => {
     }
   }
 
+  //post acontece quando o video esta parado
   if (status.isPlaying == false) {
     postProgresso()
   }
@@ -138,6 +144,7 @@ export const VideoAulas = ({ route }) => {
       <View style={styles.Container}>
       <AppHeader2 />
         <View style={{height:'30%', backgroundColor:'black', width:'100%' }}>
+          {/* player do video */}
           <Video
             style={{ width: "100%",
             height: "100%",}}
@@ -151,6 +158,7 @@ export const VideoAulas = ({ route }) => {
           />
         </View>
       <View>
+      {/* Componente de chat/favoritos/anotações  */}
       <TabsFavoritos
       first_idAula={firstAula.id}
       first_Favo={firstAula.favorite}
@@ -161,10 +169,12 @@ export const VideoAulas = ({ route }) => {
       name={name}
       />
       </View>
-        <ScrollView>
-        {videos.map((tudo)=>(
 
-          <View  style={{justifyContent:'space-between', alignItems:'flex-start'}}>
+      {/* renderizando videos e atividades na pagina */}
+        <ScrollView>
+        {videos.map((tudo, index)=>(
+
+          <View key={index} style={{justifyContent:'space-between', alignItems:'flex-start'}}>
               <Text> {tudo.atividade? atividade(tudo) : aulas(tudo)}</Text>
           </View>
       ))}

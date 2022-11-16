@@ -1,20 +1,19 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import { Text, View, StyleSheet, Image, TouchableOpacity, } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
-"react-native";
+("react-native");
 import { useNavigation } from "@react-navigation/native";
 import { AppHeader2 } from "../../components/AppHeader2";
 
-
 export const Perfil = () => {
-
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [perfil, setPerfil] = useState([]);
-
+  //id do aluno
   let id = userInfo.user.id;
 
+  //get nas informações do aluno
   useEffect(() => {
     axios
       .get(`http://192.168.6.20:3010/escolas/users/alunos/${id}`)
@@ -30,17 +29,16 @@ export const Perfil = () => {
       <AppHeader2 />
       <View style={[styles.bannerBox, styles.shadowProp]}>
         <View style={[styles.imgBox]}>
-            <Image
-              style={styles.bannerMoldura}
-              resizeMode="contain"
-              source={require("../../../assets/moldura.png")}
-            />
-            <Image
-              style={styles.bannerAvatar}
-              resizeMode="contain"
-              source={require("../../../assets/avatar.png")}
-            />
-          
+          <Image
+            style={styles.bannerMoldura}
+            resizeMode="contain"
+            source={require("../../../assets/moldura.png")}
+          />
+          <Image
+            style={styles.bannerAvatar}
+            resizeMode="contain"
+            source={require("../../../assets/avatar.png")}
+          />
         </View>
         <View style={styles.profile}>
           <View style={styles.name}>
@@ -63,7 +61,7 @@ export const Perfil = () => {
             </Text>
           </View>
 
-          <View style={{ flexDirection: "row", alignItems: "center",}}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={styles.dados2}>
               <Image
                 style={{ width: 15, marginRight: 5 }}
@@ -83,7 +81,7 @@ export const Perfil = () => {
             </View>
             <View style={styles.dados11}>
               <Image
-                style={{ width: 15, marginRight: 5,}}
+                style={{ width: 15, marginRight: 5 }}
                 resizeMode="contain"
                 source={require("../../../assets/carteira.png")}
               />
@@ -101,7 +99,7 @@ export const Perfil = () => {
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={styles.dados22}>
               <Image
-                style={{ width: 15, marginRight: 5, }}
+                style={{ width: 15, marginRight: 5 }}
                 resizeMode="contain"
                 source={require("../../../assets/moeda.png")}
               />
@@ -145,9 +143,12 @@ export const Perfil = () => {
       </View>
       <View style={{ flexDirection: "column" }}>
         <View>
-          <TouchableOpacity style={styles.button} onPress={() => {
-            navigation.navigate("MinhasNotas")
-          }}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("MinhasNotas");
+            }}
+          >
             <Text style={styles.text}>Minhas Notas</Text>
           </TouchableOpacity>
         </View>
@@ -209,28 +210,28 @@ export const styles = StyleSheet.create({
     height: 90,
   },
   imgBox: {
-    position: 'relative',
-    width: '40%'
-  },  
+    position: "relative",
+    width: "40%",
+  },
   bannerBox: {
-    flex:0.6,
-    justifyContent: 'space-between',
+    flex: 0.6,
+    justifyContent: "space-between",
     alignItems: "flex-start",
     paddingTop: 25,
     flexDirection: "row",
     backgroundColor: "#4263EB",
     borderBottomLeftRadius: 28,
     borderBottomRightRadius: 28,
-    elevation:0,
+    elevation: 0,
   },
-  shadowProp: {  
-    shadowOffset: {width: -2, height: 4},  
-    shadowColor: '#171717',  
-    shadowOpacity: 0.2,  
-    shadowRadius: 3,  
-  },  
+  shadowProp: {
+    shadowOffset: { width: -2, height: 4 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
   profile: {
-    width:"70%",
+    width: "70%",
     paddingHorizontal: 10,
     flexDirection: "column",
     justifyContent: "center",
@@ -246,7 +247,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dados1: {
-    height:  30,
+    height: 30,
     width: 195,
     marginRight: 10,
     backgroundColor: "#364FC7",
@@ -258,7 +259,7 @@ export const styles = StyleSheet.create({
   },
   dados11: {
     marginTop: 5,
-    height:  30,
+    height: 30,
     width: 70,
     marginRight: 10,
     backgroundColor: "#364FC7",
@@ -266,7 +267,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
-    
   },
   dados2: {
     marginTop: 5,

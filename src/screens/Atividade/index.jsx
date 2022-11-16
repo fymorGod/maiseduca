@@ -25,13 +25,14 @@ export const Atividade = ({ route }) => {
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(0);
 
+  //contador do tempo da atividade
   useEffect(() => {
     let interval = null;
 
     if (isActive && isPaused === false) {
       interval = setInterval(() => {
-        setTime((time) => time + 10);
-      }, 10);
+        setTime((time) => time + 1000);
+      }, 1000);
     } else {
       clearInterval(interval);
     }
@@ -40,29 +41,36 @@ export const Atividade = ({ route }) => {
     };
   }, [isActive, isPaused]);
 
+  //inicio do tempo da atividade
   const handleStart = () => {
     setIsActive(true);
     setIsPaused(false);
   };
 
+  //fim do tempo da atividade
   const handlePauseResume = () => {
     setIsPaused(!isPaused);
   };
+
 
   Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)];
   };
 
+  //get do inicio da atividade e do timer da pagina
   useEffect(() => {
     const getAtv = async () => {
       const response = await axios.get(
         `http://192.168.6.20:3010/atividadeQuestoes/${id}`
       );
       setAtv(response.data["questoes"]);
-      handleStart();
     };
     getAtv();
+    handleStart();
   }, []);
+
+  console.log(time)
+
 
   const [atv, setAtv] = useState([]);
   const allQuestions = atv;
@@ -75,6 +83,7 @@ export const Atividade = ({ route }) => {
   const [showNextButton, setShowNextButton] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false);
 
+  //função para envio da atividade
   const enviarNota = async () => {
     try {
       const response = await axios.post(
@@ -95,6 +104,7 @@ export const Atividade = ({ route }) => {
     }
   };
 
+  //validação das alternativas
   const validateAnswer = (selectedOption) => {
     let correct_option = allQuestions[currentQuestionIndex]["correct_option"];
     setCurrentOptionSelected(selectedOption);
@@ -109,12 +119,13 @@ export const Atividade = ({ route }) => {
     setShowNextButton(true);
   };
 
+  //proxima questão
   const handleNext = () => {
     if (currentQuestionIndex == allQuestions.length - 1) {
       // Last Question
       // Show Score Modal
       setShowScoreModal(true);
-      handlePauseResume();
+      setIsPaused(true)
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setCurrentOptionSelected(null);
@@ -129,6 +140,7 @@ export const Atividade = ({ route }) => {
     }).start();
   };
 
+  //renderizando proxima questão
   const renderQuestion = () => {
     return (
       <View
@@ -171,10 +183,12 @@ export const Atividade = ({ route }) => {
     );
   };
 
+  //random das questoes
   var alternativas = allQuestions[currentQuestionIndex]?.opcoes.sort((a, b) =>
     a > b ? 1 : -1
   );
 
+  //renderizando as questoes
   const renderOptions = () => {
     return (
       <View>
@@ -215,6 +229,7 @@ export const Atividade = ({ route }) => {
     );
   };
 
+  //botão de proxima questão
   const renderNextButton = () => {
     if (showNextButton) {
       return (
@@ -238,12 +253,14 @@ export const Atividade = ({ route }) => {
     }
   };
 
+  //variaveis da barra de progresso 
   const [progress, setProgress] = useState(new Animated.Value(0));
   const progressAnim = progress.interpolate({
     inputRange: [0, allQuestions.length],
     outputRange: ["0%", "100%"],
   });
 
+  //barra de progresso
   const renderProgressBar = () => {
     return (
       <View

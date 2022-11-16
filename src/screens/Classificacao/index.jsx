@@ -22,6 +22,7 @@ export const Classificacao = () => {
   const [points, setPoints] = useState([]);
   const [ clicked, setClicked ] = useState(0);
   
+  //get no rank do aluno
   useEffect(() => {
     const getRank = async () => {
       const response = await axios.get(
@@ -34,7 +35,7 @@ export const Classificacao = () => {
   }, [choice]);
   
 
-
+  //opções do tipos de ranks
   const detailsTabs = [
     {id: 1, label: "escola"},
     {id: 2, label: "serie"},
@@ -48,6 +49,7 @@ export const Classificacao = () => {
     setFinalRank(rank[choice])
   }
   
+  //menu dos ranks
   const renderTabsRanking = () => {
     return (
       <View style={{

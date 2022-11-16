@@ -20,7 +20,6 @@ import { CreateAnotation } from "../screens/CreateAnotation";
 import { Perfil } from "../screens/Perfil";
 import { Configuracao } from "../screens/Configuracao";
 import { TrocarSenha } from "../screens/TrocarSenha";
-import { Player } from "../screens/Player";
 import { Classificacao } from "../screens/Classificacao";
 import { AtividadeInicio } from "../screens/AtividadeInicio";
 import { Atividade } from "../screens/Atividade";
@@ -97,11 +96,7 @@ export function StackRoutes() {
           options={{ headerTransparent: true, headerShown: false, title: "" }}
           />
 
-          <Stack.Screen
-          name="Player"
-          component={Player}
-          options={{ headerTransparent: true, headerShown: false, title: "" }}
-          />
+
 
           <Stack.Screen
           name="Classificacao"

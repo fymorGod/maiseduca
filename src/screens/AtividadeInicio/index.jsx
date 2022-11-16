@@ -6,10 +6,13 @@ import { useFonts } from "expo-font";
 import { ImageSlider } from "react-native-image-slider-banner";
 
 export const AtividadeInicio = ({ route }) => {
+  //id da ativiade
   let id = route.params.id;
+  //titulo da atividade
   let title = route.params.title;
   const navigation = useNavigation();
 
+  //carregando fonte de texto
   let [fontsLoaded] = useFonts({
     Bold: require("../../../assets/fonts/Poppins-Bold.ttf"),
   });
@@ -35,6 +38,7 @@ export const AtividadeInicio = ({ route }) => {
         </Text>
       </View>
 
+      {/* Instruções sobre a atividade */}
       <View style={{ height: "60%" }}>
         <ImageSlider
           data={[

@@ -24,15 +24,14 @@ const TabsFavoritos = ({
   const { userInfo } = useContext(AuthContext);
   let id = userInfo.user.id;
 
-  console.log(first_idAula)
-
+  //função de favoritar de desfavoritar video
   async function changeFavorito() {
     try {
       const response = await axios.post(
         `http://192.168.6.20:3010/favoritos/${id}`,
         {
           id_aula: id_aula != "" ? first_idAula : id_aula,
-          id_bimestre:`${id_bimestre}`,
+          id_bimestre:`${id_bimestre}`
         }
       );
       console.log(response.mensage);
@@ -70,6 +69,7 @@ const TabsFavoritos = ({
           height: 40,
         }}
       >
+        {/* Ir para página de chat */}
         <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
           <View
             style={{
@@ -92,6 +92,7 @@ const TabsFavoritos = ({
           </View>
         </TouchableOpacity>
 
+        {/* Ir para página de anotação da Aula */}
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("AnotationAula", {
@@ -119,6 +120,8 @@ const TabsFavoritos = ({
           </View>
         </TouchableOpacity>
 
+
+        {/* botão de favoritar vídeo*/}
         {favorite  == true || first_Favo == true ? (
           <TouchableOpacity onPress={() => changeFavorito()}>
             <View
@@ -166,6 +169,7 @@ const TabsFavoritos = ({
             </View>
           </TouchableOpacity>
         )}
+
       </View>
     </View>
   );

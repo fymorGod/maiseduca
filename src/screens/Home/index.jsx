@@ -15,15 +15,19 @@ import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 
 export const Home = () => {
+    // carregar fonte
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
   });
 
+    // variáveis
   const { userInfo } = useContext(AuthContext);
   const [fav, setFav] = useState([]);
+  const [aulas, setAulas] = useState([]);
   const navigation = useNavigation();
   const limite = 42;
 
+    // get nos favoritos
   const getFav = async () => {
     try {
       const res = await axios.get(
@@ -35,8 +39,21 @@ export const Home = () => {
     }
   };
 
+    // get nas ultimas aulas
+  const getAulas = async () => {
+    try {
+      const res = await axios.get(
+        `http://192.168.6.20:3010/ultimasAulas/${userInfo.user.id}`
+      );
+      setAulas(res.data["aulas"]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getFav();
+    getAulas();
   }, []);
 
   return (
@@ -59,12 +76,11 @@ export const Home = () => {
           <Text
             style={{ fontFamily: "Medium", fontSize: 16, color: "#403B91" }}
           >
-            {" "}
             Favoritos
           </Text>
         </View>
 
-        <View style={{}}>
+        <View>
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal={true}
@@ -105,7 +121,6 @@ export const Home = () => {
           <Text
             style={{ fontFamily: "Medium", fontSize: 16, color: "#403B91" }}
           >
-            {" "}
             Últimas aulas
           </Text>
         </View>
@@ -114,13 +129,13 @@ export const Home = () => {
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal={true}
-            data={fav}
+            data={aulas}
             keyExtractor={(x, i) => i}
             renderItem={({ item }) => (
               <View style={styles.Image}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("Player", { id: `${item.conteudo}` })
+                    navigation.navigate("VideoAulas", { id: `${item.conteudo}` })
                   }
                 >
                   <Image
