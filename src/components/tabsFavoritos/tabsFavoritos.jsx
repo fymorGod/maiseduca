@@ -70,7 +70,7 @@ const TabsFavoritos = ({
         }}
       >
         {/* Ir para página de chat */}
-        <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Chat", {idProfessor: `${idProfessor}`})}>
           <View
             style={{
               flexDirection: "row",

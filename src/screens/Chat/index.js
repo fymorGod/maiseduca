@@ -4,12 +4,13 @@ import { AppHeader } from "../../components/AppHeader";
 import ChatApp from "./ChatApp";
 
 
-export const Chats = () => {
+export const Chats = ({route}) => {
+    let professor = route.params.idProfessor;
 
     return (
     <View style={styles.Container}>
         <AppHeader/>
-       <ChatApp/>
+       <ChatApp idProfessor={professor}/>
         
     </View>
     )

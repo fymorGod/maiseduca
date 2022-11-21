@@ -15,6 +15,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "native-base";
 import { useFonts } from "expo-font";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 export const TrocarSenha = () => {
   const { logout } = useContext(AuthContext);
@@ -50,9 +51,11 @@ export const TrocarSenha = () => {
     }
   };
 
+
+
   return (
     <View style={styles.Container}>
-      <AppHeader />
+      <AppHeader2 />
       <View>
         <Text
           style={{

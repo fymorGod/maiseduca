@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  FlatList,
   ScrollView,
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
@@ -35,6 +34,7 @@ export const VideoAulas = ({ route }) => {
   const [idBimestre, setIdBimestre] = useState();
   const [posicaoVideo, setPosicaoVideo] = useState()
   const [favo, setFavo] = useState(false);
+  const [idProfessor, setIdProfessor] = useState();
   const limite = 28;
 
   //get nos conteudos do vídeo/atividades/materiais
@@ -47,7 +47,8 @@ export const VideoAulas = ({ route }) => {
         setFirstAula(response.data.conteudo["first_aula"]);
         setVideos(response.data.conteudo.array_conteudos);
         setName(response.data["conteudo"]["disciplina"].name);
-        setIdBimestre(response.data["conteudo"].id_bimestre); 
+        setIdBimestre(response.data["conteudo"].id_bimestre);
+        setIdProfessor(response.data["conteudo"].created_by)
       };
       getVideosContent();
     }  
@@ -160,6 +161,7 @@ export const VideoAulas = ({ route }) => {
       <View>
       {/* Componente de chat/favoritos/anotações  */}
       <TabsFavoritos
+      idProfessor={idProfessor}
       first_idAula={firstAula.id}
       first_Favo={firstAula.favorite}
       id_bimestre={idBimestre}

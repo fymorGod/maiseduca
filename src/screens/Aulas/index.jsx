@@ -61,6 +61,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#EDF2FF",
   },
   lista: {
+    height:'80%',
     marginTop: 10,
     alignItems: "center",
   },
