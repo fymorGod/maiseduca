@@ -28,7 +28,7 @@ const TabsFavoritos = ({
   async function changeFavorito() {
     try {
       const response = await axios.post(
-        `http://192.168.6.20:3010/favoritos/${id}`,
+        `http://35.199.114.75:3010/favoritos/${id}`,
         {
           id_aula: id_aula != "" ? first_idAula : id_aula,
           id_bimestre:`${id_bimestre}`

@@ -18,7 +18,7 @@ export const Aulas = () => {
   //get nas aulas
   useEffect(() => {
     axios
-      .get(`http://192.168.6.20:3010/disciplinasAluno/${userInfo.user.id}`)
+      .get(`http://35.199.114.75:3010/disciplinasAluno/${userInfo.user.id}`)
       .then((res) => {
         // s
         setMaterias(res.data["disciplinas"]);

@@ -65,7 +65,7 @@ export const Calendario = () => {
   const postLembrete = async () => {
     DataEnvio(date)
     try {
-      const res = await axios.post(`http://192.168.6.20:3010/lembretes`, {
+      const res = await axios.post(`http://35.199.114.75:3010/lembretes`, {
         title: titulo,
         description: descricao,
         data: data,
@@ -97,7 +97,7 @@ export const Calendario = () => {
   const getLembrete = async () => {
     try {
       const res = await axios.get(
-        `http://192.168.6.20:3010/lembretesByAluno/${userInfo.user.id}`
+        `http://35.199.114.75:3010/lembretesByAluno/${userInfo.user.id}`
       );
       setLembretes(res.data["lembretes"]);
     } catch (error) {
@@ -109,7 +109,7 @@ export const Calendario = () => {
   const delLembretes = async (id) => {
     try {
       const res = await axios.delete(
-        `http://192.168.6.20:3010/lembretes/${id}`
+        `http://35.199.114.75:3010/lembretes/${id}`
       );
       if (res.status === 204) {
         showToastDel();

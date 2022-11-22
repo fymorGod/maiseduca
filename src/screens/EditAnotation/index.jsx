@@ -46,7 +46,7 @@ export const EditAnotation = ({ route }) => {
 
   //get da rota de editar a anotação
   useEffect(() => {
-    axios.get(`http://192.168.6.20:3010/anotacoes/${id}`).then((res) => {
+    axios.get(`http://35.199.114.75:3010/anotacoes/${id}`).then((res) => {
       setTitle(res.data["anotacao"].descricao);
       setTags(res.data["anotacao"].tags);
     });
@@ -56,7 +56,7 @@ export const EditAnotation = ({ route }) => {
   const EditarNota = async () => {
     try {
       const response = await axios.put(
-        `http://192.168.6.20:3010/anotacoes/${id}`,
+        `http://35.199.114.75:3010/anotacoes/${id}`,
         {
           descricao: title,
           id_aluno: `${userInfo.user.id}`,

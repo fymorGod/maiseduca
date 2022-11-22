@@ -16,7 +16,7 @@ export const Perfil = () => {
   //get nas informações do aluno
   useEffect(() => {
     axios
-      .get(`http://192.168.6.20:3010/escolas/users/alunos/${id}`)
+      .get(`http://35.199.114.75:3010/escolas/users/alunos/${id}`)
       .then((res) => {
         // s
         setPerfil(res.data["aluno"]);

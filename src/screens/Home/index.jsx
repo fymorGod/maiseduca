@@ -31,7 +31,7 @@ export const Home = () => {
   const getFav = async () => {
     try {
       const res = await axios.get(
-        `http://192.168.6.20:3010/favoritos/${userInfo.user.id}`
+        `http://35.199.114.75:3010/favoritos/${userInfo.user.id}`
       );
       setFav(res.data["favoritos"]);
     } catch (error) {
@@ -43,7 +43,7 @@ export const Home = () => {
   const getAulas = async () => {
     try {
       const res = await axios.get(
-        `http://192.168.6.20:3010/ultimasAulas/${userInfo.user.id}`
+        `http://35.199.114.75:3010/ultimasAulas/${userInfo.user.id}`
       );
       setAulas(res.data);
     } catch (error) {

@@ -31,7 +31,7 @@ export const MinhasNotas = () => {
   //get nas notas dos alunos
   const getNotas = async () => {
     const response = await axios.get(
-      `http://192.168.6.20:3010/medias/${userInfo.user.id}`
+      `http://35.199.114.75:3010/medias/${userInfo.user.id}`
     );
     setData(response.data["medias"]);
     console.log(response.data["medias"]);

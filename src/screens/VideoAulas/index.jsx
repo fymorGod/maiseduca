@@ -42,7 +42,7 @@ export const VideoAulas = ({ route }) => {
       if(id){
       const getVideosContent = async () => {
         const response = await axios.get(
-          `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
+          `http://35.199.114.75:3010/conteudos/${id}/${userInfo.user.id}`
         );
         setFirstAula(response.data.conteudo["first_aula"]);
         setVideos(response.data.conteudo.array_conteudos);
@@ -122,7 +122,7 @@ export const VideoAulas = ({ route }) => {
   //função de post do progresso das aulas
   const postProgresso = async() => {
     try {
-      const res = await axios.post(`http://192.168.6.20:3010/progressos`, {
+      const res = await axios.post(`http://35.199.114.75:3010/progressos`, {
         "id_aluno": `${userInfo.user.id}`,
         "id_aula": idAula != "" ? firstAula.id : idAula,
         "progress": status.positionMillis,
