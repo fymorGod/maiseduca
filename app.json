@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/iconteste.png",
     "userInterfaceStyle": "light",
+
     "splash": {
       "image": "./assets/educacao.png",
       "resizeMode": "contain",
@@ -24,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png"

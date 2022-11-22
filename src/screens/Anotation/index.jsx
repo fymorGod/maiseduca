@@ -16,6 +16,7 @@ import { FAB } from 'react-native-paper';
 import  Icon2  from 'react-native-vector-icons/Octicons';
 import { useFonts } from "expo-font";
 import ToastManager, { Toast } from 'toastify-react-native'
+import { Feather } from '@expo/vector-icons';
 
 export const Anotation = () => {
 
@@ -33,14 +34,17 @@ export const Anotation = () => {
     getAnotacoes()
   }, []);
 
+  // função de alerta de notificação deletada e criada
   const showToasts = () => {
     Toast.success('Anotação deletada')
 }
 
+  //timer da duração de atalização
   const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
   }
 
+  //refresh da pagina
   const onRefresh = useCallback(()=>{
     setRefreshing(true);
     wait(2000).then(()=>
@@ -49,6 +53,7 @@ export const Anotation = () => {
     )
   }, []);
 
+  //carregando os lembretes
   const getAnotacoes = async() => {
     try {
       const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
@@ -60,6 +65,7 @@ export const Anotation = () => {
     }
   }
 
+  //deletando as anotações
   const delAnotacoes = async(id) => {
     try {
       const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)
@@ -107,17 +113,13 @@ export const Anotation = () => {
               }
             >
               <View style={styles.card} key={notes.id}>
-                <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
+                <View style={{flexDirection:'row', alignItems:'flex-start', justifyContent:'space-between'}}>
                 <Text style={styles.text}>{notes.descricao}</Text>
                 <TouchableOpacity
                 onPress={() => delAnotacoes(notes.id)
 }
                 >
-                  <Icon2
-                  name='trash'
-                  size={25}
-                  color='red'
-                  />
+                <Feather name="x" size={25} color="gray" />
                 </TouchableOpacity>
                 </View>
                 <View style={styles.tag}>
@@ -147,6 +149,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     paddingHorizontal: 10,
+    paddingVertical:10,
     height: 160,
     backgroundColor: "white",
     marginBottom: 15,
@@ -154,8 +157,7 @@ export const styles = StyleSheet.create({
     
   },
   text: {
-    margin: 10,
-    fontSize: 15,
+    fontSize: 16,
   },
   tag: {
     flexWrap: "wrap",
@@ -167,7 +169,7 @@ export const styles = StyleSheet.create({
   },
   tagname: {
     margin: 3,
-    fontSize: 13,
+    fontSize: 14,
   },
   fab: {
     backgroundColor: "#4263EB",

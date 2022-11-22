@@ -15,43 +15,47 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "native-base";
 import { useFonts } from "expo-font";
+import { AppHeader2 } from "../../components/AppHeader2";
 
 export const TrocarSenha = () => {
-  const {logout} = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [atual, setAtual] = useState();
   const [novaSenha, setNovaSenha] = useState();
   const [novaSenha1, setNovaSenha1] = useState();
+  //id para trocar senha do aluno
   let id = userInfo.user.id_senha;
 
+  //carregando fonte de texto
   let [fontsLoaded] = useFonts({
-    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
-  })
+    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+  });
 
-  const mudarSenha = async() => {
+  //função para mudar senha do aluno
+  const mudarSenha = async () => {
     try {
-      const response = await axios
-      .put(`http://192.168.6.20:3010/escolas/users/change_password`, {
-        'actual_password' : atual,
-        'new_password': novaSenha1,
-        'id_user': `${id}`
-      });
-      if(response.status === 200){
-        logout()
+      const response = await axios.put(
+        `http://192.168.6.20:3010/escolas/users/change_password`,
+        {
+          actual_password: atual,
+          new_password: novaSenha1,
+          id_user: `${id}`,
+        }
+      );
+      if (response.status === 200) {
+        logout();
       }
-           
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
   };
 
 
 
   return (
     <View style={styles.Container}>
-      <AppHeader />
+      <AppHeader2 />
       <View>
         <Text
           style={{
@@ -80,8 +84,8 @@ export const TrocarSenha = () => {
           </Text>
           <View style={{ paddingHorizontal: 20 }}>
             <TextInput
-                value={atual}
-                onChangeText={text => setAtual(text)}
+              value={atual}
+              onChangeText={(text) => setAtual(text)}
               secureTextEntry
               keyboardType="visible-password"
               placeholder="**************"
@@ -108,8 +112,8 @@ export const TrocarSenha = () => {
           </Text>
           <View style={{ paddingHorizontal: 20 }}>
             <TextInput
-                value={novaSenha}
-                onChangeText={text => setNovaSenha(text)}
+              value={novaSenha}
+              onChangeText={(text) => setNovaSenha(text)}
               secureTextEntry
               placeholder="***************"
               style={{
@@ -135,9 +139,8 @@ export const TrocarSenha = () => {
           </Text>
           <View style={{ paddingHorizontal: 20 }}>
             <TextInput
-                
-                value={novaSenha1}
-                onChangeText={text => setNovaSenha1(text)}
+              value={novaSenha1}
+              onChangeText={(text) => setNovaSenha1(text)}
               secureTextEntry
               placeholder="***************"
               style={{
@@ -180,10 +183,9 @@ export const TrocarSenha = () => {
               backgroundColor: "#4263EB",
             }}
             onPress={() => {
-
-                 if(novaSenha === novaSenha1){
-                     mudarSenha();
-                 }
+              if (novaSenha === novaSenha1) {
+                mudarSenha();
+              }
             }}
           >
             <Text style={{ color: "#fff" }}>Confirmar</Text>

@@ -1,92 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import {Calendar, CalendarList, LocaleConfig} from 'react-native-calendars';
+import React, { useEffect, useState } from 'react';
+import CalendarPicker from 'react-native-calendar-picker';
 
-
-LocaleConfig.locales['br'] = {
-  monthNames: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro'
-  ],
-  monthNamesShort: ['Jan.', 'Fev.', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dec'],
-  dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-  dayNamesShort: ['Dom.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sab.'],
-  today: "Hoje"
-  };
-  
-  LocaleConfig.defaultLocale = 'br'
-  
+  //calendário renderizado na pagin a de calendário
 
 function Agenda(props) {
-
-  const [date, setDate] = useState('')
-
-  const addZero = (a) => {
-    if (a < 10 && a > 0) {
-      return '0' + a.toString();
-    } else {
-      return a
-    }
-  }
-
-  const getCurrentDate = () => {
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
-  }
-
-  const getMinDate = () => {
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
-  }
+  const limite = 10;
 
   return (
-    
-    <Calendar
-    theme={{todayTextColor:"#fff",
-    todayBackgroundColor:'#22C1C1',
-    calendarBackground:'#4263EB',
-    dayTextColor:"#fff",
-    monthTextColor: "#fff",
-    selectedDayBackgroundColor: "#22C1C1" + 30,
-    selectedDayTextColor: "red",
-    selectedDotColor: '#red',
-      'stylesheet.calendar.header':{
-          week: {
-              backgroundColor:'#4263EB',
-              color: "#fff",                                                                       marginTop: 5,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            },
-      },
+  <CalendarPicker
+  weekdays={['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']}
+  months={['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}
+  startFromMonday={true}
+  todayBackgroundColor="#22C1C1"
+  onDateChange={day => {
+    props.setDate(day.toISOString())
   }}
-    current={getCurrentDate().toString()}
-    minDate={getMinDate().toString()}
-    maxDate={'2050-01-01'}
-    monthFormat={'MMMM yyyy'}
-    onDayPress={day => {
-      console.log("dia selecionado", day)
-      setDate(day.dateString)
-      props.setDate(date)
-    }}
-    hideExtraDays={false}
-    enableSwipeMonths={true}
-    hideArrows={true}
-    
-    />
+  selectedDayTextColor="#FFFFFF"
+  selectedDayColor='#22C1C1'
+  textStyle={{
+    color: '#f2f2f2',
+  }}
+  nextTitle='Próximo'
+  previousTitle='Anterior'
+  />
+
   )
 }
 

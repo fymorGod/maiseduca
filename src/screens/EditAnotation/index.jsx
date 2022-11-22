@@ -19,26 +19,32 @@ import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import { AppHeader2 } from "../../components/AppHeader2";
+import { ScrollView } from "native-base";
 
 export const EditAnotation = ({ route }) => {
+  //carregando fonte
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
   });
+
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState();
   let id = route.params.id;
 
+  //função do botaõ de envio da anotação
   const onSubmit = (title) => {
     EditarNota(title);
   };
 
+  //alterando os dados para editar anotação
   const handleOnChangeText = (text, valueFor) => {
     if (valueFor === "title") setTitle(text);
     if (valueFor === "taag") setDesc(text);
   };
 
+  //get da rota de editar a anotação
   useEffect(() => {
     axios.get(`http://192.168.6.20:3010/anotacoes/${id}`).then((res) => {
       setTitle(res.data["anotacao"].descricao);
@@ -46,6 +52,7 @@ export const EditAnotation = ({ route }) => {
     });
   }, []);
 
+  //função de editar a anotação
   const EditarNota = async () => {
     try {
       const response = await axios.put(
@@ -65,23 +72,32 @@ export const EditAnotation = ({ route }) => {
   };
 
   return (
-    <View style={styles.Container}>
+    <KeyboardAvoidingView
+      style={styles.Container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <AppHeader2 />
-      <View>
-        <Text
-          style={{
-            fontFamily: "Medium",
-            fontSize: 18,
-            color: "#403B91",
-            paddingTop: 20,
-            paddingLeft: 20,
-          }}
-        >
-          Editar anotação
-        </Text>
-      </View>
-      <KeyboardAvoidingView>
+      <ScrollView
+        scrollEnabled
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+      >
         <View>
+          <Text
+            style={{
+              fontFamily: "Medium",
+              fontSize: 18,
+              color: "#403B91",
+              paddingTop: 20,
+              paddingLeft: 20,
+            }}
+          >
+            Editar anotação
+          </Text>
+        </View>
+
+        <View style={{ paddingHorizontal: 25, paddingVertical: 10 }}>
           <TextInput
             multiline={true}
             style={styles.input}
@@ -94,10 +110,11 @@ export const EditAnotation = ({ route }) => {
               style={{
                 position: "absolute",
                 fontFamily: "Medium",
-                fontSize: 12,
+                fontSize: 16,
                 color: "#403B91",
                 paddingTop: 1,
-                paddingLeft: 20,
+                paddingLeft: 5,
+                marginBottom: 20,
               }}
             >
               Tags
@@ -105,7 +122,13 @@ export const EditAnotation = ({ route }) => {
             <Tags
               key={tags}
               initialTags={tags}
-              style={{ height: 150 }}
+              style={{
+                height: 100,
+                marginTop: 20,
+                paddingTop: 10,
+                paddingLeft: 10,
+                fontSize: 14,
+              }}
               onChangeTags={(tags) => setTags(tags)}
               onTagPress={(index, tagLabel, event, deleted) =>
                 console.log(
@@ -116,7 +139,6 @@ export const EditAnotation = ({ route }) => {
                 )
               }
               containerStyle={{
-                margin: 10,
                 borderRadius: 10,
                 backgroundColor: "#FFFFFF",
                 justifyContent: "flex-start",
@@ -128,28 +150,29 @@ export const EditAnotation = ({ route }) => {
               }}
             />
           </View>
+        </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingHorizontal: 20,
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+            marginBottom: 10,
+          }}
+        >
+          <Text></Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              console.log(title);
+              onSubmit(title);
             }}
           >
-            <Text></Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                console.log(title);
-                onSubmit(title);
-              }}
-            >
-              <Text style={styles.text}>Salvar</Text>
-            </TouchableOpacity>
-          </View>
+            <Text style={styles.text}>Salvar</Text>
+          </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -160,17 +183,17 @@ export const styles = StyleSheet.create({
   },
 
   input: {
-    marginVertical: 10,
-    marginHorizontal: 25,
-    paddingLeft: 20,
-    paddingVertical: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    fontSize: 16,
+    textAlignVertical: "top",
+    height: 450,
     backgroundColor: "white",
     borderRadius: 10,
   },
   button: {
     marginHorizontal: 6,
     width: "45%",
-    marginTop: 30,
     paddingVertical: 10,
     borderRadius: 28,
     elevation: 3,
@@ -181,6 +204,6 @@ export const styles = StyleSheet.create({
     color: "white",
   },
   textbox: {
-    padding: 10,
+    paddingTop: 10,
   },
 });

@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
+import {Image as Image1}  from 'react-native-expo-image-cache';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height; 
@@ -21,6 +22,7 @@ export const Classificacao = () => {
   const [points, setPoints] = useState([]);
   const [ clicked, setClicked ] = useState(0);
   
+  //get no rank do aluno
   useEffect(() => {
     const getRank = async () => {
       const response = await axios.get(
@@ -33,7 +35,7 @@ export const Classificacao = () => {
   }, [choice]);
   
 
-
+  //opções do tipos de ranks
   const detailsTabs = [
     {id: 1, label: "escola"},
     {id: 2, label: "serie"},
@@ -47,6 +49,7 @@ export const Classificacao = () => {
     setFinalRank(rank[choice])
   }
   
+  //menu dos ranks
   const renderTabsRanking = () => {
     return (
       <View style={{
@@ -129,10 +132,10 @@ export const Classificacao = () => {
           return (
             <View  key={index}  style={{flexDirection: 'column',justifyContent:'space-between', height: 80}}>
            {index < 3 &&  <View  style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}>
-           <Image
+           <Image1
            style={{ height: 50, width: 50 }}
            resizeMode="contain"
-           source={{uri:`${ranks.img}`}}
+           uri={`${ranks.img}`}
            />
             <Text style={{color: "#403B91", fontSize: 16}}>{ranks.name}</Text>
               <Text style={{color: "#403B91", fontSize: 14}}>{ranks.points}</Text>     

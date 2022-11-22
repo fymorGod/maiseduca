@@ -12,6 +12,7 @@ export const Conteudos = ({route}) => {
     const navigation = useNavigation();
     let id = route.params.id;
 
+    //get nos conteudos do alunos po rmateria
      useEffect(() => {
          axios.get(`http://192.168.6.20:3010/conteudosAluno/${userInfo.user.id}/${id}`)
          .then(res=>{
@@ -23,6 +24,7 @@ export const Conteudos = ({route}) => {
         
        }, [])
 
+       
     return (
         <View style={styles.Container}>
         <AppHeader2/>
@@ -32,7 +34,7 @@ export const Conteudos = ({route}) => {
 
         <ScrollView>
         {conteudos.map((cont)=>(
-            <TouchableOpacity key={cont.id} onPress={() => navigation.navigate('Player', {id: `${cont.id}`})}>
+            <TouchableOpacity key={cont.id} onPress={() => navigation.navigate('VideoAulas', {id: `${cont.id}`})}>
                 <View style={{padding:10}} key={cont.id}>
                  <View style={styles.container2}>
                         <Text style={styles.text1}> {cont.name}</Text>

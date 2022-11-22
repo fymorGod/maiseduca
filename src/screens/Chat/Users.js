@@ -20,6 +20,7 @@ export default function Users({
   const renderUser = ({item}) => {
     return (
       <Pressable onPress={() => onClickUser(item)} style={styles.row}>
+      {console.log(item)}
         <Image style={styles.avatar} source={{uri: item.avatar}} />
         <Text>{item.username}</Text>
       </Pressable>

@@ -17,18 +17,15 @@ export const AuthProvider = ({children}) => {
         mat,
         password,
       });
-      
       let userInfo = response.data;
       console.log(userInfo.user);
       setUserInfo(userInfo);
       await AsyncStorage.setItem('@asyncStorage:userInfo', userInfo.token);
       setIsLoading(false);
-           
-    } catch (error) {
-      
+    } catch (error) { 
     }
-
   };
+
 
   const logout = () => {
     setIsLoading(true);

@@ -12,7 +12,10 @@ import {
 } from 'firebase/database';
 import { AuthContext } from "../../context/AuthContext";
 
-export default function ChatApp() {
+
+
+
+export default function ChatApp(idProfessor) {
   const { userInfo } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState('users');
   let username = userInfo.user.id;
@@ -22,6 +25,7 @@ export default function ChatApp() {
   const [myData, setMyData] = useState(null);
 
   useEffect(() => {
+    //fazerlogin
     const onLogin = async () => {
       try {
         const database = getDatabase();
@@ -57,83 +61,95 @@ export default function ChatApp() {
         console.error(error);
       }
     };
+
+    //adicionar amigo
+    const onAddFriend = async idProfessor => {
+      try {
+        //find user and add it to my friends and also add me to his friends
+        const database = getDatabase();
+  
+        const user = await findUser(idProfessor);
+  
+        if (user) {
+          if (user.username === myData.username) {
+            // don't let user add himself
+            return;
+          }
+  
+          if (
+            myData.friends &&
+            myData.friends.findIndex(f => f.username === user.username) > 0
+          ) {
+            // don't let user add a user twice
+            return;
+          }
+  
+          // create a chatroom and store the chatroom id
+  
+          const newChatroomRef = push(ref(database, 'chatrooms'), {
+            firstUser: myData.username,
+            secondUser: user.username,
+            messages: [],
+          });
+  
+          const newChatroomId = newChatroomRef.key;
+  
+          const userFriends = user.friends || [];
+
+          //join myself to this user friend list
+          update(ref(database, `users/${user.username}`), {
+            friends: [
+              ...userFriends,
+              {
+                username: myData.username,
+                avatar: myData.avatar,
+                chatroomId: newChatroomId,
+              },
+            ],
+          });
+  
+          const myFriends = myData.friends || [];
+          //add this user to my friend list
+          update(ref(database, `users/${myData.username}`), {
+            friends: [
+              ...myFriends,
+              {
+                username: user.username,
+                avatar: user.avatar,
+                chatroomId: newChatroomId,
+              },
+            ],
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    //encontrar usuário
+    const findUser = async idProfessor => {
+      const database = getDatabase();
+  
+      const mySnapshot = await get(ref(database, `users/${idProfessor}`));
+  
+      return mySnapshot.val();
+    };
+
+    
+    findUser();
     onLogin();
+    onAddFriend();
   }, [])
-
-  const findUser = async name => {
-    const database = getDatabase();
-
-    const mySnapshot = await get(ref(database, `users/${name}`));
-
-    return mySnapshot.val();
-  };
-
+  
+  
+  
+  onClickUser();
   const onClickUser = user => {
     setCurrentPage('chat');
     setSelectedUser(user);
   };
 
-  const onAddFriend = async name => {
-    try {
-      //find user and add it to my friends and also add me to his friends
-      const database = getDatabase();
 
-      const user = await findUser(name);
-
-      if (user) {
-        if (user.username === myData.username) {
-          // don't let user add himself
-          return;
-        }
-
-        if (
-          myData.friends &&
-          myData.friends.findIndex(f => f.username === user.username) > 0
-        ) {
-          // don't let user add a user twice
-          return;
-        }
-
-        // create a chatroom and store the chatroom id
-
-        const newChatroomRef = push(ref(database, 'chatrooms'), {
-          firstUser: myData.username,
-          secondUser: user.username,
-          messages: [],
-        });
-
-        const newChatroomId = newChatroomRef.key;
-
-        const userFriends = user.friends || [];
-        //join myself to this user friend list
-        update(ref(database, `users/${user.username}`), {
-          friends: [
-            ...userFriends,
-            {
-              username: myData.username,
-              avatar: myData.avatar,
-              chatroomId: newChatroomId,
-            },
-          ],
-        });
-
-        const myFriends = myData.friends || [];
-        //add this user to my friend list
-        update(ref(database, `users/${myData.username}`), {
-          friends: [
-            ...myFriends,
-            {
-              username: user.username,
-              avatar: user.avatar,
-              chatroomId: newChatroomId,
-            },
-          ],
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const onBack = () => {
     setCurrentPage('users');
@@ -147,7 +163,8 @@ export default function ChatApp() {
           onClickUser={onClickUser}
           userToAdd={userToAdd}
           setUserToAdd={setUserToAdd}
-          onAddFriend={onAddFriend}
+
+
         />
       );
     case 'chat':

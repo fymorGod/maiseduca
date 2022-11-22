@@ -1,27 +1,24 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  StatusBar,
-  FlatList,
-} from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { ImageSlider } from "react-native-image-slider-banner";
 
 export const AtividadeInicio = ({ route }) => {
+  //id da ativiade
   let id = route.params.id;
+  //titulo da atividade
   let title = route.params.title;
   const navigation = useNavigation();
 
+  //carregando fonte de texto
   let [fontsLoaded] = useFonts({
-    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
     Bold: require("../../../assets/fonts/Poppins-Bold.ttf"),
   });
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.Container}>
@@ -41,6 +38,7 @@ export const AtividadeInicio = ({ route }) => {
         </Text>
       </View>
 
+      {/* Instruções sobre a atividade */}
       <View style={{ height: "60%" }}>
         <ImageSlider
           data={[
@@ -76,7 +74,7 @@ export const AtividadeInicio = ({ route }) => {
         <TouchableOpacity
           style={{
             marginTop: 20,
-            marginBottom:20,
+            marginBottom: 20,
             width: "100%",
             backgroundColor: "#fff",
             padding: 15,

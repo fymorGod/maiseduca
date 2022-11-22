@@ -30,7 +30,8 @@ initializeApp(firebaseConfig);
 export default function App() {
 
   let [fontsLoaded] = useFonts({
-    'Medium': require('./assets/fonts/Poppins-Medium.ttf')
+    Medium: require('./assets/fonts/Poppins-Medium.ttf'),
+    Bold: require("./assets/fonts/Poppins-Bold.ttf")
   })
   if (! fontsLoaded ){
     return null;
