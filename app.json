@@ -2,11 +2,10 @@
   "expo": {
     "name": "maiseduca",
     "slug": "maiseduca",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/iconteste.png",
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/educacao.png",
       "resizeMode": "contain",
@@ -19,14 +18,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mirante.maiseduca",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "package": "com.mirante.maiseduca"
     },
     "web": {
       "favicon": "./assets/favicon.png"

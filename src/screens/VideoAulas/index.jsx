@@ -63,7 +63,12 @@ export const VideoAulas = ({ route }) => {
     setPosicaoVideo(tudo.aula.progress)
     setFavo(tudo.aula.favorite)
   }
-
+  const pauseVideo = (tudo) => {
+    if (v) {
+        v.current.pauseAsync();
+        navigation.navigate('AtividadeInicio', {id: `${tudo.atividade.id}`, title: `${tudo.atividade.title}`})
+    }
+}
   //renderização de video aulas
   const aulas = (tudo) => {
     return (
@@ -98,7 +103,7 @@ export const VideoAulas = ({ route }) => {
         <TouchableOpacity
         key={tudo.atividade.id}
         onPress={
-            () => navigation.navigate('AtividadeInicio', {id: `${tudo.atividade.id}`, title: `${tudo.atividade.title}`})
+            () => pauseVideo(tudo)
           }
         >
         <View style={styles.videos}>

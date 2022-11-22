@@ -40,6 +40,7 @@ export const Login = ({}) => {
         onPress={Keyboard.dismiss}
         style={{ height: "100%", width: "100%", backgroundColor: "red" }}
       >
+        
         <View style={styles.Container}>
             <Spinner visible={isLoading}/>
           <View style={styles.wrapper}>
