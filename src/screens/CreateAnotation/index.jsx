@@ -42,7 +42,7 @@ export const CreateAnotation = ({}) => {
   //função de posta para criar a anotação
   const criarNota = async () => {
     try {
-      const response = await axios.post(`http://192.168.6.20:3010/anotacoes`, {
+      const response = await axios.post(`http://35.199.114.75:3010/anotacoes`, {
         descricao: descricao,
         id_aluno: `${userInfo.user.id}`,
         array_tags: tags,

@@ -36,7 +36,7 @@ export const TrocarSenha = () => {
   const mudarSenha = async () => {
     try {
       const response = await axios.put(
-        `http://192.168.6.20:3010/escolas/users/change_password`,
+        `http://35.199.114.75:3010/escolas/users/change_password`,
         {
           actual_password: atual,
           new_password: novaSenha1,

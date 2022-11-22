@@ -56,7 +56,7 @@ export const Anotation = () => {
   //carregando os lembretes
   const getAnotacoes = async() => {
     try {
-      const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
+      const res = await axios.get(`http://35.199.114.75:3010/anotacoesByAluno/${userInfo.user.id}`)
       setNote(res.data["anotacoes"]);
       listaNotes.push(res.data["anotacoes"])
       console.log(res.data["anotacoes"]);
@@ -68,7 +68,7 @@ export const Anotation = () => {
   //deletando as anotações
   const delAnotacoes = async(id) => {
     try {
-      const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)
+      const res = await axios.delete(`http://35.199.114.75:3010/anotacoes/${id}`)
       if(res.status === 204){
         showToasts();
         onRefresh();

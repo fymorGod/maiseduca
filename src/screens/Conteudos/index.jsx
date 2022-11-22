@@ -14,7 +14,7 @@ export const Conteudos = ({route}) => {
 
     //get nos conteudos do alunos po rmateria
      useEffect(() => {
-         axios.get(`http://192.168.6.20:3010/conteudosAluno/${userInfo.user.id}/${id}`)
+         axios.get(`http://35.199.114.75:3010/conteudosAluno/${userInfo.user.id}/${id}`)
          .then(res=>{
              // s
              setConteudos(res.data['conteudo'].conteudo);

@@ -26,7 +26,7 @@ export const Classificacao = () => {
   useEffect(() => {
     const getRank = async () => {
       const response = await axios.get(
-        `http://192.168.6.20:3010/ranks/${userInfo.user.id}`
+        `http://35.199.114.75:3010/ranks/${userInfo.user.id}`
       );
       setRank(response.data[choice]);
       setPoints(response.data["points"]);

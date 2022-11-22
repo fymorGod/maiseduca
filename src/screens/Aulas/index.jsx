@@ -2,6 +2,7 @@ import axios from "axios";
 import { useFonts } from "expo-font";
 import React, { useContext, useEffect, useState } from "react";
 import { Text, View, StyleSheet, FlatList, ScrollView } from "react-native";
+import api from "../../api/app";
 import { AppHeader } from "../../components/AppHeader";
 import { MateriaItem } from "../../components/materias";
 import { AuthContext } from "../../context/AuthContext";
@@ -17,8 +18,8 @@ export const Aulas = () => {
 
   //get nas aulas
   useEffect(() => {
-    axios
-      .get(`http://192.168.6.20:3010/disciplinasAluno/${userInfo.user.id}`)
+    api
+      .get(`/${userInfo.user.id}`)
       .then((res) => {
         // s
         setMaterias(res.data["disciplinas"]);
