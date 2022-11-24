@@ -18,6 +18,8 @@ export const Home = () => {
   // carregar fonte
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+    Bold: require("../../../assets/fonts/Poppins-Bold.ttf"),
+    Regular: require("../../../assets/fonts/Poppins-Regular.ttf")
   });
 
   // variáveis
@@ -25,7 +27,7 @@ export const Home = () => {
   const [fav, setFav] = useState([]);
   const [aulas, setAulas] = useState([]);
   const navigation = useNavigation();
-  const limite = 42;
+  const limite = 30;
 
   // get nos favoritos
   const getFav = async () => {
@@ -74,7 +76,7 @@ export const Home = () => {
         </View>
         <View style={styles.aulasVideos}>
           <Text
-            style={{ fontFamily: "Medium", fontSize: 16, color: "#403B91" }}
+            style={{ fontFamily: "Medium", fontSize: 18, color: "#4264EB" }}
           >
             Favoritos
           </Text>
@@ -100,17 +102,19 @@ export const Home = () => {
                     source={{ uri: `${item.thumb}` }}
                     style={{ width: 160, height: 90, borderRadius: 10 }}
                   />
+                  <View style={{alignSelf:'flex-start', justifyContent:'flex-start'}}>
                   <Text
-                    style={{
-                      fontFamily: "Medium",
-                      fontSize: 11,
-                      color: "#403B91",
-                    }}
-                  >
-                    {item.title.length > limite
-                      ? item.title.substring(0, limite) + "..."
-                      : item.title}
-                  </Text>
+                  style={{
+                    fontFamily: "Regular",
+                    fontSize: 12,
+                    color: "#1F1A14",
+                  }}
+                >
+                  {item.title.length > limite
+                    ? item.title.substring(0, limite) + "..."
+                    : item.title}
+                </Text>
+                  </View>
                 </TouchableOpacity>
               </View>
             )}
@@ -119,7 +123,7 @@ export const Home = () => {
 
         <View style={styles.aulasVideos}>
           <Text
-            style={{ fontFamily: "Medium", fontSize: 16, color: "#403B91" }}
+            style={{ fontFamily: "Medium", fontSize: 18, color: "#4264EB" }}
           >
             Últimas aulas
           </Text>
@@ -147,9 +151,9 @@ export const Home = () => {
                   />
                   <Text
                     style={{
-                      fontFamily: "Medium",
-                      fontSize: 11,
-                      color: "#403B91",
+                      fontFamily: "Regular",
+                      fontSize: 12,
+                      color: "#1F1A14",
                     }}
                   >
                     {item.title.length > limite

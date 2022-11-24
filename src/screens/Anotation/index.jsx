@@ -88,7 +88,7 @@ export const Anotation = () => {
           style={{
             fontFamily:"Medium",
             fontSize: 18,
-            color: "#403B91",
+            color: "#4264EB",
             paddingTop: 20,
             paddingLeft: 20,
           }}
@@ -104,7 +104,7 @@ export const Anotation = () => {
         />
       }
       >
-        <View style={{ paddingHorizontal: 25, paddingVertical:10 }}>
+        <View style={{ paddingHorizontal: 20, paddingVertical:10 }}>
           {note?.map((notes, index) => (
             <TouchableOpacity
               key={notes.id}

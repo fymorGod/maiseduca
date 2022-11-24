@@ -34,12 +34,12 @@ export const Aulas = () => {
           style={{
             fontFamily: "Medium",
             fontSize: 18,
-            color: "#403B91",
+            color: "#4264EB",
             paddingTop: 20,
             paddingLeft: 20,
           }}
         >
-          Minhas Disciplinas
+        Disciplinas
         </Text>
       </View>
       <View style={styles.lista}>

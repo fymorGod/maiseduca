@@ -26,6 +26,7 @@ import { useNavigation } from "@react-navigation/native";
 import Icon2 from "react-native-vector-icons/Octicons";
 import { ScrollView } from "native-base";
 import ToastManager, { Toast } from "toastify-react-native";
+import { useFonts } from "expo-font";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -44,6 +45,10 @@ export const Calendario = () => {
   const horaMask = [/\d/, /\d/, ":", /\d/, /\d/];
   const dataMask = [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/];
   const limite = 10;
+
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+})
 
 
   useEffect(() => {
@@ -201,7 +206,7 @@ export const Calendario = () => {
           <KeyboardAvoidingView>
             <View style={{ paddingHorizontal: 20, paddingVertical: 30 }}>
               {/* Titulo */}
-              <Text style={{ color: "#403B91", fontSize: 18 }}>Título</Text>
+              <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Título</Text>
               <View style={{ marginTop: 10, marginBottom: 10 }}>
                 <TextInput
                   style={styles.Input}
@@ -211,7 +216,7 @@ export const Calendario = () => {
                 />
               </View>
               {/* Descricao */}
-              <Text style={{ color: "#403B91", fontSize: 18 }}>Descrição</Text>
+              <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Descrição</Text>
               <View style={{ marginTop: 10, marginBottom: 10 }}>
                 <TextInput
                   maxLength={30}
@@ -222,13 +227,13 @@ export const Calendario = () => {
                 />
               </View>
               {/* data */}
-              <Text style={{ color: "#403B91", fontSize: 18 }}>Data</Text>
+              <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Data</Text>
               <View style={{ marginTop: 10 }}>
                 <MaskInput
                   placeholder="Data do evento"
                   mask={dataMask}
                   keyboardType="decimal-pad"
-                  style={styles.Input}
+                  style={styles.InputData}
                   value={date}
                   onChangeText={(text) => setDate(text)}
                 />
@@ -241,10 +246,11 @@ export const Calendario = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <Text style={{ color: "#403B91", fontSize: 18 }}>Início</Text>
-                <View style={{ marginRight: 153 }}>
-                  <Text style={{ color: "#403B91", fontSize: 18 }}>Fim</Text>
+                <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Início</Text>
+                <View>
+                  <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Fim</Text>
                 </View>
+                <Text></Text>
               </View>
               <View
                 style={{
@@ -267,7 +273,7 @@ export const Calendario = () => {
                 />
                 <MaskInput
                   keyboardType="decimal-pad"
-                  placeholder="fim do evento"
+                  placeholder="Fim do evento"
                   style={styles.Input3}
                   value={fim}
                   mask={horaMask}
@@ -282,38 +288,38 @@ export const Calendario = () => {
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-around",
+                  justifyContent: "space-between",
                   alignItems: "flex-start",
                 }}
               >
                 <TouchableOpacity
                   style={{
-                    width: "47%",
+                    width: "48%",
                     alignItems: "center",
                     marginRight: 5,
                     marginTop: 20,
                     paddingVertical: 10,
-                    borderRadius: 28,
+                    borderRadius: 12,
                     elevation: 0,
-                    backgroundColor: "#BAC8FF",
+                    backgroundColor: "#D1DEFE",
                   }}
                   onPress={() => refRBSheet.current.close()}
                 >
-                  <Text style={{ color: "#4263EB" }}>Cancelar</Text>
+                  <Text style={{ color: "#343A40", fontSize:16, fontFamily:"Medium" }}>Cancelar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => postLembrete()}
                   style={{
-                    width: "47%",
+                    width: "48%",
                     alignItems: "center",
                     marginTop: 20,
                     paddingVertical: 10,
-                    borderRadius: 28,
+                    borderRadius: 12,
                     elevation: 0,
-                    backgroundColor: "#4263EB",
+                    backgroundColor: "#4264EB",
                   }}
                 >
-                  <Text style={{ color: "#fff" }}>Confirmar</Text>
+                  <Text style={{ color: "#f2f2f2", fontSize:16, fontFamily:"Medium" }}>Confirmar</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -352,8 +358,16 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 14,
     backgroundColor: "#fff",
   },
+  InputData: {
+    width: "50%",
+    height: 50,
+    marginBottom: 12,
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    backgroundColor: "#fff",
+  },
   Input2: {
-    width: "46%",
+    width: "50%",
     height: 50,
     marginBottom: 12,
     borderRadius: 8,
@@ -362,7 +376,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   Input3: {
-    width: "46%",
+    width: "50%",
     height: 50,
     marginBottom: 12,
     borderRadius: 8,

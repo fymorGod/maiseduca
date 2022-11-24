@@ -6,7 +6,7 @@ import {Image} from 'react-native-expo-image-cache';
 
 //compomente dos videos favoritados renderizados na pagina home 
 
-export function FavItem({ id_favorito, title, thumb }) {
+export function FavItem({title, thumb }) {
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
   });

@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
+import { useFonts } from "expo-font";
 
 const TabsFavoritos = ({
   setFavo,
@@ -23,6 +24,10 @@ const TabsFavoritos = ({
   const [fav, setFav] = useState();
   const { userInfo } = useContext(AuthContext);
   let id = userInfo.user.id;
+
+  let [fontsLoaded] = useFonts({
+    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+  });
 
   //função de favoritar de desfavoritar video
   async function changeFavorito() {
@@ -51,26 +56,30 @@ const TabsFavoritos = ({
   return (
     <View
       style={{
-        backgroundColor: "#EDF2FF",
+        backgroundColor: "#AADFE0" + 50,
         width: "100%",
         alignItems: "center",
+        borderBottomRightRadius:12,
+        borderBottomLeftRadius:12,
+        height:50,
+        justifyContent:'center'
       }}
     >
       <View
         style={{
           padding: 10,
-          backgroundColor: "#fff",
           flexDirection: "row",
-          width: "95%",
-          borderRadius: 30,
           margin: 10,
           alignItems: "center",
           justifyContent: "space-between",
           height: 40,
+          width:"100%"
         }}
       >
         {/* Ir para página de chat */}
-        <TouchableOpacity onPress={() => navigation.navigate("Chat", {idProfessor: `${idProfessor}`})}>
+        <TouchableOpacity 
+        // onPress={() => navigation.navigate("Chat", {idProfessor: `${idProfessor}`})}
+        >
           <View
             style={{
               flexDirection: "row",
@@ -78,15 +87,18 @@ const TabsFavoritos = ({
               justifyContent: "center",
               marginRight: 5,
               marginLeft: 3,
+              marginRight: 5,
+              alignItems:'center',
+              justifyContent:'center'
             }}
           >
             <AntDesign
               name="bars"
               size={20}
-              color="#4263EB"
+              color="#343A40"
               style={{ alignItems: "center", marginRight: 3 }}
             />
-            <Text style={{ color: "#4263EB", fontWeight: "400", fontSize: 12 }}>
+            <Text style={{ color: "#343A40", fontWeight: "400", fontSize: 11, fontFamily: "Medium" }}>
               Tira-Dúvidas
             </Text>
           </View>
@@ -106,15 +118,18 @@ const TabsFavoritos = ({
               flexDirection: "row",
               alignItems: "center",
               marginRight: 5,
+              marginRight: 5,
+              alignItems:'center',
+              justifyContent:'center'
             }}
           >
             <Icon2
               name="newspaper-outline"
               size={20}
-              color="#4263EB"
+              color="#343A40"
               style={{ alignItems: "center", marginRight: 3 }}
             />
-            <Text style={{ color: "#4263EB", fontWeight: "400", fontSize: 12 }}>
+            <Text style={{ color: "#343A40", fontWeight: "400", fontSize: 11, fontFamily: "Medium" }}>
               Anotações
             </Text>
           </View>
@@ -129,17 +144,20 @@ const TabsFavoritos = ({
                 flexDirection: "row",
                 alignItems: "center",
                 marginRight: 5,
+                marginRight: 5,
+                alignItems:'center',
+                justifyContent:'center'
               }}
             >
               <Icon4
                 name="star"
                 size={20}
-                color="#4263EB"
+                color="#343A40"
                 style={{ alignItems: "center", marginRight: 3 }}
               />
 
               <Text
-                style={{ color: "#4263EB", fontWeight: "400", fontSize: 12 }}
+                style={{ color: "#343A40", fontWeight: "400", fontSize: 11, fontFamily: "Medium" }}
               >
                 Favoritos
               </Text>
@@ -152,17 +170,19 @@ const TabsFavoritos = ({
                 flexDirection: "row",
                 alignItems: "center",
                 marginRight: 5,
+                alignItems:'center',
+                justifyContent:'center'
               }}
             >
               <Icon3
                 name="star-outline"
                 size={20}
-                color="#4263EB"
+                color="#343A40"
                 style={{ alignItems: "center", marginRight: 3 }}
               />
 
               <Text
-                style={{ color: "#4263EB", fontWeight: "400", fontSize: 12 }}
+                style={{ color: "#343A40", fontWeight: "400", fontSize: 11, fontFamily: "Medium" }}
               >
                 Favoritos
               </Text>

@@ -76,7 +76,9 @@ export const MinhasNotas = () => {
             >
               <VictoryBar
                 alignment="start"
-                style={{ data: { width: 30, fill: "#00B7B7" } }}
+                style={{ data: { 
+                  width: 30,
+                  fill:({ datum }) => datum.x >= 7 ?  'green' : datum.x >= 5 ? 'yellow' : 'red'  } }}
                 barWidth={40}
                 height={1}
                 data={data}

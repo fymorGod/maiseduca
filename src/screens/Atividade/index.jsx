@@ -10,6 +10,7 @@ import {
   ScrollView,
   StatusBar,
   SafeAreaView,
+  ImageBackground,
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
@@ -69,7 +70,6 @@ export const Atividade = ({ route }) => {
     handleStart();
   }, []);
 
-  console.log(time)
 
 
   const [atv, setAtv] = useState([]);
@@ -288,109 +288,110 @@ export const Atividade = ({ route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#4263EB" }}>
+    <View style={{ flex: 1 }}>
+    <ImageBackground source={require("../../../assets/BG.png")} resizeMode="cover" style={{flex:1, justifyContent:'center'}}>
+    <View
+    style={{
+      flex: 1,
+      paddingTop: 40,
+      paddingBottom: 5,
+      paddingHorizontal: 16,
+      position: "relative",
+    }}
+  >
+    {/* ProgressBar */}
+    {renderProgressBar()}
+
+    <ScrollView>
+      {/* Question */}
+      {renderQuestion()}
+
+      {/* Options */}
+      {renderOptions()}
+
+      {/* Next Button */}
+      {renderNextButton()}
+    </ScrollView>
+
+    {/* Score Modal */}
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={showScoreModal}
+    >
       <View
         style={{
           flex: 1,
-          paddingTop: 40,
-          paddingBottom: 5,
-          paddingHorizontal: 16,
-          backgroundColor: "#4263EB",
-          position: "relative",
+          backgroundColor: "#252c4a",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {/* ProgressBar */}
-        {renderProgressBar()}
-
-        <ScrollView>
-          {/* Question */}
-          {renderQuestion()}
-
-          {/* Options */}
-          {renderOptions()}
-
-          {/* Next Button */}
-          {renderNextButton()}
-        </ScrollView>
-
-        {/* Score Modal */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showScoreModal}
+        <View
+          style={{
+            backgroundColor: "#fff",
+            width: "90%",
+            borderRadius: 20,
+            padding: 20,
+            alignItems: "center",
+          }}
         >
+          <Text style={{ fontSize: 30, fontWeight: "bold" }}>
+            {score > allQuestions.length / 2 ? "Parabéns!" : "Quase lá!"}
+          </Text>
+
           <View
             style={{
-              flex: 1,
-              backgroundColor: "#252c4a",
+              flexDirection: "row",
+              justifyContent: "flex-start",
               alignItems: "center",
-              justifyContent: "center",
+              marginVertical: 20,
             }}
           >
-            <View
+            <Text
               style={{
-                backgroundColor: "#fff",
-                width: "90%",
-                borderRadius: 20,
-                padding: 20,
-                alignItems: "center",
+                fontSize: 30,
+                color:
+                  score > allQuestions.length / 2 ? "#00C851" : "#ff4444",
               }}
             >
-              <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-                {score > allQuestions.length / 2 ? "Parabéns!" : "Quase lá!"}
-              </Text>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  marginVertical: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 30,
-                    color:
-                      score > allQuestions.length / 2 ? "#00C851" : "#ff4444",
-                  }}
-                >
-                  {score}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    color: "#171717",
-                  }}
-                >
-                  / {allQuestions.length}
-                </Text>
-              </View>
-
-              {/* Enviar Pontuação - Buttom*/}
-              <TouchableOpacity
-                onPress={() => enviarNota()}
-                style={{
-                  backgroundColor: "#3498db",
-                  padding: 20,
-                  width: "100%",
-                  borderRadius: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
-                >
-                  Voltar ao início
-                </Text>
-              </TouchableOpacity>
-            </View>
+              {score}
+            </Text>
+            <Text
+              style={{
+                fontSize: 20,
+                color: "#171717",
+              }}
+            >
+              / {allQuestions.length}
+            </Text>
           </View>
-        </Modal>
+
+          {/* Enviar Pontuação - Buttom*/}
+          <TouchableOpacity
+            onPress={() => enviarNota()}
+            style={{
+              backgroundColor: "#3498db",
+              padding: 20,
+              width: "100%",
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                color: "#fff",
+                fontSize: 20,
+              }}
+            >
+              Voltar ao início
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </SafeAreaView>
+    </Modal>
+  </View>
+      </ImageBackground>
+    </View>
   );
 };

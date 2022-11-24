@@ -22,7 +22,8 @@ export const AuthProvider = ({children}) => {
       setUserInfo(userInfo);
       await AsyncStorage.setItem('@asyncStorage:userInfo', userInfo.token);
       setIsLoading(false);
-    } catch (error) { 
+    } catch (error) {
+      setIsLoading(false)
     }
   };
 

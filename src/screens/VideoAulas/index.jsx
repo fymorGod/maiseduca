@@ -14,8 +14,13 @@ import { AppHeader2 } from "../../components/AppHeader2";
 import { TabsFavoritos } from "../../components/tabsFavoritos/tabsFavoritos";
 import { Video } from "expo-av";
 import {Image as Image1}  from 'react-native-expo-image-cache';
+import { useFonts } from "expo-font";
+
 
 export const VideoAulas = ({ route }) => {
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
   //id do conteudo favoritado
   let id = route.params.id;
   //id do video favoritado
@@ -28,6 +33,7 @@ export const VideoAulas = ({ route }) => {
   const [firstAula, setFirstAula] = useState('');
   const [corId, setCorId] = useState('');
   const [name,setName] = useState();
+  const [nameConteudo, setNameConteudo] = useState('');
   const [idAula, setIdAula] = useState()
   const v = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
@@ -47,12 +53,21 @@ export const VideoAulas = ({ route }) => {
         setFirstAula(response.data.conteudo["first_aula"]);
         setVideos(response.data.conteudo.array_conteudos);
         setName(response.data["conteudo"]["disciplina"].name);
+        setNameConteudo(response.data["conteudo"].name);
         setIdBimestre(response.data["conteudo"].id_bimestre);
         setIdProfessor(response.data["conteudo"].created_by)
       };
       getVideosContent();
     }  
     }, [favo]);
+
+
+  const pauseVideo = (tudo) => {
+    if (v) {
+        v.current.pauseAsync();
+        navigation.navigate('AtividadeInicio', {id: `${tudo.atividade.id}`, title: `${tudo.atividade.title}`})
+    }
+  }
  
   // função para alterar entre vídeos
   const videoRodando = (tudo) => {
@@ -98,7 +113,7 @@ export const VideoAulas = ({ route }) => {
         <TouchableOpacity
         key={tudo.atividade.id}
         onPress={
-            () => navigation.navigate('AtividadeInicio', {id: `${tudo.atividade.id}`, title: `${tudo.atividade.title}`})
+            () => pauseVideo(tudo)
           }
         >
         <View style={styles.videos}>
@@ -129,14 +144,14 @@ export const VideoAulas = ({ route }) => {
         "id_bimestre": idBimestre
       })
       if(res.status === 201){
-        console.log('Deu certo')        
+          console.log('Deu certo')
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  //post acontece quando o video esta parado
+  //post acontece quando o video esta parado ou pausado
   if (status.isPlaying == false) {
     postProgresso()
   }
@@ -170,6 +185,10 @@ export const VideoAulas = ({ route }) => {
       setFavo={setFavo}
       name={name}
       />
+      </View>
+
+      <View style={{marginTop:10, marginLeft:15}}>
+      <Text style={{fontFamily:"Medium", color:"#4264EB", fontSize:16}}>{nameConteudo}</Text>
       </View>
 
       {/* renderizando videos e atividades na pagina */}
@@ -208,7 +227,7 @@ export const styles = StyleSheet.create({
     marginHorizontal:10
   },
   title:{
-    color:'#868E96',
+    color:'#56626E',
     textAlign: 'justify',
   }
 });

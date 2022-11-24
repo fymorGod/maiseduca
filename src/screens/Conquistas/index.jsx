@@ -47,7 +47,7 @@ export const Conquistas = () => {
             <Text  style={{
                 fontFamily: "Medium",
                 fontSize: 18,
-                color: "#403B91",
+                color: "#4264EB",
                 paddingTop: 20,
                 paddingLeft: 20,
               }}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { ImageSlider } from "react-native-image-slider-banner";
@@ -22,6 +22,7 @@ export const AtividadeInicio = ({ route }) => {
 
   return (
     <View style={styles.Container}>
+      <ImageBackground source={require("../../../assets/BG.png")} resizeMode="cover" style={{flex:1, justifyContent:'center'}}>
       <View
         style={{ flexDirection: "column", alignItems: "center", marginTop: 50 }}
       >
@@ -102,6 +103,7 @@ export const AtividadeInicio = ({ route }) => {
           </Text>
         </TouchableOpacity>
       </View>
+      </ImageBackground>
     </View>
   );
 };
@@ -109,7 +111,6 @@ export const AtividadeInicio = ({ route }) => {
 export const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: "#4263EB",
     flexDirection: "column",
     justifyContent: "space-between",
   },
