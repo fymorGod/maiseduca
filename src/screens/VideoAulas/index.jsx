@@ -15,16 +15,24 @@ import { TabsFavoritos } from "../../components/tabsFavoritos/tabsFavoritos";
 import { Video } from "expo-av";
 import {Image as Image1}  from 'react-native-expo-image-cache';
 import { useFonts } from "expo-font";
+import Icon2 from "react-native-vector-icons/MaterialIcons";
+
 
 
 export const VideoAulas = ({ route }) => {
   let [fontsLoaded] = useFonts({
-    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf'),
+    'Regular': require('../../../assets/fonts/Poppins-Regular.ttf'),
+    'Bold': require('../../../assets/fonts/Poppins-Bold.ttf'),
+
+
   })
   //id do conteudo favoritado
   let id = route.params.id;
   //id do video favoritado
   let file = route.params.file;
+  //titulo do video favoritado e de ultimas aulas
+  let title = route.params.title;
 
   const navigation = useNavigation();
   const [videos, setVideos] = useState([]);
@@ -41,7 +49,11 @@ export const VideoAulas = ({ route }) => {
   const [posicaoVideo, setPosicaoVideo] = useState()
   const [favo, setFavo] = useState(false);
   const [idProfessor, setIdProfessor] = useState();
-  const limite = 28;
+  const [nomeVideo, setNomeVideo] = useState();
+  const [ nomeProfessor, setNomeProfessor] = useState();
+  const [ firstVideoTitle, setVideoTiltle] = useState('');
+  const limite = 50;
+  const limiteConteudo = 10;
 
   //get nos conteudos do vídeo/atividades/materiais
   useEffect(() => {
@@ -55,7 +67,9 @@ export const VideoAulas = ({ route }) => {
         setName(response.data["conteudo"]["disciplina"].name);
         setNameConteudo(response.data["conteudo"].name);
         setIdBimestre(response.data["conteudo"].id_bimestre);
-        setIdProfessor(response.data["conteudo"].created_by)
+        setIdProfessor(response.data["conteudo"].created_by);
+        setNomeProfessor(response.data["conteudo"].professor);
+        setVideoTiltle(response.data.conteudo["first_aula"].title)
       };
       getVideosContent();
     }  
@@ -77,28 +91,30 @@ export const VideoAulas = ({ route }) => {
     setCorId(tudo.aula.id)
     setPosicaoVideo(tudo.aula.progress)
     setFavo(tudo.aula.favorite)
+    setNomeVideo(tudo.aula.title)
   }
 
   //renderização de video aulas
   const aulas = (tudo) => {
     return (
-      <View>
+      <View style={{}}>
         <TouchableOpacity 
         key={tudo.aula.id}
         onPress={() => videoRodando(tudo)}>
-
         <View style={corId== tudo.aula.id ? styles.videos2 : styles.videos }>
+          <View style={{height: 45, width: 80,}}>
           <Image1
-          style={{height: 45, width: 80, borderRadius:10}}
+          style={{height: '100%', width: '100%', borderRadius:10, marginVertical:5}}
           resizeMode="contain" 
           uri={`${tudo.aula.thumb}` }
           />
-          
-         <View style={{width: 220, marginLeft:10}}>
+          </View>
+         <View style={{marginLeft:10, width:220}}>
           <Text style={styles.title}>
-            {tudo.aula.title}
+            {tudo.aula.title.length > limite
+            ? tudo.aula.title.substring(0, limite) + "..."
+            : tudo.aula.title}
           </Text>
-      
          </View>
           </View>
         </TouchableOpacity>
@@ -109,7 +125,7 @@ export const VideoAulas = ({ route }) => {
   //renderização de atividades
   const atividade = (tudo) => {
     return (
-      <View>
+      <View  style={{}}>
         <TouchableOpacity
         key={tudo.atividade.id}
         onPress={
@@ -117,16 +133,17 @@ export const VideoAulas = ({ route }) => {
           }
         >
         <View style={styles.videos}>
-        <Image
-        style={{height: 45, width: 80}}
-        resizeMode="contain" 
-        source={require("../../../assets/ATIVIDADE.png")}
-        />
+          <View style={{height: 45, width: 80}}>
+          <Image
+          style={{height: '100%', width: '100%', borderRadius:10, marginVertical:5}}
+          resizeMode="contain" 
+          source={require("../../../assets/ATIVIDADE.png")}
+          />
+          </View>
         <View style={{width: 220, marginLeft:10}}>
         <Text style={styles.title}>
           {tudo.atividade.title}
         </Text>
-    
        </View>
         </View>
         </TouchableOpacity>
@@ -156,6 +173,8 @@ export const VideoAulas = ({ route }) => {
     postProgresso()
   }
 
+
+
   return (
       <View style={styles.Container}>
       <AppHeader2 />
@@ -173,30 +192,45 @@ export const VideoAulas = ({ route }) => {
             resizeMode="contain"
           />
         </View>
-      <View>
-      {/* Componente de chat/favoritos/anotações  */}
-      <TabsFavoritos
-      idProfessor={idProfessor}
-      first_idAula={firstAula.id}
-      first_Favo={firstAula.favorite}
-      id_bimestre={idBimestre}
-      id_aula={idAula}
-      favorite={favo}
-      setFavo={setFavo}
-      name={name}
-      />
-      </View>
 
-      <View style={{marginTop:10, marginLeft:15}}>
-      <Text style={{fontFamily:"Medium", color:"#4264EB", fontSize:16}}>{nameConteudo}</Text>
-      </View>
 
       {/* renderizando videos e atividades na pagina */}
         <ScrollView>
+        <View style={{backgroundColor:'#fff', paddingTop:10}}>
+        <View style={{marginHorizontal:20}}>
+        <Text style={{color:'#4264EB', fontFamily:"Medium", fontSize:18 }}>{nomeVideo}</Text>
+        </View>
+  
+        <View style={{flexDirection:'row',  alignItems:'center', justifyContent:'space-between', marginTop:10, marginHorizontal:20}}>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+        <View style={{height:30, width:30, borderRadius:50, marginRight:5}}>
+        <Image
+        style={{height:'100%', width:"100%"}}
+        resizeMode="contain"
+        source={require("../../../assets/avatar.png")}
+        />
+        </View>
+        <Text style={{color:'#343434', fontFamily:"Regular"}}>{nomeProfessor}</Text>
+        </View>
+        </View>
+        {/* Componente de chat/favoritos/anotações  */}
+        <TabsFavoritos
+        idProfessor={idProfessor}
+        first_idAula={firstAula.id}
+        first_Favo={firstAula.favorite}
+        id_bimestre={idBimestre}
+        id_aula={idAula}
+        favorite={favo}
+        setFavo={setFavo}
+        name={name}
+        />
+        </View>
+        <View style={{marginHorizontal:20, marginTop:10}}>
+        <Text style={{color:"#343434", fontFamily:"Medium", fontSize:16,}}>{nameConteudo}</Text>
+        </View>
         {videos.map((tudo, index)=>(
-
-          <View key={index} style={{justifyContent:'space-between', alignItems:'flex-start'}}>
-              <Text> {tudo.atividade? atividade(tudo) : aulas(tudo)}</Text>
+          <View key={index} style={{alignItems:'flex-start'}}>
+              {tudo.atividade? atividade(tudo) : aulas(tudo)}
           </View>
       ))}
         </ScrollView>
@@ -211,23 +245,27 @@ export const styles = StyleSheet.create({
   },
   videos:{
     width:'100%',
-    height: 60,
+    height: 55,
     flexDirection:'row',
-    alignItems:'center',
-    marginTop:10,
-    marginHorizontal:10
+    alignItems:'flex-start',
+    marginVertical:5,
+    marginHorizontal:20,
+   
   },
   videos2:{
-    width:'100%',
-    height: 60,
-    backgroundColor: "EDF2FF"+30,
+    width:'150%',
+    height: 55,
     flexDirection:'row',
-    alignItems:'center',
-    marginTop:10,
-    marginHorizontal:10
+    alignItems:'flex-start',
+    marginVertical:5,
+    paddingHorizontal:20,
+    backgroundColor:'#D1DEFE',
   },
   title:{
-    color:'#56626E',
-    textAlign: 'justify',
+    paddingVertical:5,
+    textAlignVertical:'top',
+    color:'#343A40',
+    fontFamily:'Regular',
+    fontSize:13
   }
 });

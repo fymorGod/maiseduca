@@ -95,6 +95,7 @@ export const Home = () => {
                     navigation.navigate("VideoAulas", {
                       id: `${item.conteudo}`,
                       file: `${item.file}`,
+                      title: `${item.title}`
                     })
                   }
                 >
@@ -142,6 +143,7 @@ export const Home = () => {
                     navigation.navigate("VideoAulas", {
                       id: `${item.conteudo}`,
                       file: `${item.file}`,
+                      title: `${item.title}`
                     })
                   }
                 >
