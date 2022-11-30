@@ -139,6 +139,12 @@ export const Calendario = () => {
     Toast.success("Lembrete deletado ");
   };
 
+  const getMinDate = () => {
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+    return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
+  }
 
   return (
     <View style={styles.Container}>

@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/iconteste.png",
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/educacao.png",
       "resizeMode": "contain",
@@ -28,7 +27,8 @@
         "foregroundImage": "./assets/iconteste.png",
         "backgroundColor": "#FFFFFF"
       },
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "package": "com.mirante.maiseduca"
     },
     "web": {
       "favicon": "./assets/favicon.png"

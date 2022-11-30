@@ -88,7 +88,7 @@ export const Atividade = ({ route }) => {
   const enviarNota = async () => {
     try {
       const response = await axios.post(
-        `http://192.168.6.20:3010/aluno_responde_atividade`,
+        `http://35.199.114.75:3010/aluno_responde_atividade`,
         {
           nota: pontos,
           id_aluno: `${userInfo.user.id}`,
