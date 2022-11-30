@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from "react";
-import axios from "axios";
 import {
   Text,
   View,
@@ -47,9 +46,10 @@ export const VideoAulas = ({ route }) => {
   const [idProfessor, setIdProfessor] = useState();
   const [nomeVideo, setNomeVideo] = useState();
   const [nomeProfessor, setNomeProfessor] = useState();
-  const [firstVideoTitle, setFirstVideoTiltle] = useState("");
+  const [firstVideoTitle, setFirstVideoTitle] = useState("");
   const limite = 50;
   const limiteConteudo = 30;
+
 
   //get nos conteudos do vídeo/atividades/materiais
   useEffect(() => {
@@ -65,7 +65,8 @@ export const VideoAulas = ({ route }) => {
         setIdBimestre(response.data["conteudo"].id_bimestre);
         setIdProfessor(response.data["conteudo"].created_by);
         setNomeProfessor(response.data["conteudo"].professor);
-        setFirstVideoTiltle(response.data.conteudo["first_aula"].title);
+        setFirstVideoTitle(response.data.conteudo["first_aula"].title);
+        console.log(response.data.conteudo["first_aula"].title)
       };
       getVideosContent();
     }
@@ -157,7 +158,7 @@ export const VideoAulas = ({ route }) => {
   //função de post do progresso das aulas
   const postProgresso = async () => {
     try {
-      const res = await axios.post(`http://192.168.6.20:3010/progressos`, {
+      const res = await api.post(`/progressos`, {
         id_aluno: `${userInfo.user.id}`,
         id_aula: idAula != "" ? firstAula.id : idAula,
         progress: status.positionMillis,
