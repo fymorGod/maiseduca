@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/iconteste.png",
     "userInterfaceStyle": "light",
+
     "splash": {
       "image": "./assets/educacao.png",
       "resizeMode": "contain",
@@ -34,3 +35,4 @@
     }
   }
 }
+
