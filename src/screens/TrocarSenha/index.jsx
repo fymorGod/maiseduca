@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "native-base";
 import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
+import api from "../../api/api";
 
 export const TrocarSenha = () => {
   const { logout } = useContext(AuthContext);
@@ -35,8 +36,8 @@ export const TrocarSenha = () => {
   //função para mudar senha do aluno
   const mudarSenha = async () => {
     try {
-      const response = await axios.put(
-        `http://192.168.6.20:3010/escolas/users/change_password`,
+      const response = await api.put(
+        `/escolas/users/change_password`,
         {
           actual_password: atual,
           new_password: novaSenha1,
@@ -60,13 +61,13 @@ export const TrocarSenha = () => {
         <Text
           style={{
             fontFamily: "Medium",
-            fontSize: 16,
-            color: "#403B91",
+            fontSize: 18,
+            color: "#4264EB",
             paddingTop: 20,
             paddingLeft: 20,
           }}
         >
-          Configurações
+          Senha
         </Text>
       </View>
       <ScrollView>
@@ -75,7 +76,7 @@ export const TrocarSenha = () => {
             style={{
               fontFamily: "Medium",
               fontSize: 16,
-              color: "#403B91",
+              color: "#4264EB",
               paddingTop: 20,
               paddingLeft: 30,
             }}
@@ -103,7 +104,7 @@ export const TrocarSenha = () => {
             style={{
               fontFamily: "Medium",
               fontSize: 16,
-              color: "#403B91",
+              color: "#4264EB",
               paddingTop: 20,
               paddingLeft: 30,
             }}
@@ -130,7 +131,7 @@ export const TrocarSenha = () => {
             style={{
               fontFamily: "Medium",
               fontSize: 16,
-              color: "#403B91",
+              color: "#4264EB",
               paddingTop: 20,
               paddingLeft: 30,
             }}
@@ -156,29 +157,29 @@ export const TrocarSenha = () => {
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <TouchableOpacity
             style={{
-              width: "42%",
+              width: "43%",
               alignItems: "center",
               marginHorizontal: 6,
               marginTop: 20,
               paddingHorizontal: 20,
               paddingVertical: 10,
-              borderRadius: 28,
+              borderRadius: 12,
               elevation: 0,
-              backgroundColor: "#BAC8FF",
+              backgroundColor: "#D1DEFE",
             }}
             onPress={() => navigation.goBack()}
           >
-            <Text style={{ color: "#4263EB" }}>Cancelar</Text>
+            <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Cancelar</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              width: "42%",
+              width: "43%",
               alignItems: "center",
               marginHorizontal: 6,
               marginTop: 20,
               paddingHorizontal: 20,
               paddingVertical: 10,
-              borderRadius: 28,
+              borderRadius: 12,
               elevation: 0,
               backgroundColor: "#4263EB",
             }}

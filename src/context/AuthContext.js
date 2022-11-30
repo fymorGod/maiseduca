@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import api from '../api/api';
 
 export const AuthContext = createContext();
 
@@ -12,13 +13,12 @@ export const AuthProvider = ({children}) => {
     setIsLoading(true);
     
     try {
-      const response = await axios
-      .post(`http://192.168.6.20:3010/escolas/users/login`, {
+      const response = await api
+      .post(`/escolas/users/login`, {
         mat,
         password,
       });
       let userInfo = response.data;
-      console.log(userInfo.user);
       setUserInfo(userInfo);
       await AsyncStorage.setItem('@asyncStorage:userInfo', userInfo.token);
       setIsLoading(false);

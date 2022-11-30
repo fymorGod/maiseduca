@@ -2,7 +2,7 @@
   "expo": {
     "name": "maiseduca",
     "slug": "maiseduca",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/iconteste.png",
     "userInterfaceStyle": "light",
@@ -19,11 +19,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mira.maiseduca"
     },
     "android": {
+      "package" : "com.mira.maiseduca",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/iconteste.png",
         "backgroundColor": "#FFFFFF"
       },
       "useNextNotificationsApi": true

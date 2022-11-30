@@ -10,13 +10,12 @@ import {
 import { AppHeader } from "../../components/AppHeader";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
-import Icon from "react-native-vector-icons/AntDesign";
 import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
-import  Icon2  from 'react-native-vector-icons/Octicons';
 import { useFonts } from "expo-font";
 import ToastManager, { Toast } from 'toastify-react-native'
 import { Feather } from '@expo/vector-icons';
+import api from "../../api/api";
 
 export const Anotation = () => {
 
@@ -56,10 +55,9 @@ export const Anotation = () => {
   //carregando os lembretes
   const getAnotacoes = async() => {
     try {
-      const res = await axios.get(`http://192.168.6.20:3010/anotacoesByAluno/${userInfo.user.id}`)
+      const res = await api.get(`/anotacoesByAluno/${userInfo.user.id}`)
       setNote(res.data["anotacoes"]);
       listaNotes.push(res.data["anotacoes"])
-      console.log(res.data["anotacoes"]);
     } catch (error) {
       console.log(error)
     }
@@ -68,7 +66,7 @@ export const Anotation = () => {
   //deletando as anotações
   const delAnotacoes = async(id) => {
     try {
-      const res = await axios.delete(`http://192.168.6.20:3010/anotacoes/${id}`)
+      const res = await api.delete(`/anotacoes/${id}`)
       if(res.status === 204){
         showToasts();
         onRefresh();

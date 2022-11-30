@@ -17,6 +17,7 @@ import { useFonts } from "expo-font";
 import ToastManager, { Toast } from "toastify-react-native";
 import { AppHeader2 } from "../../components/AppHeader2";
 import { ScrollView } from "native-base";
+import api from "../../api/api";
 
 export const CreateAnotation = ({}) => {
 
@@ -44,7 +45,7 @@ export const CreateAnotation = ({}) => {
   //função de posta para criar a anotação
   const criarNota = async () => {
     try {
-      const response = await axios.post(`http://192.168.6.20:3010/anotacoes`, {
+      const response = await api.post(`/anotacoes`, {
         descricao: descricao,
         id_aluno: `${userInfo.user.id}`,
         array_tags: tags,

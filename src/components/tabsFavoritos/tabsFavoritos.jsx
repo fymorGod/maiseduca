@@ -10,6 +10,7 @@ import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import { ScrollView } from "native-base";
+import api from "../../api/api";
 
 const TabsFavoritos = ({
   setFavo,
@@ -17,7 +18,6 @@ const TabsFavoritos = ({
   favorite,
   name,
   idProfessor,
-  id_bimestre,
   first_Favo,
   first_idAula
 }) => {
@@ -26,6 +26,8 @@ const TabsFavoritos = ({
   const { userInfo } = useContext(AuthContext);
   let id = userInfo.user.id;
 
+
+
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
   });
@@ -33,14 +35,12 @@ const TabsFavoritos = ({
   //função de favoritar de desfavoritar video
   async function changeFavorito() {
     try {
-      const response = await axios.post(
-        `http://192.168.6.20:3510/favoritos/${id}`,
+      const response = await api.post(
+        `/favoritos/${id}`,
         {
-          id_aula: id_aula != "" ? first_idAula : id_aula,
-          id_bimestre:`${id_bimestre}`
+          id_aula: id_aula === undefined ? first_idAula : id_aula
         }
       );
-      console.log(response.mensage);
       if (response.status === 201) {
         setFavo(true);
         setFav(true);
@@ -50,7 +50,7 @@ const TabsFavoritos = ({
         setFavo(false);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Deu erro");
     }
   }
 
@@ -63,11 +63,12 @@ const TabsFavoritos = ({
         borderBottomRightRadius:12,
         borderBottomLeftRadius:12,
         justifyContent:'center',
+        alignItems:'center',
         height:50,
         marginTop:5
       }}
     >
-      <ScrollView 
+      <ScrollView
       showsHorizontalScrollIndicator={false}
       horizontal>
       <View
@@ -77,7 +78,6 @@ const TabsFavoritos = ({
         margin: 10,
         alignItems: "center",
         justifyContent: "space-between",
-        marginHorizontal:20,
         width:"100%",
         backgroundColor:'#fff'
       }}
@@ -145,7 +145,7 @@ const TabsFavoritos = ({
 
 
       {/* botão de favoritar vídeo*/}
-      {favorite  == true || first_Favo == true ? (
+      {favorite  === true || first_Favo === true ? (
         <TouchableOpacity 
         style={{backgroundColor:"#EFF0F0", height:35, width:110, borderRadius:32, alignItems:'center', justifyContent:'center'}}
         onPress={() => changeFavorito()}>

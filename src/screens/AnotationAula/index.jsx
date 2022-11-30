@@ -7,6 +7,7 @@ import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
+import api from "../../api/api";
 
 export const AnotationAula = ({route}) => {
 
@@ -30,8 +31,8 @@ export const AnotationAula = ({route}) => {
     //função do post da anotação
   const criarNota = async() => {
       try {
-          const response = await axios
-          .post(`http://192.168.6.20:3010/anotacoes`, {
+          const response = await api
+          .post(`/anotacoes`, {
               "descricao": descricao,
               "id_aluno": `${userInfo.user.id}`,
               "array_tags": tags
@@ -46,124 +47,154 @@ export const AnotationAula = ({route}) => {
 
 
     return (
-        <KeyboardAvoidingView
-        style = {styles.Container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <AppHeader2 />
-        <ScrollView scrollEnabled
-        contentContainerStyle={{
-          flexGrow: 1,}}>
+      <KeyboardAvoidingView
+      style={styles.Container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <AppHeader2 />
+      <ScrollView style={{height:'100%'}}>
         <View>
+          <Text
+            style={{
+              fontFamily: "Medium",
+              fontSize: 18,
+              color: "#4264EB",
+              paddingTop: 20,
+              paddingLeft: 20,
+            }}
+          >
+            Editar anotação
+          </Text>
+        </View>
+
+        <View style={{ paddingHorizontal: 20, paddingVertical: 10, height:'60%', }}>
+          <TextInput
+          multiline={true}
+          style={styles.input}
+          placeholder="Digite sua anotação"
+          value={descricao}
+          onChangeText={text => setDescricao(text)}
+          />
+        </View>
+
+      <View style={styles.textbox}>
+        <View style={{marginTop:5}}>
         <Text
         style={{
+          position: "absolute",
           fontFamily: "Medium",
           fontSize: 18,
-          color: "#403B91",
-          paddingTop: 20,
-          paddingLeft: 20,
+          color: "#4264EB",
         }}
       >
-        Criar anotação
-        </Text>
+      Tags
+      </Text>
         </View>
-    
-        <View style={{paddingHorizontal:25, paddingVertical:10}}>
-           <TextInput
-             multiline={true}
-             style={styles.input}
-             placeholder="Digite sua anotação"
-             value={descricao}
-             onChangeText={text => setDescricao(text)}
-           />
-           <View style={styles.textbox}>
-             <Text
-               style={{
-                 position: "absolute",
-                 fontFamily: "Medium",
-                 fontSize: 16,
-                 color: "#403B91",
-                 paddingTop: 1,
-                 paddingLeft: 5,
-                 marginBottom:20
-               }}
-             >
-               Tags
-             </Text>
-             <Tags
-               key={tags}
-               initialTags={tags}
-               style={{ height: 100, marginTop:20, paddingTop:10, paddingLeft:10, fontSize:14,  }}
-               onChangeTags={(tags) => setTags(tags)}
-               onTagPress={(index, tagLabel, event, deleted) =>
-                console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
-                }
-               containerStyle={{
-                 borderRadius: 10,
-                 backgroundColor: "#FFFFFF",
-                 justifyContent: "flex-start",
-               }}
-               inputStyle={{
-                 backgroundColor: "#FFFFFF",
-                 color: "#606060",
-                 fontWeight: "bold",
-               }}
-             />
-           </View>
-           
+        <View style={{marginTop:20}}>
+        <Tags
+        key={tags}
+        initialTags={tags}
+        style={{
+          height: 100,
+          marginTop: 20,
+          fontSize: 14,
+        }}
+        onChangeTags={(tags) => setTags(tags)}
+        onTagPress={(index, tagLabel, event, deleted) =>
+         console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
+         }
+        containerStyle={{
+          borderRadius: 10,
+          backgroundColor: "#FFFFFF",
+          justifyContent: "flex-start",
+        }}
+        inputStyle={{
+          backgroundColor: "#FFFFFF",
+          color: "#606060",
+          fontWeight: "bold",
+        }}
+      />
         </View>
-    
         <View
-             style={{
-               flexDirection: "row",
-               justifyContent: "space-between",
-               paddingHorizontal: 20,
-               marginBottom:10
-             }}
-           >
-             <Text></Text>
-             <TouchableOpacity
-               style={styles.button}
-               onPress={() => {
-                onSubmit(descricao);
-                }}
-             >
-               <Text style={styles.text}>Salvar</Text>
-             </TouchableOpacity>
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginBottom: 10,
+          marginTop:20
+        }}
+      >
+      <TouchableOpacity
+      style={styles.buttonCancelar}
+      onPress={() => {
+        navigation.goBack();
+      }}
+    >
+      <Text style={styles.textCancelar}>Cancelar</Text>
+    </TouchableOpacity>
+  
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              onSubmit(descricao);
+              }}
+          >
+            <Text style={styles.textSalvar}>Salvar</Text>
+          </TouchableOpacity>
         </View>
-    
-        </ScrollView>
-        </KeyboardAvoidingView>
-    );
-}
+      </View>
+
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+};
 
 export const styles = StyleSheet.create({
-    Container: {
-      flex: 1,
-      backgroundColor: "#EDF2FF",
-    },
-  
-    input: {
-      paddingVertical:10,
-      paddingHorizontal:10,
-      fontSize:16,
-      textAlignVertical: 'top',
-      height:450,
-      backgroundColor: "white",
-      borderRadius: 10,
-    },
-    button: {
-      marginHorizontal: 6,
-      width: "45%",
-      paddingVertical: 10,
-      borderRadius: 28,
-      elevation: 3,
-      backgroundColor: "#364FC7",
-    },
-    text: {
-      textAlign: "center",
-      color: "white",
-    },
-    textbox: {
-      paddingTop:10
-    },
-  });
+  Container: {
+    flex: 1,
+    backgroundColor: "#EDF2FF",
+  },
+  input: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    textAlignVertical: "top",
+    height: 450,
+    backgroundColor: "white",
+    borderRadius: 10,
+  },
+  button: {
+    width: "48%",
+    paddingVertical: 10,
+    borderRadius: 12,
+    elevation: 3,
+    backgroundColor: "#4264EB",
+    alignItems:'center'
+  },
+  text: {
+    color: "white",
+  },
+  textSalvar: {
+    textAlign: "center",
+    color: "white",
+    fontFamily:"Medium",
+    fontSize:16
+  },
+  textbox: {
+    height:'25%',
+    paddingHorizontal: 20,
+    paddingVertical: 10, 
+  },
+  buttonCancelar: {
+    width: "48%",
+    paddingVertical: 10,
+    borderRadius: 12,
+    elevation: 3,
+    backgroundColor: "#D1DEFE",
+    alignItems:'center'
+  },
+  textCancelar: {
+    color: "#343A40",
+    fontFamily:"Medium",
+    fontSize:16
+  },
+});

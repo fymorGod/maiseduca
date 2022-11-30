@@ -13,6 +13,7 @@ import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../api/api";
 
 export const Home = () => {
   // carregar fonte
@@ -32,8 +33,8 @@ export const Home = () => {
   // get nos favoritos
   const getFav = async () => {
     try {
-      const res = await axios.get(
-        `http://192.168.6.20:3010/favoritos/${userInfo.user.id}`
+      const res = await api.get(
+        `/favoritos/${userInfo.user.id}`
       );
       setFav(res.data["favoritos"]);
     } catch (error) {
@@ -44,8 +45,8 @@ export const Home = () => {
   // get nas ultimas aulas
   const getAulas = async () => {
     try {
-      const res = await axios.get(
-        `http://192.168.6.20:3010/ultimasAulas/${userInfo.user.id}`
+      const res = await api.get(
+        `/ultimasAulas/${userInfo.user.id}`
       );
       setAulas(res.data);
     } catch (error) {
@@ -198,7 +199,8 @@ export const styles = StyleSheet.create({
     height: 130,
   },
   aulasVideos: {
-    padding: 10,
+    marginHorizontal:20,
+    marginVertical:10
   },
   Image: {
     flexDirection: "row",

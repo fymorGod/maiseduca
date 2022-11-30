@@ -29,6 +29,7 @@
     "expo-notifications": "~0.16.1",
     "expo-splash-screen": "^0.16.2",
     "expo-status-bar": "~1.4.0",
+    "expo-updates": "~0.14.7",
     "firebase": "^9.14.0",
     "moment": "^2.29.4",
     "native-base": "^3.4.17",

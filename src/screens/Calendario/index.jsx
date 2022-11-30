@@ -27,6 +27,8 @@ import Icon2 from "react-native-vector-icons/Octicons";
 import { ScrollView } from "native-base";
 import ToastManager, { Toast } from "toastify-react-native";
 import { useFonts } from "expo-font";
+import { Feather } from '@expo/vector-icons';
+import api from "../../api/api";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -70,7 +72,7 @@ export const Calendario = () => {
   const postLembrete = async () => {
     DataEnvio(date)
     try {
-      const res = await axios.post(`http://192.168.6.20:3010/lembretes`, {
+      const res = await api.post(`/lembretes`, {
         title: titulo,
         description: descricao,
         data: data,
@@ -101,8 +103,8 @@ export const Calendario = () => {
     // getLembretes
   const getLembrete = async () => {
     try {
-      const res = await axios.get(
-        `http://192.168.6.20:3010/lembretesByAluno/${userInfo.user.id}`
+      const res = await api.get(
+        `/lembretesByAluno/${userInfo.user.id}`
       );
       setLembretes(res.data["lembretes"]);
     } catch (error) {
@@ -113,8 +115,8 @@ export const Calendario = () => {
     // Deletar Lembrete
   const delLembretes = async (id) => {
     try {
-      const res = await axios.delete(
-        `http://192.168.6.20:3010/lembretes/${id}`
+      const res = await api.delete(
+        `/lembretes/${id}`
       );
       if (res.status === 204) {
         showToastDel();
@@ -162,8 +164,11 @@ export const Calendario = () => {
                 }}
               >
                 <Text style={styles.text}>{avisos.title}</Text>
-                <TouchableOpacity onPress={() => delLembretes(avisos.id)}>
-                  <Icon2 name="trash" size={25} color="red" />
+                <TouchableOpacity
+                onPress={() => delLembretes(avisos.id)
+}
+                >
+                <Feather name="x" size={25} color="gray" />
                 </TouchableOpacity>
               </View>
               <View style={{ flexDirection: "column" }}>

@@ -20,6 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import { AppHeader2 } from "../../components/AppHeader2";
 import { ScrollView } from "native-base";
+import api from "../../api/api";
 
 export const EditAnotation = ({ route }) => {
   //carregando fonte
@@ -46,7 +47,7 @@ export const EditAnotation = ({ route }) => {
 
   //get da rota de editar a anotação
   useEffect(() => {
-    axios.get(`http://192.168.6.20:3010/anotacoes/${id}`).then((res) => {
+    api.get(`/anotacoes/${id}`).then((res) => {
       setTitle(res.data["anotacao"].descricao);
       setTags(res.data["anotacao"].tags);
     });
@@ -55,8 +56,8 @@ export const EditAnotation = ({ route }) => {
   //função de editar a anotação
   const EditarNota = async () => {
     try {
-      const response = await axios.put(
-        `http://192.168.6.20:3010/anotacoes/${id}`,
+      const response = await api.put(
+        `/anotacoes/${id}`,
         {
           descricao: title,
           id_aluno: `${userInfo.user.id}`,

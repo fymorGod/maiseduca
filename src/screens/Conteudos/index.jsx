@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import api from "../../api/api";
 import { AppHeader2 } from "../../components/AppHeader2";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -14,12 +15,11 @@ export const Conteudos = ({route}) => {
 
     //get nos conteudos do alunos po rmateria
      useEffect(() => {
-         axios.get(`http://192.168.6.20:3010/conteudosAluno/${userInfo.user.id}/${id}`)
+         api.get(`/conteudosAluno/${userInfo.user.id}/${id}`)
          .then(res=>{
              // s
              setConteudos(res.data['conteudo'].conteudo);
              setTitulo(res.data['conteudo'].disciplina_name);
-             console.log(res.data['conteudo'].conteudo)
          })
         
        }, [])

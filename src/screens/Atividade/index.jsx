@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../api/api";
 
 export const Atividade = ({ route }) => {
   const navigation = useNavigation();
@@ -58,8 +59,8 @@ export const Atividade = ({ route }) => {
   //get do inicio da atividade e do timer da pagina
   useEffect(() => {
     const getAtv = async () => {
-      const response = await axios.get(
-        `http://192.168.6.20:3010/atividadeQuestoes/${id}`
+      const response = await api.get(
+        `/atividadeQuestoes/${id}`
       );
       setAtv(response.data["questoes"]);
     };
@@ -95,7 +96,6 @@ export const Atividade = ({ route }) => {
           time: time
         }
       );
-      console.log(response.status);
       if (response.status == 201) {
         navigation.popToTop();
       }

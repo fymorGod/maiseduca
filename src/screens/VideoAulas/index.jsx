@@ -15,7 +15,7 @@ import { TabsFavoritos } from "../../components/tabsFavoritos/tabsFavoritos";
 import { Video } from "expo-av";
 import { Image as Image1 } from "react-native-expo-image-cache";
 import { useFonts } from "expo-font";
-import Icon2 from "react-native-vector-icons/MaterialIcons";
+import api from "../../api/api";
 
 export const VideoAulas = ({ route }) => {
   let [fontsLoaded] = useFonts({
@@ -47,7 +47,7 @@ export const VideoAulas = ({ route }) => {
   const [idProfessor, setIdProfessor] = useState();
   const [nomeVideo, setNomeVideo] = useState();
   const [nomeProfessor, setNomeProfessor] = useState();
-  const [firstVideoTitle, setVideoTiltle] = useState("");
+  const [firstVideoTitle, setFirstVideoTiltle] = useState("");
   const limite = 50;
   const limiteConteudo = 30;
 
@@ -55,8 +55,8 @@ export const VideoAulas = ({ route }) => {
   useEffect(() => {
     if (id) {
       const getVideosContent = async () => {
-        const response = await axios.get(
-          `http://192.168.6.20:3010/conteudos/${id}/${userInfo.user.id}`
+        const response = await api.get(
+          `/conteudos/${id}/${userInfo.user.id}`
         );
         setFirstAula(response.data.conteudo["first_aula"]);
         setVideos(response.data.conteudo.array_conteudos);
@@ -65,7 +65,7 @@ export const VideoAulas = ({ route }) => {
         setIdBimestre(response.data["conteudo"].id_bimestre);
         setIdProfessor(response.data["conteudo"].created_by);
         setNomeProfessor(response.data["conteudo"].professor);
-        setVideoTiltle(response.data.conteudo["first_aula"].title);
+        setFirstVideoTiltle(response.data.conteudo["first_aula"].title);
       };
       getVideosContent();
     }
@@ -90,6 +90,7 @@ export const VideoAulas = ({ route }) => {
     setPosicaoVideo(tudo.aula.progress);
     setFavo(tudo.aula.favorite);
     setNomeVideo(tudo.aula.title);
+    
   };
 
   //renderização de video aulas
@@ -163,7 +164,6 @@ export const VideoAulas = ({ route }) => {
         id_bimestre: idBimestre,
       });
       if (res.status === 201) {
-        console.log("Deu certo");
       }
     } catch (error) {
       console.log(error);
@@ -203,12 +203,14 @@ export const VideoAulas = ({ route }) => {
             <Text
               style={{ color: "#4264EB", fontFamily: "Medium", fontSize: 18 }}
             >
-              {nomeVideo}
+              {
+                nomeVideo === undefined ? title || firstVideoTitle : nomeVideo
+              }
             </Text>
           </View>
-          <View style={{ marginHorizontal: 20, marginTop: 10 }}>
+          <View style={{ marginHorizontal: 20, }}>
             <Text
-              style={{ color: "#343434", fontFamily: "Medium", fontSize: 16 }}
+              style={{ color: "#343434", fontFamily: "Regular", fontSize: 14 }}
             >
               {nameConteudo.length > limiteConteudo
                 ? nameConteudo.substring(0, limite) + "..."
@@ -250,17 +252,20 @@ export const VideoAulas = ({ route }) => {
               </Text>
             </View>
           </View>
+
           {/* Componente de chat/favoritos/anotações  */}
+          <View style={{justifyContent:'center', alignItems:'center'}}>
           <TabsFavoritos
-            idProfessor={idProfessor}
-            first_idAula={firstAula.id}
-            first_Favo={firstAula.favorite}
-            id_bimestre={idBimestre}
-            id_aula={idAula}
-            favorite={favo}
-            setFavo={setFavo}
-            name={name}
-          />
+          idProfessor={idProfessor}
+          first_idAula={firstAula.id}
+          first_Favo={firstAula.favorite}
+          id_bimestre={idBimestre}
+          id_aula={idAula}
+          favorite={favo}
+          setFavo={setFavo}
+          name={name}
+        />
+          </View>
         </View>
         {videos.map((tudo, index) => (
           <View key={index} style={{ alignItems: "flex-start" }}>
@@ -287,10 +292,11 @@ export const styles = StyleSheet.create({
   },
   videos2: {
     width: "150%",
-    height: 55,
+    height: 60,
+    paddingVertical:2.5,
     flexDirection: "row",
     alignItems: "flex-start",
-    marginVertical: 5,
+    
     paddingHorizontal: 20,
     backgroundColor: "#D1DEFE",
   },
