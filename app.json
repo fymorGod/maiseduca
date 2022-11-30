@@ -27,8 +27,7 @@
         "foregroundImage": "./assets/iconteste.png",
         "backgroundColor": "#FFFFFF"
       },
-      "useNextNotificationsApi": true,
-      "package": "com.mirante.maiseduca"
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
