@@ -142,7 +142,7 @@ export const VideoAulas = ({ route }) => {
                   marginVertical: 5,
                 }}
                 resizeMode="contain"
-                source={require("../../../assets/ATIVIDADE.png")}
+                source={require("../../../assets/atividade.png")}
               />
             </View>
             <View style={{ width: 220, marginLeft: 10 }}>
