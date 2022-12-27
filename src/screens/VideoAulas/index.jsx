@@ -38,7 +38,7 @@ export const VideoAulas = ({ route }) => {
   const [name, setName] = useState();
   const [nameConteudo, setNameConteudo] = useState("");
   const [idAula, setIdAula] = useState();
-  const v = React.useRef(null);
+  const v  = React.useRef(null);
   const { userInfo } = useContext(AuthContext);
   const [idBimestre, setIdBimestre] = useState();
   const [posicaoVideo, setPosicaoVideo] = useState();
@@ -66,7 +66,6 @@ export const VideoAulas = ({ route }) => {
         setIdProfessor(response.data["conteudo"].created_by);
         setNomeProfessor(response.data["conteudo"].professor);
         setFirstVideoTitle(response.data.conteudo["first_aula"].title);
-        console.log(response.data.conteudo["first_aula"].title)
       };
       getVideosContent();
     }
@@ -91,7 +90,6 @@ export const VideoAulas = ({ route }) => {
     setPosicaoVideo(tudo.aula.progress);
     setFavo(tudo.aula.favorite);
     setNomeVideo(tudo.aula.title);
-    
   };
 
   //renderização de video aulas
@@ -154,20 +152,21 @@ export const VideoAulas = ({ route }) => {
       </View>
     );
   };
-
+  
   //função de post do progresso das aulas
   const postProgresso = async () => {
     try {
       const res = await api.post(`/progressos`, {
         id_aluno: `${userInfo.user.id}`,
-        id_aula: idAula != "" ? firstAula.id : idAula,
+        id_aula: idAula === undefined ? firstAula.id : idAula,
         progress: status.positionMillis,
         id_bimestre: idBimestre,
       });
       if (res.status === 201) {
+        console.log("Progresso salvo")
       }
     } catch (error) {
-      console.log(error);
+      console.log(`Não salvou progresso ${error}`);
     }
   };
 
@@ -258,6 +257,7 @@ export const VideoAulas = ({ route }) => {
           <View style={{justifyContent:'center', alignItems:'center'}}>
           <TabsFavoritos
           idProfessor={idProfessor}
+          nomeProfessor={nomeProfessor}
           first_idAula={firstAula.id}
           first_Favo={firstAula.favorite}
           id_bimestre={idBimestre}

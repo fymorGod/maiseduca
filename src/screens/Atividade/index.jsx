@@ -8,8 +8,6 @@ import {
   Modal,
   Animated,
   ScrollView,
-  StatusBar,
-  SafeAreaView,
   ImageBackground,
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
@@ -52,6 +50,7 @@ export const Atividade = ({ route }) => {
   };
 
 
+
   Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)];
   };
@@ -84,11 +83,17 @@ export const Atividade = ({ route }) => {
   const [showNextButton, setShowNextButton] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false);
 
+  console.log(`Nota ${pontos}`);
+  console.log(`id Aluno ${userInfo.user.id}`);
+  console.log(`id atv ${id}`);
+  console.log(time);
+
+
   //função para envio da atividade
   const enviarNota = async () => {
     try {
-      const response = await axios.post(
-        `http://35.199.114.75:3010/aluno_responde_atividade`,
+      const response = await api.post(
+        `/aluno_responde_atividade`,
         {
           nota: pontos,
           id_aluno: `${userInfo.user.id}`,
@@ -97,12 +102,31 @@ export const Atividade = ({ route }) => {
         }
       );
       if (response.status == 201) {
-        navigation.popToTop();
+        navigation.pop(2);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Deu error");
     }
   };
+
+  // const enviarNota2 = async () => {
+  //   try {
+  //     const response = await api.post(
+  //       `/aluno_responde_atividade`,
+  //       {
+  //         nota: pontos,
+  //         id_aluno: `${userInfo.user.id}`,
+  //         id_atividade: `${id}`,
+  //         time: time
+  //       }
+  //     );
+  //     if (response.status == 201) {
+  //       navigation.;
+  //     }
+  //   } catch (error) {
+  //     console.log("Deu error");
+  //   }
+  // };
 
   //validação das alternativas
   const validateAnswer = (selectedOption) => {
@@ -319,76 +343,101 @@ export const Atividade = ({ route }) => {
       transparent={true}
       visible={showScoreModal}
     >
+    <ImageBackground source={require("../../../assets/BG.png")} resizeMode="cover" style={{flex:1, justifyContent:'center'}}>
       <View
         style={{
           flex: 1,
-          backgroundColor: "#252c4a",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <View
+        style={{
+          backgroundColor: "#fff",
+          width: "90%",
+          borderRadius: 20,
+          padding: 20,
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontSize: 30, fontWeight: "bold" }}>
+          {score > allQuestions.length / 2 ? "Parabéns!" : "Quase lá!"}
+        </Text>
+
+        <View
           style={{
-            backgroundColor: "#fff",
-            width: "90%",
-            borderRadius: 20,
-            padding: 20,
+            flexDirection: "row",
+            justifyContent: "flex-start",
             alignItems: "center",
+            marginVertical: 20,
           }}
         >
-          <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-            {score > allQuestions.length / 2 ? "Parabéns!" : "Quase lá!"}
+          <Text
+            style={{
+              fontSize: 30,
+              color:
+                score > allQuestions.length / 2 ? "#00C851" : "#ff4444",
+            }}
+          >
+            {score}
           </Text>
-
-          <View
+          <Text
             style={{
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              marginVertical: 20,
+              fontSize: 20,
+              color: "#171717",
             }}
           >
-            <Text
-              style={{
-                fontSize: 30,
-                color:
-                  score > allQuestions.length / 2 ? "#00C851" : "#ff4444",
-              }}
-            >
-              {score}
-            </Text>
-            <Text
-              style={{
-                fontSize: 20,
-                color: "#171717",
-              }}
-            >
-              / {allQuestions.length}
-            </Text>
-          </View>
-
-          {/* Enviar Pontuação - Buttom*/}
-          <TouchableOpacity
-            onPress={() => enviarNota()}
-            style={{
-              backgroundColor: "#3498db",
-              padding: 20,
-              width: "100%",
-              borderRadius: 20,
-            }}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                color: "#fff",
-                fontSize: 20,
-              }}
-            >
-              Voltar ao início
-            </Text>
-          </TouchableOpacity>
+            / {allQuestions.length}
+          </Text>
         </View>
+
+        {/* Enviar Pontuação - Buttom*/}
+        <TouchableOpacity
+          onPress={() => enviarNota()}
+          style={{
+            backgroundColor: "#F6E7AE",
+            padding: 20,
+            width: "100%",
+            borderRadius: 20,
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 18,
+              fontFamily:"Medium"
+            }}
+          >
+            Voltar para home
+          </Text>
+        </TouchableOpacity>
+
+        {/* Enviar Pontuação - Buttom*/}
+        {/* <TouchableOpacity
+        onPress={() => enviarNota2()}
+        style={{
+          backgroundColor: "#EBC942",
+          marginTop:10,
+          padding: 20,
+          width: "100%",
+          borderRadius: 20,
+        }}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            color: "#343A40",
+            fontSize: 18,
+            fontFamily:"Medium"
+          }}
+        >
+          Minha Classificação
+        </Text>
+      </TouchableOpacity> */}      
+        
       </View>
+      </View>
+      </ImageBackground>
     </Modal>
   </View>
       </ImageBackground>

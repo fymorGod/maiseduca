@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     elevation: 1,
     marginHorizontal:10,
+    position:'absolute'
   },
  
   uiLine: {

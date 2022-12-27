@@ -18,6 +18,7 @@ const TabsFavoritos = ({
   favorite,
   name,
   idProfessor,
+  nomeProfessor,
   first_Favo,
   first_idAula
 }) => {
@@ -85,7 +86,10 @@ const TabsFavoritos = ({
       {/* Ir para página de chat */}
       <TouchableOpacity
       style={{backgroundColor:"#EFF0F0", height:35, width:100, borderRadius:32, alignItems:'center', justifyContent:'center'}}
-      // onPress={() => navigation.navigate("Chat", {idProfessor: `${idProfessor}`})}
+      onPress={() => navigation.navigate("Chat", {
+        idProfessor: `${idProfessor}`,
+        nomeProfessor: `${nomeProfessor}`,
+      })}
       >
         <View
           style={{

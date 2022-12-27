@@ -14,6 +14,8 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
+  Dimensions,
+  Animated
 } from "react-native";
 import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
@@ -21,8 +23,38 @@ import { AuthContext } from "../../context/AuthContext";
 import { AppHeader2 } from "../../components/AppHeader2";
 import { ScrollView } from "native-base";
 import api from "../../api/api";
+import CustomToast from "../../components/CustomToast";
+
+const HEIGHT = Dimensions.get('screen').height;
+
 
 export const EditAnotation = ({ route }) => {
+
+      //nova notificação
+      const [toastType, setToastType] = useState("success");
+      const slideAnim = useRef(new Animated.Value(HEIGHT + 50)).current;
+      const animateToast = () => {
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 400,
+          useNativeDriver: true,
+        }).start();
+    
+        setTimeout(() => {
+          Animated.timing(slideAnim, {
+            toValue: 500,
+            duration: 200,
+            useNativeDriver: true,
+          }).start();
+        }, 2500);
+      };
+    
+      const showToast = (type, message) => {
+        setToastType(type);
+        setTitle(message);
+        animateToast();
+      };
+
   //carregando fonte
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
@@ -65,7 +97,11 @@ export const EditAnotation = ({ route }) => {
         }
       );
       if (response.status === 200) {
-        navigation.goBack();
+        setTimeout(() => {
+          navigation.goBack();
+        }, 3000);
+        showToast("success", "Success");
+        color = "#03AE76";
       }
     } catch (error) {
       console.log(error);
@@ -78,6 +114,19 @@ export const EditAnotation = ({ route }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <AppHeader2 />
+      <Animated.View
+      style={{
+        transform: [{ translateX: slideAnim }],
+        position: "absolute",
+        marginTop: '10%'
+      }}
+    >
+      <CustomToast
+        type={toastType}
+        title={'Sucesso'}
+        subtitle={"Anotação editada com sucesso"}
+      />
+      </Animated.View>
       <ScrollView style={{height:'100%'}}>
         <View>
           <Text

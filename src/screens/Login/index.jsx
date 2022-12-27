@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -12,18 +12,21 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Button
+  Animated,
+  Dimensions
 } from "react-native";
-
 import { AuthContext } from "../../context/AuthContext";
 import Spinner from "react-native-loading-spinner-overlay";
+import CustomToast from "../../components/CustomToast";
 
+const HEIGHT = Dimensions.get('screen').height;
 
 export const Login = ({}) => {
+
   
   const [mat, setMat] = useState(null);
   const [password, setPassword] = useState(null);
-  const { isLoading, login } = useContext(AuthContext);
+  const { isLoading, login, } = useContext(AuthContext);
 
   //função de submissao da matricula e senha do aluno
   const onSubmit = (mat, password ) => {

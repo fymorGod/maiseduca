@@ -9,17 +9,48 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Animated,
+  Dimensions
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import Tags from "react-native-tags";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import ToastManager, { Toast } from "toastify-react-native";
 import { AppHeader2 } from "../../components/AppHeader2";
 import { ScrollView } from "native-base";
 import api from "../../api/api";
+import CustomToast from "../../components/CustomToast";
+
+
+const HEIGHT = Dimensions.get('screen').height;
 
 export const CreateAnotation = ({}) => {
+
+    //nova notificação
+    const [toastType, setToastType] = useState("success");
+    const [title, setTitle] = useState("Success");
+    const slideAnim = useRef(new Animated.Value(HEIGHT + 50)).current;
+    const animateToast = () => {
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true,
+      }).start();
+  
+      setTimeout(() => {
+        Animated.timing(slideAnim, {
+          toValue: 500,
+          duration: 200,
+          useNativeDriver: true,
+        }).start();
+      }, 2500);
+    };
+  
+    const showToast = (type, message) => {
+      setToastType(type);
+      setTitle(message);
+      animateToast();
+    };
+
 
   //carregando fonte do texto
   let [fontsLoaded] = useFonts({
@@ -37,11 +68,7 @@ export const CreateAnotation = ({}) => {
     criarNota(descricao);
   };
 
-  //alerta de criação da atividade
-  const showToasts = () => {
-    Toast.success("Anotação criada");
-  };
-  
+
   //função de posta para criar a anotação
   const criarNota = async () => {
     try {
@@ -51,10 +78,7 @@ export const CreateAnotation = ({}) => {
         array_tags: tags,
       });
       if (response.status === 201) {
-        showToasts();
-        setTimeout(() => {
-          navigation.navigate("home");
-        }, 3000);
+          navigation.navigate("home", true);
       }
     } catch (error) {
       console.log(error);
@@ -68,8 +92,6 @@ export const CreateAnotation = ({}) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <AppHeader2 />
-      <ToastManager />
-
       <ScrollView style={{height:'100%'}}>
         <View>
           <Text

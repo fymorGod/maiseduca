@@ -25,6 +25,7 @@ export const MinhasNotas = () => {
       `/medias/${userInfo.user.id}`
     );
     setData(response.data["medias"]);
+    console.log(response.data["medias"])
   };
 
   //get nas notas dos alunos

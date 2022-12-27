@@ -7,6 +7,12 @@ export const AuthContext = createContext();
 export const AuthProvider = ({children}) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const showToast = (type, message) => {
+    setToastType(type);
+    setTitle(message);
+    animateToast();
+  };
  
   const login = async (mat, password) => {
     setIsLoading(true);
@@ -22,7 +28,7 @@ export const AuthProvider = ({children}) => {
       await AsyncStorage.setItem('@asyncStorage:userInfo', userInfo.token);
       setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 

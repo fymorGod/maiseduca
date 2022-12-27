@@ -5,10 +5,6 @@ import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
 
-
-
-
-
 export const Conquistas = () => {
 
     let [fontsLoaded] = useFonts({
@@ -200,10 +196,6 @@ export const Conquistas = () => {
         </View>
     )
 }
-
-
-
-
 
 export const styles = StyleSheet.create({
     Container: {

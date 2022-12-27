@@ -5,9 +5,15 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import Icon2 from "react-native-vector-icons/MaterialIcons";
 import Icon3 from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 
-export const AppHeader2 = () => {
+
+export const AppHeader2 = ({ nomeProfessor = "" }) => {
   const navigation = useNavigation();
+
+  let [fontsLoaded] = useFonts({
+    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+  });
 
   return (
     <Surface style={styles.header}>
@@ -29,12 +35,16 @@ export const AppHeader2 = () => {
             />
           </View>
 
-          <View style={{ marginLeft: 10 }}>
-            <Image
-              style={{ width: 120 }}
-              resizeMode="contain"
-              source={require("../../../assets/logo.png")}
-            />
+          <View style={{ marginLeft: 10, alignItems:'center' }}>
+            {nomeProfessor === "" ? (
+              <Image
+                style={{ width: 120 }}
+                resizeMode="contain"
+                source={require("../../../assets/logo.png")}
+              />
+            ) : (
+              <Text style={{fontSize:18, color:'white', fontFamily:'Medium'}}>{nomeProfessor}</Text>
+            )}
           </View>
         </View>
 
@@ -67,5 +77,6 @@ const styles = StyleSheet.create({
     paddingTop: 35,
     height: 90,
     backgroundColor: "#4263EB",
+    justifyContent:'center'
   },
 });
