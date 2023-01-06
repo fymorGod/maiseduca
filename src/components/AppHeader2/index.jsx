@@ -22,6 +22,7 @@ export const AppHeader2 = ({ nomeProfessor = "" }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          marginRight:10
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>

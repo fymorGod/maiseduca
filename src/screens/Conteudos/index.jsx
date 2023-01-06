@@ -33,17 +33,21 @@ export const Conteudos = ({route}) => {
         </View>
 
         <ScrollView>
+        <View style={{alignItems:'center', elevation:3}}>
         {conteudos.map((cont)=>(
-            <TouchableOpacity key={cont.id} onPress={() => navigation.navigate('VideoAulas', {id: `${cont.id}`})}>
-                <View style={{paddingHorizontal:20,paddingVertical:10}} key={cont.id}>
-                 <View style={styles.container2}>
-                        <Text style={styles.text1}> {cont.name}</Text>
-                    </View>
-                        
+            <TouchableOpacity
+            key={cont.id}
+            style={styles.container2}
+            onPress={() => navigation.navigate('VideoAulas', {id: `${cont.id}`})}
+            >
+                <View
+                key={cont.id}
+                style={{alignItems:"center"}}>
+                    <Text style={styles.text1}> {cont.name}</Text>
                 </View>
-            </TouchableOpacity>
- 
+            </TouchableOpacity> 
             ))}
+            </View>
         </ScrollView>
         
     </View>
@@ -66,9 +70,9 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#fff",
-        paddingVertical: 10,
         borderRadius: 12,
-        elevation:3,
+        height:40,
+        width:"90%"
     },
     text1:{
         color: "#403B91",

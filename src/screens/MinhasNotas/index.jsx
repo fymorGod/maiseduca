@@ -2,7 +2,6 @@ import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 import { ScrollView } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
@@ -21,12 +20,17 @@ export const MinhasNotas = () => {
 
   //get nas notas dos alunos
   const getNotas = async () => {
-    const response = await api.get(
-      `/medias/${userInfo.user.id}`
-    );
-    setData(response.data["medias"]);
-    console.log(response.data["medias"])
-  };
+    try {
+      const response = await api.get(
+        `/medias/${userInfo.user.id}`
+      );
+      setData(response.data["medias"]);
+      console.log(response.data["medias"])
+    }
+     catch (error) {
+      console.log(error);
+    }
+  }
 
   //get nas notas dos alunos
   useEffect(() => {
@@ -65,27 +69,34 @@ export const MinhasNotas = () => {
             </View>
           </View>
           <View style={styles.boxGrafico}>
-            <VictoryChart
-              theme={VictoryTheme.material}
-              animate={{ duration: 500 }}
-            >
-              <VictoryBar
-                alignment="start"
-                style={{
-                  data: {
-                    fill: ({ datum }) => (datum.y >= 7 ? "#EBC942" : "#3BA8B9"),
-                    fillOpacity: 0.7,
-                    strokeWidth: 2,
-                  },
-                }}
-                labels={({ datum }) => datum.y}
-                barWidth={40}
-                height={1}
-                data={data}
-                x="disciplina"
-                y="value"
-              />
-            </VictoryChart>
+              {
+                data.length != 0 ? 
+                <VictoryChart
+                theme={VictoryTheme.material}
+                animate={{ duration: 500 }}
+              >
+                <VictoryBar
+                  alignment="start"
+                  style={{
+                    data: {
+                      fill: ({ datum }) => (datum.y >= 7 ? "#EBC942" : "#3BA8B9"),
+                      fillOpacity: 0.7,
+                      strokeWidth: 2,
+                    },
+                  }}
+                  labels={({ datum }) => datum.y}
+                  barWidth={40}
+                  height={1}
+                  data={data}
+                  x="disciplina"
+                  y="value"
+                />
+              </VictoryChart>
+              : 
+              <View style={{alignItems:'center', justifyContent:'center', flex:1}}>
+                  <Text style={{fontFamily:'Regular', fontSize:16, color: "#343A40",}}>Não existem médias</Text>
+              </View>
+              }
           </View>
           <View style={styles.boxTable}></View>
 

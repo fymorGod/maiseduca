@@ -4,8 +4,19 @@ import { Text, View, StyleSheet, Image, ScrollView, Animated } from 'react-nativ
 import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
+import socketServices from "../../util/socketServices";
 
 export const Conquistas = () => {
+
+
+
+    useEffect(() => {
+        socketServices.emit("teste_atividade", (res) => {
+            console.log("Conquistas", res)
+            console.log("rodou")
+        })
+    }, [])
+    
 
     let [fontsLoaded] = useFonts({
         'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')

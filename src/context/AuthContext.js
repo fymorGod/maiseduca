@@ -1,12 +1,18 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
 import api from '../api/api';
+import socketServices from '../util/socketServices';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+
+  useEffect(() => {
+    socketServices.initializeSocket();
+  }, [])
 
   const showToast = (type, message) => {
     setToastType(type);

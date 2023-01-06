@@ -180,11 +180,7 @@ export const Anotation = () => {
             marginTop: 200,
           }}
         >
-          <Text
-            style={{ fontFamily: "Regular", fontSize: 16, color: "#4264EB" }}
-          >
-            Não existem anotações
-          </Text>
+        <Text style={{fontFamily:'Medium', fontSize:16, color: "#343A40"}}>Não existem anotações</Text>
         </View>
       ) : (
         <ScrollView

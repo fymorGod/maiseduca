@@ -10,56 +10,42 @@ import { AppHeader2 } from "../../components/AppHeader2";
 import { GiftedChat } from "react-native-gifted-chat";
 import socketServices from "../../util/socketServices";
 import { AuthContext } from "../../context/AuthContext";
-import { ScrollView } from "native-base";
 
 export const Chat = ({ route }) => {
   const [messages, setMessages] = useState([]);
-  const [data, setData] = useState([]);
   const { userInfo } = useContext(AuthContext);
   const [idSala, setIdSala] = useState('')
-  const [previousMessages, setPreviousMessages] = useState();
-  const [messageAntiga, setMessageAntiga] = useState();
+  const [previousMessages, setPreviousMessages] = useState([]);
 
-  //id do professor
   let id_professor = route.params.idProfessor;
   let nomeProfessor = route.params.nomeProfessor;
   let id_aluno = userInfo.user.id;
   let id_alunoSenha = userInfo.user.id_senha;
 
-
-  {
-    previousMessages.map((mgs)=>{
-    const {text, id_user ,created_at} = mgs;
-  
-    const messages = {text, id_user ,created_at};
-    setMessageAntiga([...messageAntiga,messages])
-  })
-  }
-
-
   //inicializando sala
   useEffect(() => {
-    socketServices.initializeSocket();
     socketServices.emit(
       "select_room",
       {
+        "id_connected":id_aluno,
         id_professor,
         id_aluno,
       },
       (res) => {
         setIdSala(res.room_id);
         setPreviousMessages(res.messages);
-        
       }
     );
+    onLoadEarlier()
   }, []);
 
-
-  const { text, id_user, created_at} = previousMessages;
-
-
-
-  const onSend = (messages) => {
+  //carregando mgs antigas
+  useEffect(() => {
+    setMessages(previousMessages)
+  }, [])
+  
+  //enviar mensagens
+  const onSend = (messages = []) => {
     socketServices.emit("send_message", messages, (res) => {
       console.log("Mensagem enviada",res);
     });
@@ -68,13 +54,19 @@ export const Chat = ({ route }) => {
     );
   };
 
-  
+
+  //carregar mensagens antigas
+  //necessário clicar no botão na tela
+  const onLoadEarlier = () => {
+    setMessages(previousMessages);
+  }
 
 
 
   return (
     <View style={{ flex: 1 }}>
-      <AppHeader2 nomeProfessor={nomeProfessor} />
+      <AppHeader2 
+      nomeProfessor={nomeProfessor} />
       <View style={{ flex: 1 }}>
         <GiftedChat
           showUserAvatar={true}
@@ -96,7 +88,7 @@ export const Chat = ({ route }) => {
             borderColor: "#737373",
           }}
           loadEarlier={true}
-      
+          onLoadEarlier={onLoadEarlier}
         />
       </View>
     </View>

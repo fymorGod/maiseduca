@@ -44,12 +44,19 @@ export const Aulas = () => {
       </View>
       <View style={styles.lista}>
         {/* Carregando as materias do aluno */}
-        <FlatList
-          data={materias}
-          numColumns={2}
-          keyExtractor={(materia, index) => index.toString()}
-          renderItem={(materia) => <MateriaItem {...materia.item.disciplina} />}
-        />
+       {
+        materias.length != 0 
+        ?  <FlatList
+        data={materias}
+        numColumns={2}
+        keyExtractor={(materia, index) => index.toString()}
+        renderItem={(materia) => <MateriaItem {...materia.item.disciplina} />}
+      />
+      :
+      <View style={{alignItems:'center', justifyContent:'center', flex:1}}>
+        <Text style={{fontFamily:'Medium', fontSize:16, color: "#343A40"}}>Não existem disciplinas</Text>
+      </View>
+       }
       </View>
     </View>
   );

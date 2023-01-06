@@ -2,6 +2,8 @@ import { NativeBaseProvider } from 'native-base';
 import { AuthProvider } from './src/context/AuthContext';
 import { Routes } from './src/routes';
 import {useFonts} from "expo-font";
+import { useEffect } from 'react';
+import socketServices from './src/util/socketServices';
 
 
 
@@ -16,6 +18,8 @@ export default function App() {
     return null;
   }
 
+
+  
   
   return (
     <NativeBaseProvider>
