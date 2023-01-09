@@ -1,5 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
@@ -19,6 +18,8 @@ export const AtividadeInicio = ({ route }) => {
   if (!fontsLoaded) {
     return null;
   }
+
+  
 
   return (
     <View style={styles.Container}>

@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-const SOCKET_URL = "http://192.168.4.43:3010/";
+const SOCKET_URL = "http://192.168.4.43:3010/conquistas";
 
 class WSService {
   initializeSocket = async () => {
@@ -11,7 +11,7 @@ class WSService {
       console.log("initializing socket");
 
       this.socket.on("connect", (data) => {
-        console.log("===socket on===");
+        console.log("===socket on - Conquistas===");
       });
 
       this.socket.on("disconnect", (data) => {
@@ -39,6 +39,6 @@ class WSService {
   }
 }
 
-const socketServices = new WSService();
+const socketServicesConquistas = new WSService();
 
-export default socketServices;
+export default socketServicesConquistas;

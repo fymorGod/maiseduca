@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from "react";
-import axios from "axios";
 import {
   Text,
   View,
@@ -13,6 +12,7 @@ import {
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../api/api";
+import socketServicesConquistas from "../../util/socketServicesConquistas";
 
 export const Atividade = ({ route }) => {
   const navigation = useNavigation();
@@ -21,6 +21,9 @@ export const Atividade = ({ route }) => {
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(0);
+
+
+
 
   //contador do tempo da atividade
   useEffect(() => {
@@ -68,8 +71,18 @@ export const Atividade = ({ route }) => {
     })
     getAtv();
     handleStart();
+    socketServicesConquistas.initializeSocket();
   }, []);
 
+  const socketConquistas = () => {
+    socketServicesConquistas.emit("RESPONDA_X_ATIVIDADES",
+    {
+      id_aluno: `${userInfo.user.id}`
+    }, (response) => {
+      console.log("Conquistas - Socket",response);
+    }
+    )
+  }
 
 
   const [atv, setAtv] = useState([]);
@@ -83,10 +96,6 @@ export const Atividade = ({ route }) => {
   const [showNextButton, setShowNextButton] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false);
 
-  console.log(`Nota ${pontos}`);
-  console.log(`id Aluno ${userInfo.user.id}`);
-  console.log(`id atv ${id}`);
-  console.log(time);
 
 
   //função para envio da atividade
@@ -102,31 +111,16 @@ export const Atividade = ({ route }) => {
         }
       );
       if (response.status == 201) {
-        navigation.pop(2);
+        socketConquistas();
+        setTimeout(() => {
+          navigation.pop(2);
+        }, 2000);
       }
     } catch (error) {
-      console.log("Deu error");
+      console.log("erro atv", error);
     }
   };
 
-  // const enviarNota2 = async () => {
-  //   try {
-  //     const response = await api.post(
-  //       `/aluno_responde_atividade`,
-  //       {
-  //         nota: pontos,
-  //         id_aluno: `${userInfo.user.id}`,
-  //         id_atividade: `${id}`,
-  //         time: time
-  //       }
-  //     );
-  //     if (response.status == 201) {
-  //       navigation.;
-  //     }
-  //   } catch (error) {
-  //     console.log("Deu error");
-  //   }
-  // };
 
   //validação das alternativas
   const validateAnswer = (selectedOption) => {
