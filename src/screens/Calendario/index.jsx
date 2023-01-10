@@ -20,17 +20,13 @@ import { FAB } from "react-native-paper";
 import { Agenda } from "../../components/Agenda";
 import RBSheet from "react-native-raw-bottom-sheet";
 import MaskInput from "react-native-mask-input";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigation } from "@react-navigation/native";
-import Icon2 from "react-native-vector-icons/Octicons";
 import { ScrollView } from "native-base";
 import ToastManager, { Toast } from "toastify-react-native";
 import { useFonts } from "expo-font";
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 import api from "../../api/api";
 
-const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export const Calendario = () => {
@@ -41,7 +37,7 @@ export const Calendario = () => {
   const [inicio, setInicio] = useState("");
   const [fim, setFim] = useState("");
   const [lembretes, setLembretes] = useState([]);
-  const [data, setData] = useState('');
+  const [data, setData] = useState("");
   const { userInfo } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
   const horaMask = [/\d/, /\d/, ":", /\d/, /\d/];
@@ -49,28 +45,27 @@ export const Calendario = () => {
   const limite = 10;
 
   let [fontsLoaded] = useFonts({
-    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
-})
-
+    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+  });
 
   useEffect(() => {
     getLembrete();
   }, []);
 
-    // timer da atualização da página
+  // timer da atualização da página
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
 
-    // atualizar página
+  // atualizar página
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => getLembrete(), setRefreshing(false));
   }, []);
 
-    // postLembretes
+  // postLembretes
   const postLembrete = async () => {
-    DataEnvio(date)
+    DataEnvio(date);
     try {
       const res = await api.post(`/lembretes`, {
         title: titulo,
@@ -88,36 +83,37 @@ export const Calendario = () => {
         }, 1000);
       }
     } catch (error) {
+      console.log("titulo", titulo);
+      console.log("descricao", descricao);
+      console.log("data + inicio", data, inicio);
+      console.log("data + fim", data, fim);
+      console.log("id aluno", userInfo.user.id);
+
       console.log(error);
     }
   };
 
-  //  função para alterar a data no formato p/ envio 
+  //  função para alterar a data no formato p/ envio
   function DataEnvio(date) {
     if (date?.length > limite) {
       setData(date.substring(0, limite));
     }
-  
   }
 
-    // getLembretes
+  // getLembretes
   const getLembrete = async () => {
     try {
-      const res = await api.get(
-        `/lembretesByAluno/${userInfo.user.id}`
-      );
+      const res = await api.get(`/lembretesByAluno/${userInfo.user.id}`);
       setLembretes(res.data["lembretes"]);
     } catch (error) {
       console.log(error);
     }
   };
 
-    // Deletar Lembrete
+  // Deletar Lembrete
   const delLembretes = async (id) => {
     try {
-      const res = await api.delete(
-        `/lembretes/${id}`
-      );
+      const res = await api.delete(`/lembretes/${id}`);
       if (res.status === 204) {
         showToastDel();
         setTimeout(() => {
@@ -129,12 +125,12 @@ export const Calendario = () => {
     }
   };
 
-    // alerta de criação do lembrete
+  // alerta de criação do lembrete
   const showToasts = () => {
     Toast.success("Lembrete criado  ");
   };
 
-    // alerta de sucesso ao deletar lembrete
+  // alerta de sucesso ao deletar lembrete
   const showToastDel = () => {
     Toast.success("Lembrete deletado ");
   };
@@ -143,8 +139,8 @@ export const Calendario = () => {
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
     var year = new Date().getFullYear();
-    return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
-  }
+    return year + "-" + addZero(month) + "-" + addZero(date); //yyyy-mm-dd
+  };
 
   return (
     <View style={styles.Container}>
@@ -170,11 +166,8 @@ export const Calendario = () => {
                 }}
               >
                 <Text style={styles.text}>{avisos.title}</Text>
-                <TouchableOpacity
-                onPress={() => delLembretes(avisos.id)
-}
-                >
-                <Feather name="x" size={25} color="gray" />
+                <TouchableOpacity onPress={() => delLembretes(avisos.id)}>
+                  <Feather name="x" size={25} color="gray" />
                 </TouchableOpacity>
               </View>
               <View style={{ flexDirection: "column" }}>
@@ -217,7 +210,11 @@ export const Calendario = () => {
           <KeyboardAvoidingView>
             <View style={{ paddingHorizontal: 20, paddingVertical: 30 }}>
               {/* Titulo */}
-              <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Título</Text>
+              <Text
+                style={{ color: "#4264EB", fontSize: 18, fontFamily: "Medium" }}
+              >
+                Título
+              </Text>
               <View style={{ marginTop: 10, marginBottom: 10 }}>
                 <TextInput
                   style={styles.Input}
@@ -227,7 +224,11 @@ export const Calendario = () => {
                 />
               </View>
               {/* Descricao */}
-              <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Descrição</Text>
+              <Text
+                style={{ color: "#4264EB", fontSize: 18, fontFamily: "Medium" }}
+              >
+                Descrição
+              </Text>
               <View style={{ marginTop: 10, marginBottom: 10 }}>
                 <TextInput
                   maxLength={30}
@@ -238,7 +239,11 @@ export const Calendario = () => {
                 />
               </View>
               {/* data */}
-              <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Data</Text>
+              <Text
+                style={{ color: "#4264EB", fontSize: 18, fontFamily: "Medium" }}
+              >
+                Data
+              </Text>
               <View style={{ marginTop: 10 }}>
                 <MaskInput
                   placeholder="Data do evento"
@@ -257,9 +262,25 @@ export const Calendario = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Início</Text>
+                <Text
+                  style={{
+                    color: "#4264EB",
+                    fontSize: 18,
+                    fontFamily: "Medium",
+                  }}
+                >
+                  Início
+                </Text>
                 <View>
-                  <Text style={{ color: "#4264EB", fontSize: 18, fontFamily:"Medium" }}>Fim</Text>
+                  <Text
+                    style={{
+                      color: "#4264EB",
+                      fontSize: 18,
+                      fontFamily: "Medium",
+                    }}
+                  >
+                    Fim
+                  </Text>
                 </View>
                 <Text></Text>
               </View>
@@ -316,7 +337,15 @@ export const Calendario = () => {
                   }}
                   onPress={() => refRBSheet.current.close()}
                 >
-                  <Text style={{ color: "#343A40", fontSize:16, fontFamily:"Medium" }}>Cancelar</Text>
+                  <Text
+                    style={{
+                      color: "#343A40",
+                      fontSize: 16,
+                      fontFamily: "Medium",
+                    }}
+                  >
+                    Cancelar
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => postLembrete()}
@@ -330,7 +359,15 @@ export const Calendario = () => {
                     backgroundColor: "#4264EB",
                   }}
                 >
-                  <Text style={{ color: "#f2f2f2", fontSize:16, fontFamily:"Medium" }}>Confirmar</Text>
+                  <Text
+                    style={{
+                      color: "#f2f2f2",
+                      fontSize: 16,
+                      fontFamily: "Medium",
+                    }}
+                  >
+                    Confirmar
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>

@@ -17,13 +17,11 @@ import socketServicesConquistas from "../../util/socketServicesConquistas";
 export const Atividade = ({ route }) => {
   const navigation = useNavigation();
   let id = route.params.id;
+  let id_disciplina = route.params.id_disciplina;
   const { userInfo } = useContext(AuthContext);
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(0);
-
-
-
 
   //contador do tempo da atividade
   useEffect(() => {
@@ -52,8 +50,6 @@ export const Atividade = ({ route }) => {
     setIsPaused(!isPaused);
   };
 
-
-
   Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)];
   };
@@ -61,29 +57,31 @@ export const Atividade = ({ route }) => {
   //get do inicio da atividade e do timer da pagina
   useEffect(() => {
     const getAtv = async () => {
-      const response = await api.get(
-        `/atividadeQuestoes/${id}`
-      );
+      const response = await api.get(`/atividadeQuestoes/${id}`);
       setAtv(response.data["questoes"]);
     };
-    BackHandler.addEventListener('hardwareBackPress', () =>{
-      return true
-    })
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
     getAtv();
     handleStart();
     socketServicesConquistas.initializeSocket();
   }, []);
 
+  //fazendo um emit quando terminar de responder as questões
+  //só faz o emit quando clicar no botão 'voltar p/home'
   const socketConquistas = () => {
-    socketServicesConquistas.emit("RESPONDA_X_ATIVIDADES",
-    {
-      id_aluno: `${userInfo.user.id}`
-    }, (response) => {
-      console.log("Conquistas - Socket",response);
-    }
-    )
-  }
-
+    socketServicesConquistas.emit(
+      "RESPONDA_X_ATIVIDADES",
+      {
+        id_aluno: `${userInfo.user.id}`,
+        id_disciplina:`${id_disciplina}`
+      },
+      (response) => {
+        console.log("Conquistas - Socket", response);
+      }
+    );
+  };
 
   const [atv, setAtv] = useState([]);
   const allQuestions = atv;
@@ -96,20 +94,15 @@ export const Atividade = ({ route }) => {
   const [showNextButton, setShowNextButton] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false);
 
-
-
   //função para envio da atividade
   const enviarNota = async () => {
     try {
-      const response = await api.post(
-        `/aluno_responde_atividade`,
-        {
-          nota: pontos,
-          id_aluno: `${userInfo.user.id}`,
-          id_atividade: `${id}`,
-          time: time
-        }
-      );
+      const response = await api.post(`/aluno_responde_atividade`, {
+        nota: pontos,
+        id_aluno: `${userInfo.user.id}`,
+        id_atividade: `${id}`,
+        time: time,
+      });
       if (response.status == 201) {
         socketConquistas();
         setTimeout(() => {
@@ -120,7 +113,6 @@ export const Atividade = ({ route }) => {
       console.log("erro atv", error);
     }
   };
-
 
   //validação das alternativas
   const validateAnswer = (selectedOption) => {
@@ -143,7 +135,7 @@ export const Atividade = ({ route }) => {
       // Last Question
       // Show Score Modal
       setShowScoreModal(true);
-      setIsPaused(true)
+      setIsPaused(true);
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setCurrentOptionSelected(null);
@@ -271,7 +263,7 @@ export const Atividade = ({ route }) => {
     }
   };
 
-  //variaveis da barra de progresso 
+  //variaveis da barra de progresso
   const [progress, setProgress] = useState(new Animated.Value(0));
   const progressAnim = progress.interpolate({
     inputRange: [0, allQuestions.length],
@@ -307,107 +299,119 @@ export const Atividade = ({ route }) => {
 
   return (
     <View style={{ flex: 1 }}>
-    <ImageBackground source={require("../../../assets/BG.png")} resizeMode="cover" style={{flex:1, justifyContent:'center'}}>
-    <View
-    style={{
-      flex: 1,
-      paddingTop: 40,
-      paddingBottom: 5,
-      paddingHorizontal: 16,
-      position: "relative",
-    }}
-  >
-    {/* ProgressBar */}
-    {renderProgressBar()}
-
-    <ScrollView>
-      {/* Question */}
-      {renderQuestion()}
-
-      {/* Options */}
-      {renderOptions()}
-
-      {/* Next Button */}
-      {renderNextButton()}
-    </ScrollView>
-
-    {/* Score Modal */}
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={showScoreModal}
-    >
-    <ImageBackground source={require("../../../assets/BG.png")} resizeMode="cover" style={{flex:1, justifyContent:'center'}}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+      <ImageBackground
+        source={require("../../../assets/BG.png")}
+        resizeMode="cover"
+        style={{ flex: 1, justifyContent: "center" }}
       >
         <View
-        style={{
-          backgroundColor: "#fff",
-          width: "90%",
-          borderRadius: 20,
-          padding: 20,
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-          {score > allQuestions.length / 2 ? "Parabéns!" : "Quase lá!"}
-        </Text>
-
-        <View
           style={{
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            marginVertical: 20,
+            flex: 1,
+            paddingTop: 40,
+            paddingBottom: 5,
+            paddingHorizontal: 16,
+            position: "relative",
           }}
         >
-          <Text
-            style={{
-              fontSize: 30,
-              color:
-                score > allQuestions.length / 2 ? "#00C851" : "#ff4444",
-            }}
-          >
-            {score}
-          </Text>
-          <Text
-            style={{
-              fontSize: 20,
-              color: "#171717",
-            }}
-          >
-            / {allQuestions.length}
-          </Text>
-        </View>
+          {/* ProgressBar */}
+          {renderProgressBar()}
 
-        {/* Enviar Pontuação - Buttom*/}
-        <TouchableOpacity
-          onPress={() => enviarNota()}
-          style={{
-            backgroundColor: "#F6E7AE",
-            padding: 20,
-            width: "100%",
-            borderRadius: 20,
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 18,
-              fontFamily:"Medium"
-            }}
-          >
-            Voltar para home
-          </Text>
-        </TouchableOpacity>
+          <ScrollView>
+            {/* Question */}
+            {renderQuestion()}
 
-        {/* Enviar Pontuação - Buttom*/}
-        {/* <TouchableOpacity
+            {/* Options */}
+            {renderOptions()}
+
+            {/* Next Button */}
+            {renderNextButton()}
+          </ScrollView>
+
+          {/* Score Modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={showScoreModal}
+          >
+            <ImageBackground
+              source={require("../../../assets/BG.png")}
+              resizeMode="cover"
+              style={{ flex: 1, justifyContent: "center" }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: "#fff",
+                    width: "90%",
+                    borderRadius: 20,
+                    padding: 20,
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ fontSize: 30, fontWeight: "bold" }}>
+                    {score > allQuestions.length / 2
+                      ? "Parabéns!"
+                      : "Quase lá!"}
+                  </Text>
+
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      marginVertical: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 30,
+                        color:
+                          score > allQuestions.length / 2
+                            ? "#00C851"
+                            : "#ff4444",
+                      }}
+                    >
+                      {score}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: "#171717",
+                      }}
+                    >
+                      / {allQuestions.length}
+                    </Text>
+                  </View>
+
+                  {/* Enviar Pontuação - Buttom*/}
+                  <TouchableOpacity
+                    onPress={() => enviarNota()}
+                    style={{
+                      backgroundColor: "#F6E7AE",
+                      padding: 20,
+                      width: "100%",
+                      borderRadius: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        textAlign: "center",
+                        fontSize: 18,
+                        fontFamily: "Medium",
+                      }}
+                    >
+                      Voltar para home
+                    </Text>
+                  </TouchableOpacity>
+
+                  {/* Enviar Pontuação - Buttom*/}
+                  {/* <TouchableOpacity
         onPress={() => enviarNota2()}
         style={{
           backgroundColor: "#EBC942",
@@ -427,13 +431,12 @@ export const Atividade = ({ route }) => {
         >
           Minha Classificação
         </Text>
-      </TouchableOpacity> */}      
-        
-      </View>
-      </View>
-      </ImageBackground>
-    </Modal>
-  </View>
+      </TouchableOpacity> */}
+                </View>
+              </View>
+            </ImageBackground>
+          </Modal>
+        </View>
       </ImageBackground>
     </View>
   );

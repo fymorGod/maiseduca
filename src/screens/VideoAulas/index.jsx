@@ -77,6 +77,7 @@ export const VideoAulas = ({ route }) => {
       navigation.navigate("AtividadeInicio", {
         id: `${tudo.atividade.id}`,
         title: `${tudo.atividade.title}`,
+        id_disciplina: `${tudo.atividade.id_disciplina}`
       });
     }
   };

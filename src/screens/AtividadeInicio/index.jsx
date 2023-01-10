@@ -9,6 +9,7 @@ export const AtividadeInicio = ({ route }) => {
   let id = route.params.id;
   //titulo da atividade
   let title = route.params.title;
+  let id_disciplina = route.params.id_disciplina;
   const navigation = useNavigation();
 
   //carregando fonte de texto
@@ -90,7 +91,7 @@ export const AtividadeInicio = ({ route }) => {
             elevation: 2,
             backfaceVisibility: "hidden",
           }}
-          onPress={() => navigation.navigate("Atividade", { id: `${id}` })}
+          onPress={() => navigation.navigate("Atividade", { id: `${id}`, id_disciplina: `${id_disciplina}`})}
         >
           <Text
             style={{
