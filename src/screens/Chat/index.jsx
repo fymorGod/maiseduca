@@ -30,6 +30,7 @@ export const Chat = ({ route }) => {
         id_connected: id_aluno,
         id_professor,
         id_aluno,
+        type: 'mobile'
       },
       (res) => {
         setIdSala(res.room_id);

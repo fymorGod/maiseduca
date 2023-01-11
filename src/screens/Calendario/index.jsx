@@ -14,6 +14,7 @@ import {
   Dimensions,
   RefreshControl,
   KeyboardAvoidingView,
+  Animated,
 } from "react-native";
 import { AppHeader } from "../../components/AppHeader";
 import { FAB } from "react-native-paper";
@@ -26,6 +27,7 @@ import ToastManager, { Toast } from "toastify-react-native";
 import { useFonts } from "expo-font";
 import { Feather } from "@expo/vector-icons";
 import api from "../../api/api";
+import CustomToast from "../../components/CustomToast";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -43,6 +45,7 @@ export const Calendario = () => {
   const horaMask = [/\d/, /\d/, ":", /\d/, /\d/];
   const dataMask = [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/];
   const limite = 10;
+  
 
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
@@ -63,9 +66,17 @@ export const Calendario = () => {
     wait(2000).then(() => getLembrete(), setRefreshing(false));
   }, []);
 
+  //  função para alterar a data no formato p/ envio
+  function DataEnvio(date) {
+    if (date?.length > limite) {
+      setData(date.substring(0, limite));
+    }
+  }
+
   // postLembretes
   const postLembrete = async () => {
     DataEnvio(date);
+    if(data)
     try {
       const res = await api.post(`/lembretes`, {
         title: titulo,
@@ -83,22 +94,11 @@ export const Calendario = () => {
         }, 1000);
       }
     } catch (error) {
-      console.log("titulo", titulo);
-      console.log("descricao", descricao);
-      console.log("data + inicio", data, inicio);
-      console.log("data + fim", data, fim);
-      console.log("id aluno", userInfo.user.id);
-
       console.log(error);
     }
   };
 
-  //  função para alterar a data no formato p/ envio
-  function DataEnvio(date) {
-    if (date?.length > limite) {
-      setData(date.substring(0, limite));
-    }
-  }
+
 
   // getLembretes
   const getLembrete = async () => {

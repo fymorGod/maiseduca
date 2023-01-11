@@ -25,32 +25,6 @@ const HEIGHT = Dimensions.get('screen').height;
 
 export const CreateAnotation = ({}) => {
 
-    //nova notificação
-    const [toastType, setToastType] = useState("success");
-    const [title, setTitle] = useState("Success");
-    const slideAnim = useRef(new Animated.Value(HEIGHT + 50)).current;
-    const animateToast = () => {
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 400,
-        useNativeDriver: true,
-      }).start();
-  
-      setTimeout(() => {
-        Animated.timing(slideAnim, {
-          toValue: 500,
-          duration: 200,
-          useNativeDriver: true,
-        }).start();
-      }, 2500);
-    };
-  
-    const showToast = (type, message) => {
-      setToastType(type);
-      setTitle(message);
-      animateToast();
-    };
-
 
   //carregando fonte do texto
   let [fontsLoaded] = useFonts({
