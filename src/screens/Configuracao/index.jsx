@@ -194,7 +194,7 @@ export const Configuracao = () => {
                 marginTop: 5,
                 marginHorizontal: 20,
                 paddingHorizontal: 20,
-                borderRadius: 12,
+                borderRadius: 10,
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
@@ -209,17 +209,16 @@ export const Configuracao = () => {
                   padding: 5,
                 }}
               >
-              <View></View>
               <View> 
               <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Efeitos sonoros</Text>
               </View>
                 <Switch
                   style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
                   trackColor={{ false: "#58E09A", true: "#004444" }}
-                  thumbColor={mute ? "#ACE8E8" : "#005858"}
+                  thumbColor={notificacao ? "#ACE8E8" : "#005858"}
+                  onValueChange={toggleSwitch1}
+                  value={notificacao}
                   ios_backgroundColor="#ACE8E8"
-                  onValueChange={toggleSwitch2}
-                  value={mute}
                 />
               </View>
             </TouchableOpacity>

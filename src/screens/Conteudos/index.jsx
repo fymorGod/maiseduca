@@ -72,7 +72,8 @@ export const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 12,
         height:40,
-        width:"90%"
+        width:"90%",
+        marginBottom:10
     },
     text1:{
         color: "#403B91",

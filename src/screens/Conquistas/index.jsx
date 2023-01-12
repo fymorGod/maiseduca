@@ -4,13 +4,12 @@ import {
   Text,
   View,
   StyleSheet,
-  Image,
   ScrollView,
   Animated,
+  Image
 } from "react-native";
 import { AppHeader } from "../../components/AppHeader";
 import { useFonts } from "expo-font";
-import socketServices from "../../util/socketServices";
 import api from "../../api/api";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -24,7 +23,6 @@ export const Conquistas = () => {
         `/escolas/users/alunos/${userInfo.user.id}/conquistas`
       );
       setConquistas(res.data["conquistas"]);
-      console.log(res.data["conquistas"]);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +62,9 @@ export const Conquistas = () => {
 
       <ScrollView>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          {conquistas.map((conq, i) => {
+        {
+          conquistas.length != 0 
+          ?             conquistas.map((conq, i) => {
             return (
               <View key={i} style={styles.card}>
                 <View
@@ -82,7 +82,9 @@ export const Conquistas = () => {
                     <Image
                       style={{ height: "100%", width: "100%" }}
                       resizeMode="contain"
-                      source={require("../../../assets/sabe-tudo.png")}
+                      source={{
+                      uri: `${conq.conquista.icon}`
+                    }}
                     />
                   </View>
 
@@ -107,11 +109,11 @@ export const Conquistas = () => {
                           {
                             height: 20,
                             borderRadius: 20,
-                            backgroundColor: "orange",
+                            backgroundColor:`${conq.conquista.color}`,
                             alignItems: "center",
                           },
                           {
-                            width: progressAnim,
+                            width: conq.progress,
                           },
                         ]}
                       >
@@ -122,7 +124,12 @@ export const Conquistas = () => {
                 </View>
               </View>
             );
-          })}
+          })
+          : 
+          <View style={{flex: 1, alignItems:'center', justifyContent:'center', marginTop: 230, width:'90%'}}>
+            <Text style={{fontFamily:"Regular", fontSize:16, textAlign:'center'}}>Não existem conquistas desbloqueadas</Text>
+          </View>
+        }
         </View>
       </ScrollView>
     </View>

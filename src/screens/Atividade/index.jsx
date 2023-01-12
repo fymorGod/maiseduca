@@ -13,6 +13,8 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../api/api";
 import socketServicesConquistas from "../../util/socketServicesConquistas";
+import ToastManager, { Toast } from "toastify-react-native";
+
 
 export const Atividade = ({ route }) => {
   const navigation = useNavigation();
@@ -54,6 +56,11 @@ export const Atividade = ({ route }) => {
     return this[Math.floor(Math.random() * this.length)];
   };
 
+    // alerta de criação do lembrete
+    const showToasts = () => {
+      Toast.success("Conquista Desbloqueada ");
+    };
+
   //get do inicio da atividade e do timer da pagina
   useEffect(() => {
     const getAtv = async () => {
@@ -78,7 +85,11 @@ export const Atividade = ({ route }) => {
         id_disciplina:`${id_disciplina}`
       },
       (response) => {
-        console.log("Conquistas - Socket", response);
+        if(response.length != 0){
+          showToasts();
+        }
+        console.log(response)
+        
       }
     );
   };
@@ -304,6 +315,7 @@ export const Atividade = ({ route }) => {
         resizeMode="cover"
         style={{ flex: 1, justifyContent: "center" }}
       >
+      
         <View
           style={{
             flex: 1,
@@ -333,11 +345,15 @@ export const Atividade = ({ route }) => {
             transparent={true}
             visible={showScoreModal}
           >
+          <ToastManager
+          style={{height:75, widht:100}}
+          />
             <ImageBackground
               source={require("../../../assets/BG.png")}
               resizeMode="cover"
               style={{ flex: 1, justifyContent: "center" }}
             >
+            
               <View
                 style={{
                   flex: 1,

@@ -15,6 +15,7 @@ import {
   RefreshControl,
   KeyboardAvoidingView,
   Animated,
+  Platform,
 } from "react-native";
 import { AppHeader } from "../../components/AppHeader";
 import { FAB } from "react-native-paper";
@@ -105,6 +106,7 @@ export const Calendario = () => {
     try {
       const res = await api.get(`/lembretesByAluno/${userInfo.user.id}`);
       setLembretes(res.data["lembretes"]);
+      console.log(res.data["lembretes"])
     } catch (error) {
       console.log(error);
     }
@@ -186,9 +188,10 @@ export const Calendario = () => {
       </ScrollView>
       <View>
         {/* BottomSheet */}
+       
         <RBSheet
           ref={refRBSheet}
-          height={600}
+          height={1000}
           openDuration={250}
           closeOnDragDown={true}
           closeOnPressMask={false}
@@ -207,7 +210,9 @@ export const Calendario = () => {
             },
           }}
         >
-          <KeyboardAvoidingView>
+          <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
             <View style={{ paddingHorizontal: 20, paddingVertical: 30 }}>
               {/* Titulo */}
               <Text
@@ -373,6 +378,7 @@ export const Calendario = () => {
             </View>
           </KeyboardAvoidingView>
         </RBSheet>
+        
       </View>
 
       <FAB
@@ -382,6 +388,7 @@ export const Calendario = () => {
         onPress={() => refRBSheet.current.open()}
       />
     </View>
+
   );
 };
 
