@@ -100,7 +100,7 @@ export const Conquistas = () => {
                     {
                       conq.conquista.progress != 0 
                       ? 
-                      <View style={{ marginTop: 10, width: "90%", backgroundColor:conq.conquista.color + 30, borderRadius:20 }}>
+                      <View style={{ marginTop: 10, width: "87%", backgroundColor:conq.conquista.color + 30, borderRadius:20 }}>
                       <Animated.View
                       Value={conq.conquista.progress}
                       inputRange={[0,100]}
@@ -113,7 +113,7 @@ export const Conquistas = () => {
                             alignItems: "center",
                           },
                           {
-                            width: conq.conquista.progress * 2.1,
+                            width: conq.conquista.progress * 2,
                            
                           },
                         ]}
