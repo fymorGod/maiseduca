@@ -37,11 +37,6 @@ export const Conquistas = () => {
     Regular: require("../../../assets/fonts/Poppins-Regular.ttf"),
   });
 
-  const [progress, setProgress] = useState(new Animated.Value(100));
-  const progressAnim = progress.interpolate({
-    inputRange: [0, 100],
-    outputRange: ["0%", "100%"],
-  });
 
   return (
     <View style={styles.Container}>
@@ -71,11 +66,10 @@ export const Conquistas = () => {
                   style={{
                     flexDirection: "row",
                     width: "80%",
-                    marginTop: 10,
-                    marginLeft: 5,
-                    marginRight: 5,
-                    alignItems: "center",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
+                    marginHorizontal: 10,
+                    marginTop:5,
+                    marginBottom:10
                   }}
                 >
                   <View style={{ height: 100, width: 90 }}>
@@ -92,7 +86,7 @@ export const Conquistas = () => {
                     style={{
                       marginLeft: 10,
                       flexDirection: "column",
-                      width: "90%",
+                      width: "87%",
                     }}
                   >
                     <View style={{ width: "90%" }}>
@@ -103,23 +97,53 @@ export const Conquistas = () => {
                     <Text style={{ fontFamily: "Regular", fontSize: 13 }}>
                       {conq.conquista.description}
                     </Text>
-                    <View style={{ marginTop: 10, width: "90%" }}>
+                    {
+                      conq.conquista.progress != 0 
+                      ? 
+                      <View style={{ marginTop: 10, width: "90%", backgroundColor:conq.conquista.color + 30, borderRadius:20 }}>
                       <Animated.View
+                      Value={conq.conquista.progress}
+                      inputRange={[0,100]}
+                      outputRange= {['0%','100%']}
                         style={[
                           {
                             height: 20,
                             borderRadius: 20,
-                            backgroundColor:`${conq.conquista.color}`,
+                            backgroundColor:`${conq.conquista.color}` ,
                             alignItems: "center",
                           },
                           {
-                            width: conq.progress,
+                            width: conq.conquista.progress * 2.1,
+                           
                           },
                         ]}
                       >
-                        <Text style={{ color: "#fff" }}>100%</Text>
+                        <Text style={{ color: "#fff" }}>{conq.conquista.progress}%</Text>
                       </Animated.View>
                     </View>
+                    :
+                    <View style={{ marginTop: 10, width: "90%" }}>
+                      <Animated.View
+                      Value={conq.conquista.progress}
+                      inputRange={[0,]}
+                      outputRange= {['0%','100%']}
+                        style={[
+                          {
+                            height: 20,
+                            borderRadius: 20,
+                            backgroundColor:'grey',
+                            alignItems: "center",
+                          },
+                          {
+                            width: 190,
+                           
+                          },
+                        ]}
+                      >
+                        <Text style={{ color: "#fff" }}>0%</Text>
+                      </Animated.View>
+                    </View>
+                    }
                   </View>
                 </View>
               </View>
@@ -144,11 +168,12 @@ export const styles = StyleSheet.create({
   card: {
     flexWrap: "wrap",
     width: "90%",
-    height: 150,
+    height: 140,
     backgroundColor: "white",
     marginBottom: 15,
     borderRadius: 10,
     elevation: 5,
+    alignItems:'center'
   },
   text: {
     margin: 10,

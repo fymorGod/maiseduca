@@ -28,7 +28,6 @@ import ToastManager, { Toast } from "toastify-react-native";
 import { useFonts } from "expo-font";
 import { Feather } from "@expo/vector-icons";
 import api from "../../api/api";
-import CustomToast from "../../components/CustomToast";
 
 const windowHeight = Dimensions.get("window").height;
 
