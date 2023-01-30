@@ -68,6 +68,7 @@ export const Calendario = () => {
 
   //  função para alterar a data no formato p/ envio
   function DataEnvio(date) {
+    console.log(date)
     if (date?.length > limite) {
       setData(date.substring(0, limite));
     }
@@ -99,13 +100,11 @@ export const Calendario = () => {
   };
 
 
-
   // getLembretes
   const getLembrete = async () => {
     try {
       const res = await api.get(`/lembretesByAluno/${userInfo.user.id}`);
       setLembretes(res.data["lembretes"]);
-      console.log(res.data["lembretes"])
     } catch (error) {
       console.log(error);
     }
@@ -136,12 +135,6 @@ export const Calendario = () => {
     Toast.success("Lembrete deletado ");
   };
 
-  const getMinDate = () => {
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    return year + "-" + addZero(month) + "-" + addZero(date); //yyyy-mm-dd
-  };
 
   return (
     <View style={styles.Container}>
@@ -158,6 +151,7 @@ export const Calendario = () => {
       >
         <View style={styles.cards}>
           {lembretes.map((avisos) => (
+
             <View style={styles.card} key={avisos.id}>
               <View
                 style={{

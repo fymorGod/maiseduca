@@ -125,16 +125,17 @@ export const Configuracao = () => {
             </View>
           </View>
 
+          <View style={{marginLeft:20}}>
           <Text
-            style={{
-              fontFamily: "Medium",
-              fontSize: 16,
-              color: "#403B91",
-              paddingLeft: 20,
-            }}
-          >
-            Geral
-          </Text>
+          style={{
+            fontFamily: "Medium",
+            fontSize: 16,
+            color: "#4264EB",
+          }}
+        >
+          Geral
+        </Text>
+          </View>
           <View>
             <TouchableOpacity
               style={{
@@ -162,7 +163,7 @@ export const Configuracao = () => {
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch1}
             >
               <View
                 style={{
@@ -198,7 +199,7 @@ export const Configuracao = () => {
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch2}
             >
               <View
                 style={{
@@ -215,9 +216,9 @@ export const Configuracao = () => {
                 <Switch
                   style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
                   trackColor={{ false: "#58E09A", true: "#004444" }}
-                  thumbColor={notificacao ? "#ACE8E8" : "#005858"}
-                  onValueChange={toggleSwitch1}
-                  value={notificacao}
+                  thumbColor={mute ? "#ACE8E8" : "#005858"}
+                  onValueChange={toggleSwitch2}
+                  value={mute}
                   ios_backgroundColor="#ACE8E8"
                 />
               </View>
@@ -234,7 +235,7 @@ export const Configuracao = () => {
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch3}
             >
               <View
                 style={{
@@ -439,7 +440,7 @@ export const Configuracao = () => {
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch1}
             >
               <View
                 style={{
@@ -474,7 +475,7 @@ export const Configuracao = () => {
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch2}
             >
               <View
                 style={{
@@ -508,7 +509,7 @@ export const Configuracao = () => {
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch3}
             >
               <View
                 style={{

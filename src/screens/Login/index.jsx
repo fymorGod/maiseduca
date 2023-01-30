@@ -53,6 +53,7 @@ export const Login = ({}) => {
               style={styles.image}
             />
             <TextInput
+            keyboardType="decimal-pad"
             style={styles.Input}
             value={mat}
             placeholder="Enter Matrícula"
