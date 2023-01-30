@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import api from "../../api/api";
 import { AppHeader2 } from "../../components/AppHeader2";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -14,12 +15,11 @@ export const Conteudos = ({route}) => {
 
     //get nos conteudos do alunos po rmateria
      useEffect(() => {
-         axios.get(`http://35.199.114.75:3010/conteudosAluno/${userInfo.user.id}/${id}`)
+         api.get(`/conteudosAluno/${userInfo.user.id}/${id}`)
          .then(res=>{
              // s
              setConteudos(res.data['conteudo'].conteudo);
              setTitulo(res.data['conteudo'].disciplina_name);
-             console.log(res.data['conteudo'].conteudo)
          })
         
        }, [])
@@ -33,17 +33,21 @@ export const Conteudos = ({route}) => {
         </View>
 
         <ScrollView>
+        <View style={{alignItems:'center', elevation:3}}>
         {conteudos.map((cont)=>(
-            <TouchableOpacity key={cont.id} onPress={() => navigation.navigate('VideoAulas', {id: `${cont.id}`})}>
-                <View style={{padding:10}} key={cont.id}>
-                 <View style={styles.container2}>
-                        <Text style={styles.text1}> {cont.name}</Text>
-                    </View>
-                        
+            <TouchableOpacity
+            key={cont.id}
+            style={styles.container2}
+            onPress={() => navigation.navigate('VideoAulas', {id: `${cont.id}`})}
+            >
+                <View
+                key={cont.id}
+                style={{alignItems:"center"}}>
+                    <Text style={styles.text1}> {cont.name}</Text>
                 </View>
-            </TouchableOpacity>
- 
+            </TouchableOpacity> 
             ))}
+            </View>
         </ScrollView>
         
     </View>
@@ -56,21 +60,20 @@ export const styles = StyleSheet.create({
         backgroundColor: '#EDF2FF'
     },
     text:{
-        color: "#403B91",
-        fontSize: 18,
-        fontWeight: "500",
-        marginLeft: 20,
-        marginBottom: 10,
-        marginTop: 10
+        fontFamily: "Medium",
+            fontSize: 18,
+            color: "#4264EB",
+            paddingTop: 20,
+            paddingLeft: 20,
     },
     container2:{
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#fff",
-        paddingVertical: 10,
-        borderRadius: 20
-        
-
+        borderRadius: 12,
+        height:40,
+        width:"90%",
+        marginBottom:10
     },
     text1:{
         color: "#403B91",

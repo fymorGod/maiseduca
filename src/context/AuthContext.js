@@ -1,30 +1,40 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import ToastManager, { Toast } from 'toastify-react-native'
+import api from '../api/api';
+import socketServices from '../util/socketServices';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+
+  useEffect(() => {
+    socketServices.initializeSocket();
+  }, [])
+
+  const showToast = (type, message) => {
+    setToastType(type);
+    setTitle(message);
+    animateToast();
+  };
  
   const login = async (mat, password) => {
     setIsLoading(true);
     
     try {
-      const response = await axios
-      .post(`http://35.199.114.75:3010/escolas/users/login`, {
+      const response = await api
+      .post(`/escolas/users/login`, {
         mat,
         password,
       });
       let userInfo = response.data;
-      console.log(userInfo.user);
       setUserInfo(userInfo);
       await AsyncStorage.setItem('@asyncStorage:userInfo', userInfo.token);
       setIsLoading(false);
-    } catch (error) {       
-      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false);
     }
   };
 

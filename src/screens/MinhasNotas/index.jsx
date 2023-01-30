@@ -2,40 +2,35 @@ import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 import { ScrollView } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
+import api from "../../api/api";
 
 export const MinhasNotas = () => {
   //carregando fontes de texto
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+    Regular: require("../../../assets/fonts/Poppins-Regular.ttf"),
   });
 
   //get dados do aluno - notas
   const { userInfo } = useContext(AuthContext);
   const [data, setData] = useState([]);
 
-  //cor das barras dos graficos
-  const colors = [
-    "violet",
-    "cornflowerblue",
-    "gold",
-    "orange",
-    "turquoise",
-    "tomato",
-    "greenyellow",
-  ];
-
   //get nas notas dos alunos
   const getNotas = async () => {
-    const response = await axios.get(
-      `http://35.199.114.75:3010/medias/${userInfo.user.id}`
-    );
-    setData(response.data["medias"]);
-    console.log(response.data["medias"]);
-  };
+    try {
+      const response = await api.get(
+        `/medias/${userInfo.user.id}`
+      );
+      setData(response.data["medias"]);
+      console.log(response.data["medias"])
+    }
+     catch (error) {
+      console.log(error);
+    }
+  }
 
   //get nas notas dos alunos
   useEffect(() => {
@@ -51,7 +46,7 @@ export const MinhasNotas = () => {
             <Text
               style={{
                 fontFamily: "Medium",
-                color: "#403B91",
+                color: "#4264EB",
                 fontSize: 18,
                 fontWeight: "500",
               }}
@@ -65,27 +60,91 @@ export const MinhasNotas = () => {
               <Text style={styles.infoText}>Matemática</Text>
             </View>
             <View style={styles.boxInfo}>
-              <Text style={styles.subTitle}>Tempo na Plataforma: </Text>
-              <Text style={styles.infoText}>3 Horas e 45 minutos</Text>
+              <Text style={styles.subTitle}>Tempo em atividade: </Text>
+              <Text style={styles.infoText}>1 H 27 minutos</Text>
+            </View>
+            <View style={styles.boxInfo}>
+              <Text style={styles.subTitle}>Tempo em Aula: </Text>
+              <Text style={styles.infoText}>3H 13 minutos</Text>
             </View>
           </View>
           <View style={styles.boxGrafico}>
-            <VictoryChart
-              theme={VictoryTheme.material}
-              animate={{ duration: 500 }}
-            >
-              <VictoryBar
-                alignment="start"
-                style={{ data: { width: 30, fill: "#00B7B7" } }}
-                barWidth={40}
-                height={1}
-                data={data}
-                x="disciplina"
-                y="value"
-              />
-            </VictoryChart>
+              {
+                data.length != 0 ? 
+                <VictoryChart
+                theme={VictoryTheme.material}
+                animate={{ duration: 500 }}
+              >
+                <VictoryBar
+                  alignment="start"
+                  style={{
+                    data: {
+                      fill: ({ datum }) => (datum.y >= 7 ? "#EBC942" : "#3BA8B9"),
+                      fillOpacity: 0.7,
+                      strokeWidth: 2,
+                    },
+                  }}
+                  labels={({ datum }) => datum.y}
+                  barWidth={40}
+                  height={1}
+                  data={data}
+                  x="disciplina"
+                  y="value"
+                />
+              </VictoryChart>
+              : 
+              <View style={{alignItems:'center', justifyContent:'center', flex:1}}>
+                  <Text style={{fontFamily:'Regular', fontSize:16, color: "#343A40",}}>Não existem médias</Text>
+              </View>
+              }
           </View>
           <View style={styles.boxTable}></View>
+
+          <View style={{ marginHorizontal: 20 }}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Text style={{ fontFamily: "Medium" }}>Matéria</Text>
+              <Text style={{ fontFamily: "Medium" }}>Atividades</Text>
+              <Text style={{ fontFamily: "Medium" }}>Média</Text>
+            </View>
+          </View>
+          <View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                backgroundColor: "#D1DEFE",
+                paddingHorizontal: 20,
+                borderRadius: 12,
+                elevation: 1,
+                height: 30,
+                alignItems: "center",
+              }}
+            >
+              <View><Text style={{ fontFamily: "Regular" }}>Geografia</Text></View>
+              <View style={{justifyContent:'center', alignItems:'center', marginRight:15}}><Text style={{ fontFamily: "Regular" }}>10</Text></View>
+              <View><Text style={{ fontFamily: "Regular" }}>9.00</Text></View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                backgroundColor: "#F8F9FA",
+                paddingHorizontal: 20,
+                borderRadius: 12,
+                marginTop: 5,
+                elevation: 1,
+                height: 30,
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontFamily: "Regular" }}>História</Text>
+              <Text style={{ fontFamily: "Regular" }}>7</Text>
+              <Text style={{ fontFamily: "Regular" }}>4.50</Text>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -106,16 +165,18 @@ export const styles = StyleSheet.create({
   },
   subTitle: {
     fontSize: 16,
-    color: "#495057",
-    fontWeight: "400",
+    color: "#343A40",
+    fontFamily: "Medium",
   },
   infoText: {
-    color: "#868E96",
+    color: "#343A40",
+    fontFamily: "Regular",
   },
   boxInfo: {
     flexDirection: "row",
     width: "100%",
     paddingVertical: 5,
+    alignItems: "center",
   },
   boxGrafico: {
     width: "100%",

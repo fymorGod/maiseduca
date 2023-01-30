@@ -5,6 +5,10 @@ import { AuthContext } from "../../context/AuthContext";
 ("react-native");
 import { useNavigation } from "@react-navigation/native";
 import { AppHeader2 } from "../../components/AppHeader2";
+import { useFonts } from "expo-font";
+import api from "../../api/api";
+
+
 
 export const Perfil = () => {
   const navigation = useNavigation();
@@ -15,14 +19,17 @@ export const Perfil = () => {
 
   //get nas informações do aluno
   useEffect(() => {
-    axios
-      .get(`http://35.199.114.75:3010/escolas/users/alunos/${id}`)
+    api
+      .get(`/escolas/users/alunos/${id}`)
       .then((res) => {
         // s
         setPerfil(res.data["aluno"]);
-        console.log(res.data["aluno"]);
       });
   }, []);
+
+  let [fontsLoaded] = useFonts({
+    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
+  })
 
   return (
     <View style={styles.Container}>
@@ -149,37 +156,37 @@ export const Perfil = () => {
               navigation.navigate("MinhasNotas");
             }}
           >
-            <Text style={styles.text}>Minhas Notas</Text>
+            <Text style={{ color: "#343A40", fontFamily:"Medium", textAlign: "center"}}>Minhas Notas</Text>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity
             style={{
-              marginHorizontal: 6,
-              marginTop: 10,
+              marginHorizontal: 20,
+              marginTop: 5,
               paddingVertical: 10,
-              borderRadius: 10,
+              borderRadius: 12,
               elevation: 3,
               backgroundColor: "#00B7B7",
             }}
             onPress={() => navigation.navigate("Classificacao")}
           >
-            <Text style={styles.text}>Classificação</Text>
+            <Text style={{color: "#343A40", fontFamily:"Medium", textAlign: "center"}}>Classificação</Text>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity
             style={{
-              marginHorizontal: 6,
-              marginTop: 10,
+              marginHorizontal: 20,
+              marginTop: 5,
               paddingVertical: 10,
-              borderRadius: 10,
+              borderRadius: 12,
               elevation: 3,
-              backgroundColor: "#67D4D4",
+              backgroundColor: "#00B7B7",
             }}
             onPress={() => navigation.navigate("Configuracao")}
           >
-            <Text style={{ color: "#005858", textAlign: "center" }}>
+            <Text style={{ color: "#343A40", fontFamily:"Medium", textAlign: "center" }}>
               Configuração
             </Text>
           </TouchableOpacity>
@@ -193,11 +200,6 @@ export const styles = StyleSheet.create({
   Container: {
     flex: 1,
     backgroundColor: "#EDF2FF",
-  },
-  text: {
-    color: "#403B91",
-    fontSize: 18,
-    fontWeight: "500",
   },
   bannerMoldura: {
     position: "absolute",
@@ -290,12 +292,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    marginHorizontal: 6,
+    marginHorizontal: 20,
     marginTop: 20,
     paddingVertical: 10,
-    borderRadius: 10,
+    borderRadius: 12,
     elevation: 3,
-    backgroundColor: "#00A1A1",
+    backgroundColor: "#00B7B7",
   },
   text: {
     textAlign: "center",

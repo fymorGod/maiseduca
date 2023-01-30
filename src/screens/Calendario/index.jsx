@@ -14,20 +14,21 @@ import {
   Dimensions,
   RefreshControl,
   KeyboardAvoidingView,
+  Animated,
+  Platform,
 } from "react-native";
 import { AppHeader } from "../../components/AppHeader";
 import { FAB } from "react-native-paper";
 import { Agenda } from "../../components/Agenda";
 import RBSheet from "react-native-raw-bottom-sheet";
 import MaskInput from "react-native-mask-input";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigation } from "@react-navigation/native";
-import Icon2 from "react-native-vector-icons/Octicons";
 import { ScrollView } from "native-base";
 import ToastManager, { Toast } from "toastify-react-native";
+import { useFonts } from "expo-font";
+import { Feather } from "@expo/vector-icons";
+import api from "../../api/api";
 
-const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export const Calendario = () => {
@@ -38,34 +39,47 @@ export const Calendario = () => {
   const [inicio, setInicio] = useState("");
   const [fim, setFim] = useState("");
   const [lembretes, setLembretes] = useState([]);
-  const [data, setData] = useState('');
+  const [data, setData] = useState("");
   const { userInfo } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
   const horaMask = [/\d/, /\d/, ":", /\d/, /\d/];
   const dataMask = [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/];
   const limite = 10;
+  
 
+  let [fontsLoaded] = useFonts({
+    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+  });
 
   useEffect(() => {
     getLembrete();
   }, []);
 
-    // timer da atualização da página
+  // timer da atualização da página
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
 
-    // atualizar página
+  // atualizar página
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => getLembrete(), setRefreshing(false));
   }, []);
 
-    // postLembretes
+  //  função para alterar a data no formato p/ envio
+  function DataEnvio(date) {
+    console.log(date)
+    if (date?.length > limite) {
+      setData(date.substring(0, limite));
+    }
+  }
+
+  // postLembretes
   const postLembrete = async () => {
-    DataEnvio(date)
+    DataEnvio(date);
+    if(data)
     try {
-      const res = await axios.post(`http://35.199.114.75:3010/lembretes`, {
+      const res = await api.post(`/lembretes`, {
         title: titulo,
         description: descricao,
         data: data,
@@ -85,32 +99,21 @@ export const Calendario = () => {
     }
   };
 
-  //  função para alterar a data no formato p/ envio 
-  function DataEnvio(date) {
-    if (date?.length > limite) {
-      setData(date.substring(0, limite));
-    }
-  
-  }
 
-    // getLembretes
+  // getLembretes
   const getLembrete = async () => {
     try {
-      const res = await axios.get(
-        `http://35.199.114.75:3010/lembretesByAluno/${userInfo.user.id}`
-      );
+      const res = await api.get(`/lembretesByAluno/${userInfo.user.id}`);
       setLembretes(res.data["lembretes"]);
     } catch (error) {
       console.log(error);
     }
   };
 
-    // Deletar Lembrete
+  // Deletar Lembrete
   const delLembretes = async (id) => {
     try {
-      const res = await axios.delete(
-        `http://35.199.114.75:3010/lembretes/${id}`
-      );
+      const res = await api.delete(`/lembretes/${id}`);
       if (res.status === 204) {
         showToastDel();
         setTimeout(() => {
@@ -122,98 +125,66 @@ export const Calendario = () => {
     }
   };
 
-    // alerta de criação do lembrete
+  // alerta de criação do lembrete
   const showToasts = () => {
     Toast.success("Lembrete criado  ");
   };
 
-    // alerta de sucesso ao deletar lembrete
+  // alerta de sucesso ao deletar lembrete
   const showToastDel = () => {
     Toast.success("Lembrete deletado ");
   };
 
-  const getMinDate = () => {
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    return year + '-' + addZero(month) + '-' + addZero(date) //yyyy-mm-dd
-  }
 
-    return (
-      <View style={styles.Container}>
-        <AppHeader/>
-        <View style={[styles.calendar, styles.shadowProp]}>
-        <Agenda
-        theme={{
-          'stylesheet.calendar.header':{
-              week: {
-                  backgroundColor:'#4263EB',
-                  color: "#fff",                                                                                                                                                         marginTop: 5,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between'
-                },
-          },
-          todayTextColor:"#fff",
-          todayBackgroundColor:'#22C1C1',
-          calendarBackground:'#4263EB',
-          dayTextColor:"#fff",
-          monthTextColor: "#fff",
-      }}
-      // markedDates={{
-      //     '2022-10-05': {dotColor: 'red', marked: true, selectedColor: '#fff'},
-      //     '2022-10-20': {marked: true},
-      //     '2022-10-17': {marked: true, dotColor: 'red', activeOpacity: 0},
-      //     '2022-10-15': {disabled: true, disableTouchEvent: true}
-      //   }}
-        current={getCurrentDate().toString()}
-        minDate={getMinDate().toString()}
-        maxDate={'2050-01-01'}
-        monthFormat={'MMMM yyyy'}
-        onDayPress={day => {
-          console.log("dia selecionado", day)
-          setDate(day.dateString)
-        }}
+  return (
+    <View style={styles.Container}>
+      <AppHeader />
+      <ToastManager />
+      <View style={[styles.shadowProp, styles.calendar]}>
+        <Agenda setDate={setDate} />
+      </View>
+      {/* Cards Lembretes */}
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getLembrete} />
+        }
+      >
+        <View style={styles.cards}>
+          {lembretes.map((avisos) => (
 
-        hideExtraDays={true}
-        enableSwipeMonths={true}
-        hideArrows={true}
-        />
-        </View>
-       
-        
-        {/* Cards Lembretes */}
-        <ScrollView>
-        <View style={{alignItems:'center'}}>
-          {lembretes.map((avisos)=> (
-            date !== avisos.data &&
-             <View style={styles.card} key={avisos.id}>
-             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
-             <Text style={styles.text}>{avisos.title}</Text>
-             <TouchableOpacity
-             onPress={() => delLembretes(avisos.id)}
-             >
-               <Icon2
-               name='trash'
-               size={25}
-               color='red'
-               />
-             </TouchableOpacity>
-             </View>
-             <View style={{flexDirection:'column'}}>
-               <Text style={{color:'#495057', marginLeft:10}}>{avisos.description}</Text>
-               <Text style={{color:'#3B5BDB', marginLeft:10, marginTop:20}}>{avisos.start + ' - ' + avisos.end}</Text>
-             </View>
-           </View>
-          )
-          )
-          }
+            <View style={styles.card} key={avisos.id}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles.text}>{avisos.title}</Text>
+                <TouchableOpacity onPress={() => delLembretes(avisos.id)}>
+                  <Feather name="x" size={25} color="gray" />
+                </TouchableOpacity>
+              </View>
+              <View style={{ flexDirection: "column" }}>
+                <Text style={{ color: "#495057", marginLeft: 10 }}>
+                  {avisos.description}
+                </Text>
+                <Text
+                  style={{ color: "#3B5BDB", marginLeft: 10, marginTop: 20 }}
+                >
+                  {avisos.start + " - " + avisos.end}
+                </Text>
+              </View>
+            </View>
+          ))}
         </View>
       </ScrollView>
       <View>
         {/* BottomSheet */}
+       
         <RBSheet
           ref={refRBSheet}
-          height={600}
+          height={1000}
           openDuration={250}
           closeOnDragDown={true}
           closeOnPressMask={false}
@@ -232,10 +203,16 @@ export const Calendario = () => {
             },
           }}
         >
-          <KeyboardAvoidingView>
+          <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
             <View style={{ paddingHorizontal: 20, paddingVertical: 30 }}>
               {/* Titulo */}
-              <Text style={{ color: "#403B91", fontSize: 18 }}>Título</Text>
+              <Text
+                style={{ color: "#4264EB", fontSize: 18, fontFamily: "Medium" }}
+              >
+                Título
+              </Text>
               <View style={{ marginTop: 10, marginBottom: 10 }}>
                 <TextInput
                   style={styles.Input}
@@ -245,7 +222,11 @@ export const Calendario = () => {
                 />
               </View>
               {/* Descricao */}
-              <Text style={{ color: "#403B91", fontSize: 18 }}>Descrição</Text>
+              <Text
+                style={{ color: "#4264EB", fontSize: 18, fontFamily: "Medium" }}
+              >
+                Descrição
+              </Text>
               <View style={{ marginTop: 10, marginBottom: 10 }}>
                 <TextInput
                   maxLength={30}
@@ -256,13 +237,17 @@ export const Calendario = () => {
                 />
               </View>
               {/* data */}
-              <Text style={{ color: "#403B91", fontSize: 18 }}>Data</Text>
+              <Text
+                style={{ color: "#4264EB", fontSize: 18, fontFamily: "Medium" }}
+              >
+                Data
+              </Text>
               <View style={{ marginTop: 10 }}>
                 <MaskInput
                   placeholder="Data do evento"
                   mask={dataMask}
                   keyboardType="decimal-pad"
-                  style={styles.Input}
+                  style={styles.InputData}
                   value={date}
                   onChangeText={(text) => setDate(text)}
                 />
@@ -275,10 +260,27 @@ export const Calendario = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <Text style={{ color: "#403B91", fontSize: 18 }}>Início</Text>
-                <View style={{ marginRight: 153 }}>
-                  <Text style={{ color: "#403B91", fontSize: 18 }}>Fim</Text>
+                <Text
+                  style={{
+                    color: "#4264EB",
+                    fontSize: 18,
+                    fontFamily: "Medium",
+                  }}
+                >
+                  Início
+                </Text>
+                <View>
+                  <Text
+                    style={{
+                      color: "#4264EB",
+                      fontSize: 18,
+                      fontFamily: "Medium",
+                    }}
+                  >
+                    Fim
+                  </Text>
                 </View>
+                <Text></Text>
               </View>
               <View
                 style={{
@@ -301,7 +303,7 @@ export const Calendario = () => {
                 />
                 <MaskInput
                   keyboardType="decimal-pad"
-                  placeholder="fim do evento"
+                  placeholder="Fim do evento"
                   style={styles.Input3}
                   value={fim}
                   mask={horaMask}
@@ -316,43 +318,60 @@ export const Calendario = () => {
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-around",
+                  justifyContent: "space-between",
                   alignItems: "flex-start",
                 }}
               >
                 <TouchableOpacity
                   style={{
-                    width: "47%",
+                    width: "48%",
                     alignItems: "center",
                     marginRight: 5,
                     marginTop: 20,
                     paddingVertical: 10,
-                    borderRadius: 28,
+                    borderRadius: 12,
                     elevation: 0,
-                    backgroundColor: "#BAC8FF",
+                    backgroundColor: "#D1DEFE",
                   }}
                   onPress={() => refRBSheet.current.close()}
                 >
-                  <Text style={{ color: "#4263EB" }}>Cancelar</Text>
+                  <Text
+                    style={{
+                      color: "#343A40",
+                      fontSize: 16,
+                      fontFamily: "Medium",
+                    }}
+                  >
+                    Cancelar
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => postLembrete()}
                   style={{
-                    width: "47%",
+                    width: "48%",
                     alignItems: "center",
                     marginTop: 20,
                     paddingVertical: 10,
-                    borderRadius: 28,
+                    borderRadius: 12,
                     elevation: 0,
-                    backgroundColor: "#4263EB",
+                    backgroundColor: "#4264EB",
                   }}
                 >
-                  <Text style={{ color: "#fff" }}>Confirmar</Text>
+                  <Text
+                    style={{
+                      color: "#f2f2f2",
+                      fontSize: 16,
+                      fontFamily: "Medium",
+                    }}
+                  >
+                    Confirmar
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </KeyboardAvoidingView>
         </RBSheet>
+        
       </View>
 
       <FAB
@@ -362,6 +381,7 @@ export const Calendario = () => {
         onPress={() => refRBSheet.current.open()}
       />
     </View>
+
   );
 };
 
@@ -386,8 +406,16 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 14,
     backgroundColor: "#fff",
   },
+  InputData: {
+    width: "50%",
+    height: 50,
+    marginBottom: 12,
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    backgroundColor: "#fff",
+  },
   Input2: {
-    width: "46%",
+    width: "50%",
     height: 50,
     marginBottom: 12,
     borderRadius: 8,
@@ -396,7 +424,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   Input3: {
-    width: "46%",
+    width: "50%",
     height: 50,
     marginBottom: 12,
     borderRadius: 8,

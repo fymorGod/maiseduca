@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/iconteste.png",
     "userInterfaceStyle": "light",
+
     "splash": {
       "image": "./assets/educacao.png",
       "resizeMode": "contain",
@@ -19,14 +20,13 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mirante.maiseduca",
-      "buildNumber": "1.0.0"
+      "bundleIdentifier": "com.mira.maiseduca"
     },
     "android": {
       "package": "com.mirante.maiseduca1",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/iconteste.png",
         "backgroundColor": "#FFFFFF"
       },
       "useNextNotificationsApi": true
@@ -41,3 +41,4 @@
     }
   }
 }
+

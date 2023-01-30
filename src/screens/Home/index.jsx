@@ -13,11 +13,14 @@ import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../api/api";
 
 export const Home = () => {
   // carregar fonte
   let [fontsLoaded] = useFonts({
     Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+    Bold: require("../../../assets/fonts/Poppins-Bold.ttf"),
+    Regular: require("../../../assets/fonts/Poppins-Regular.ttf")
   });
 
   // variáveis
@@ -25,13 +28,13 @@ export const Home = () => {
   const [fav, setFav] = useState([]);
   const [aulas, setAulas] = useState([]);
   const navigation = useNavigation();
-  const limite = 42;
+  const limite = 30;
 
   // get nos favoritos
   const getFav = async () => {
     try {
-      const res = await axios.get(
-        `http://35.199.114.75:3010/favoritos/${userInfo.user.id}`
+      const res = await api.get(
+        `/favoritos/${userInfo.user.id}`
       );
       setFav(res.data["favoritos"]);
     } catch (error) {
@@ -42,8 +45,8 @@ export const Home = () => {
   // get nas ultimas aulas
   const getAulas = async () => {
     try {
-      const res = await axios.get(
-        `http://35.199.114.75:3010/ultimasAulas/${userInfo.user.id}`
+      const res = await api.get(
+        `/ultimasAulas/${userInfo.user.id}`
       );
       setAulas(res.data);
     } catch (error) {
@@ -74,7 +77,7 @@ export const Home = () => {
         </View>
         <View style={styles.aulasVideos}>
           <Text
-            style={{ fontFamily: "Medium", fontSize: 16, color: "#403B91" }}
+            style={{ fontFamily: "Medium", fontSize: 18, color: "#4264EB" }}
           >
             Favoritos
           </Text>
@@ -93,6 +96,7 @@ export const Home = () => {
                     navigation.navigate("VideoAulas", {
                       id: `${item.conteudo}`,
                       file: `${item.file}`,
+                      title: `${item.title}`
                     })
                   }
                 >
@@ -100,17 +104,19 @@ export const Home = () => {
                     source={{ uri: `${item.thumb}` }}
                     style={{ width: 160, height: 90, borderRadius: 10 }}
                   />
+                  <View style={{alignSelf:'flex-start', justifyContent:'flex-start'}}>
                   <Text
-                    style={{
-                      fontFamily: "Medium",
-                      fontSize: 11,
-                      color: "#403B91",
-                    }}
-                  >
-                    {item.title.length > limite
-                      ? item.title.substring(0, limite) + "..."
-                      : item.title}
-                  </Text>
+                  style={{
+                    fontFamily: "Regular",
+                    fontSize: 12,
+                    color: "#1F1A14",
+                  }}
+                >
+                  {item.title.length > limite
+                    ? item.title.substring(0, limite) + "..."
+                    : item.title}
+                </Text>
+                  </View>
                 </TouchableOpacity>
               </View>
             )}
@@ -119,7 +125,7 @@ export const Home = () => {
 
         <View style={styles.aulasVideos}>
           <Text
-            style={{ fontFamily: "Medium", fontSize: 16, color: "#403B91" }}
+            style={{ fontFamily: "Medium", fontSize: 18, color: "#4264EB" }}
           >
             Últimas aulas
           </Text>
@@ -138,6 +144,7 @@ export const Home = () => {
                     navigation.navigate("VideoAulas", {
                       id: `${item.conteudo}`,
                       file: `${item.file}`,
+                      title: `${item.title}`
                     })
                   }
                 >
@@ -147,9 +154,9 @@ export const Home = () => {
                   />
                   <Text
                     style={{
-                      fontFamily: "Medium",
-                      fontSize: 11,
-                      color: "#403B91",
+                      fontFamily: "Regular",
+                      fontSize: 12,
+                      color: "#1F1A14",
                     }}
                   >
                     {item.title.length > limite
@@ -192,7 +199,8 @@ export const styles = StyleSheet.create({
     height: 130,
   },
   aulasVideos: {
-    padding: 10,
+    marginHorizontal:20,
+    marginVertical:10
   },
   Image: {
     flexDirection: "row",

@@ -12,6 +12,7 @@
     "@expo-google-fonts/poppins": "^0.2.2",
     "@expo/vector-icons": "^13.0.0",
     "@gorhom/bottom-sheet": "^4.4.5",
+    "@hookform/resolvers": "^2.9.10",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/datetimepicker": "6.5.2",
     "@react-navigation/bottom-tabs": "^6.4.0",
@@ -20,6 +21,7 @@
     "@react-navigation/native-stack": "^6.9.0",
     "@types/axios": "^0.14.0",
     "axios": "^0.27.2",
+<<<<<<< HEAD
     "expo": "^47.0.0",
     "expo-app-loading": "~2.1.1",
     "expo-av": "~13.0.1",
@@ -36,6 +38,25 @@
     "react-dom": "18.1.0",
     "react-hook-form": "^7.36.0",
     "react-native": "0.70.5",
+=======
+    "expo": "~46.0.9",
+    "expo-app-loading": "~2.1.0",
+    "expo-av": "^12.0.4",
+    "expo-blur": "~11.2.0",
+    "expo-calendar": "~10.3.0",
+    "expo-font": "~10.2.0",
+    "expo-notifications": "~0.16.1",
+    "expo-splash-screen": "^0.16.2",
+    "expo-status-bar": "~1.4.0",
+    "expo-updates": "~0.14.7",
+    "firebase": "^9.14.0",
+    "moment": "^2.29.4",
+    "native-base": "^3.4.17",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-hook-form": "^7.43.0",
+    "react-native": "0.69.5",
+>>>>>>> dc0ade3bf0d428eced548c170f16cea51caa2b95
     "react-native-calendar-picker": "^7.1.2",
     "react-native-calendars": "^1.1289.0",
     "react-native-date-picker": "^4.2.5",
@@ -63,14 +84,23 @@
     "react-native-svg": "13.4.0",
     "react-native-tab-view": "^3.2.1",
     "react-native-tags": "^2.2.1",
+    "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-video": "^5.2.1",
     "react-native-video-controls": "^2.8.1",
     "react-native-web": "~0.18.7",
+<<<<<<< HEAD
     "react-native-webview": "11.23.1",
+=======
+    "react-native-webview": "^11.23.1",
+    "socket.io": "^4.5.3",
+    "socket.io-client": "^4.5.4",
+>>>>>>> dc0ade3bf0d428eced548c170f16cea51caa2b95
     "styled-components": "^5.3.5",
     "toastify-react-native": "^3.1.0",
-    "victory-native": "^36.6.8"
+    "victory-native": "^36.6.8",
+    "ws": "^8.11.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

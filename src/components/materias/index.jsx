@@ -38,7 +38,7 @@ export function MateriaItem({ id, name, bk_img}) {
   export const styles = StyleSheet.create({
     container: {
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     Image: {
       width:160,

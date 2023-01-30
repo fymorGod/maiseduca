@@ -13,9 +13,13 @@ import { AppHeader } from "../../components/AppHeader";
 import { AuthContext } from "../../context/AuthContext";
 ("react-native");
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView } from "native-base";
+import { ScrollView, useToast } from "native-base";
 import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
+import api from "../../api/api";
+
+
+
 
 export const TrocarSenha = () => {
   const { logout } = useContext(AuthContext);
@@ -24,8 +28,10 @@ export const TrocarSenha = () => {
   const [atual, setAtual] = useState();
   const [novaSenha, setNovaSenha] = useState();
   const [novaSenha1, setNovaSenha1] = useState();
+  const toast = useToast();
   //id para trocar senha do aluno
   let id = userInfo.user.id_senha;
+
 
   //carregando fonte de texto
   let [fontsLoaded] = useFonts({
@@ -34,22 +40,25 @@ export const TrocarSenha = () => {
 
   //função para mudar senha do aluno
   const mudarSenha = async () => {
-    try {
-      const response = await axios.put(
-        `http://35.199.114.75:3010/escolas/users/change_password`,
-        {
-          actual_password: atual,
-          new_password: novaSenha1,
-          id_user: `${id}`,
+    if (atual.length != 0 || novaSenha === novaSenha1){
+      try {
+        const response = await api.put(
+          `/escolas/users/change_password`,
+          {
+            actual_password: atual,
+            new_password: novaSenha1,
+            id_user: `${id}`,
+          }
+        );
+        if (response.status === 200) {
+          logout();
         }
-      );
-      if (response.status === 200) {
-        logout();
+      } catch (error) {
+        throw error;
       }
-    } catch (error) {
-      console.log(error);
-    }
+    }     
   };
+
 
 
 
@@ -60,13 +69,13 @@ export const TrocarSenha = () => {
         <Text
           style={{
             fontFamily: "Medium",
-            fontSize: 16,
-            color: "#403B91",
+            fontSize: 18,
+            color: "#4264EB",
             paddingTop: 20,
             paddingLeft: 20,
           }}
         >
-          Configurações
+          Senha
         </Text>
       </View>
       <ScrollView>
@@ -75,7 +84,7 @@ export const TrocarSenha = () => {
             style={{
               fontFamily: "Medium",
               fontSize: 16,
-              color: "#403B91",
+              color: "#4264EB",
               paddingTop: 20,
               paddingLeft: 30,
             }}
@@ -83,19 +92,23 @@ export const TrocarSenha = () => {
             Senha atual
           </Text>
           <View style={{ paddingHorizontal: 20 }}>
+
             <TextInput
-              value={atual}
-              onChangeText={(text) => setAtual(text)}
-              secureTextEntry
-              keyboardType="visible-password"
-              placeholder="**************"
-              style={{
-                backgroundColor: "#FFF",
-                borderRadius: 12,
-                height: 40,
-                paddingHorizontal: 10,
-              }}
-            />
+            value={atual}
+            onChangeText={(text) => setAtual(text)}
+            secureTextEntry
+            keyboardType="visible-password"
+            placeholder="**************"
+            style={{
+              backgroundColor: "#FFF",
+              borderRadius: 12,
+              height: 40,
+              paddingHorizontal: 10,
+            }}
+          />
+
+          
+
           </View>
         </View>
         <View>
@@ -103,7 +116,7 @@ export const TrocarSenha = () => {
             style={{
               fontFamily: "Medium",
               fontSize: 16,
-              color: "#403B91",
+              color: "#4264EB",
               paddingTop: 20,
               paddingLeft: 30,
             }}
@@ -112,17 +125,19 @@ export const TrocarSenha = () => {
           </Text>
           <View style={{ paddingHorizontal: 20 }}>
             <TextInput
-              value={novaSenha}
-              onChangeText={(text) => setNovaSenha(text)}
-              secureTextEntry
-              placeholder="***************"
-              style={{
-                backgroundColor: "#FFF",
-                borderRadius: 12,
-                height: 40,
-                paddingHorizontal: 10,
-              }}
-            />
+            value={novaSenha}
+            onChangeText={(text) => setNovaSenha(text)}
+            secureTextEntry
+            keyboardType="visible-password"
+            placeholder="**************"
+            style={{
+              backgroundColor: "#FFF",
+              borderRadius: 12,
+              height: 40,
+              paddingHorizontal: 10,
+            }}
+          />
+
           </View>
         </View>
         <View>
@@ -130,7 +145,7 @@ export const TrocarSenha = () => {
             style={{
               fontFamily: "Medium",
               fontSize: 16,
-              color: "#403B91",
+              color: "#4264EB",
               paddingTop: 20,
               paddingLeft: 30,
             }}
@@ -139,54 +154,52 @@ export const TrocarSenha = () => {
           </Text>
           <View style={{ paddingHorizontal: 20 }}>
             <TextInput
-              value={novaSenha1}
-              onChangeText={(text) => setNovaSenha1(text)}
-              secureTextEntry
-              placeholder="***************"
-              style={{
-                backgroundColor: "#FFF",
-                borderRadius: 12,
-                height: 40,
-                paddingHorizontal: 10,
-              }}
-            />
+            value={novaSenha1}
+            onChangeText={(text) => setNovaSenha1(text)}
+            secureTextEntry
+            keyboardType="visible-password"
+            placeholder="**************"
+            style={{
+              backgroundColor: "#FFF",
+              borderRadius: 12,
+              height: 40,
+              paddingHorizontal: 10,
+            }}
+          />
+ 
           </View>
         </View>
 
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <TouchableOpacity
             style={{
-              width: "42%",
+              width: "43%",
               alignItems: "center",
               marginHorizontal: 6,
               marginTop: 20,
               paddingHorizontal: 20,
               paddingVertical: 10,
-              borderRadius: 28,
+              borderRadius: 12,
               elevation: 0,
-              backgroundColor: "#BAC8FF",
+              backgroundColor: "#D1DEFE",
             }}
             onPress={() => navigation.goBack()}
           >
-            <Text style={{ color: "#4263EB" }}>Cancelar</Text>
+            <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Cancelar</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              width: "42%",
+              width: "43%",
               alignItems: "center",
               marginHorizontal: 6,
               marginTop: 20,
               paddingHorizontal: 20,
               paddingVertical: 10,
-              borderRadius: 28,
+              borderRadius: 12,
               elevation: 0,
               backgroundColor: "#4263EB",
             }}
-            onPress={() => {
-              if (novaSenha === novaSenha1) {
-                mudarSenha();
-              }
-            }}
+            onPress={() => mudarSenha()}
           >
             <Text style={{ color: "#fff" }}>Confirmar</Text>
           </TouchableOpacity>

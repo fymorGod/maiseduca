@@ -1,13 +1,16 @@
-import { View, Text, StyleSheet, Image,TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Image,TouchableOpacity, Dimensions, LogBox } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
 import {Image as Image1}  from 'react-native-expo-image-cache';
+import api from "../../api/api";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height; 
+
+LogBox.ignoreAllLogs()
 
 export const Classificacao = () => {
   let [fontsLoaded] = useFonts({
@@ -21,16 +24,23 @@ export const Classificacao = () => {
   const [position, setPosition] = useState(0);
   const [points, setPoints] = useState([]);
   const [ clicked, setClicked ] = useState(0);
-  
-  //get no rank do aluno
-  useEffect(() => {
-    const getRank = async () => {
-      const response = await axios.get(
-        `http://35.199.114.75:3010/ranks/${userInfo.user.id}`
+
+  const getRank = async () => {
+    try {
+      const response = await api.get(
+        `/ranks/${userInfo.user.id}`
       );
       setRank(response.data[choice]);
       setPoints(response.data["points"]);
-    };
+    } catch (error) {
+      throw error
+    }
+
+  };
+  
+  //get no rank do aluno
+  useEffect(() => {
+
     getRank(); 
   }, [choice]);
   
@@ -43,7 +53,6 @@ export const Classificacao = () => {
   ]
   const handleClick = (id, item) => {
     setClicked(id)
-    console.log(rank)
     setPosition(rank[choice])
     setChoice(item)
     setFinalRank(rank[choice])
@@ -71,7 +80,7 @@ export const Classificacao = () => {
                 [ index === clicked ? styles.buttonTabsActive: styles.buttonTabs]          
               }
               >
-                <Text style={{fontSize: 16}}>{item.label}</Text>
+                <Text style={{fontSize: 16, color:"#4264EB", fontFamily:"Medium"}}>{item.label}</Text>
               </TouchableOpacity>
             );
           })
@@ -88,7 +97,7 @@ export const Classificacao = () => {
           style={{
             fontFamily:"Medium",
             fontSize: 16,
-            color: "#403B91",
+            color: "#4264EB",
             paddingTop: 20,
             paddingLeft: 20,
           }}
@@ -122,130 +131,136 @@ export const Classificacao = () => {
         justifyContent: "center",
       }}
     >
-      <Text style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "400" }}>
+      <Text style={{ color: "#FFFFFF", fontSize: 16, fontFamily:"Medium" }}>
         Top 3 Alunos
       </Text>
     </View>
-    <View style={{flexDirection: "column", justifyContent:'space-between', justifyContent: 'center'}}>
       {
-        rank.map((ranks, index) => {
-          return (
-            <View  key={index}  style={{flexDirection: 'column',justifyContent:'space-between', height: 80}}>
-           {index < 3 &&  <View  style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}>
-           <Image1
-           style={{ height: 50, width: 50 }}
-           resizeMode="contain"
-           uri={`${ranks.img}`}
-           />
-            <Text style={{color: "#403B91", fontSize: 16}}>{ranks.name}</Text>
-              <Text style={{color: "#403B91", fontSize: 14}}>{ranks.points}</Text>     
-            </View>}
-            {
-              ranks.my_position && 
-              <View
-              style={{
-                width: '100%',
-                backgroundColor: "#4263EB",
-                height: windowHeight * 0.180,
-                borderBottomLeftRadius: 15,
-                borderBottomRightRadius: 15,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              >
-                <View style={{ alignItems: "center", paddingTop: 10 }}>
-                  <Text style={{ color: "#fff" }}>Minha Pontuação: {points}</Text>
+        rank.length != 0 
+        ?     <View style={{flexDirection: "column", justifyContent:'space-between', justifyContent: 'center'}}>
+        {
+          rank.map((ranks, index) => {
+            return (
+              <View  key={index}  style={{flexDirection: 'column',justifyContent:'space-between', height: 80}}>
+             {index < 3 &&  <View  style={{flexDirection: "row", justifyContent: "space-between", padding:10, alignItems:"center" }}>
+             <Image1
+             style={{ height: 50, width: 50 }}
+             resizeMode="contain"
+             uri={`${ranks.img}`}
+             />
+              <Text style={{color: "#4264EB", fontSize: 16, fontFamily:"Medium"}}>{ranks.name}</Text>
+                <Text style={{color: "#4264EB", fontSize: 14, fontFamily:"Medium"}}>{ranks.points}</Text>     
+              </View>}
+              {
+                ranks.my_position && 
+                <View
+                style={{
+                  width: '100%',
+                  backgroundColor: "#4263EB",
+                  height: windowHeight * 0.180,
+                  borderBottomLeftRadius: 15,
+                  borderBottomRightRadius: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                >
+                  <View style={{ alignItems: "center", paddingTop: 10 }}>
+                    <Text style={{ color: "#fff" }}>Minha Pontuação: {points}</Text>
+                  </View>
+                  
+                  {
+                    ranks.my_position == 1 ? (
+                    <View
+                      style={{
+                        paddingHorizontal: 10,
+                        paddingVertical: 20,
+                        flexDirection: "row",
+                      }}
+                    >
+                      <Image
+                        style={{ height: 60, width: 60 }}
+                        resizeMode="contain"
+                        source={require("../../../assets/ouro.png")}
+                      />
+                      <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+                        <Text style={{ fontWeight: "bold", color: "#fff" }}>
+                          Parabéns!!
+                        </Text>
+                        <Text style={{ color: "#fff" }}>
+                          Voce está em primeiro lugar!
+                        </Text>
+                      </View>
+                    </View>
+                  ) : ranks.my_position === 2 ? (
+                    <View
+                      style={{
+                        paddingHorizontal: 10,
+                        paddingVertical: 10,
+                        flexDirection: "row",
+                      }}
+                    >
+                      <Image
+                        style={{ height: 60, width: 60 }}
+                        resizeMode="contain"
+                        source={require("../../../assets/prata.png")}
+                      />
+                      <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+                        <Text style={{ fontWeight: "bold", color: "#fff" }}>
+                          Parabéns!!
+                        </Text>
+                        <Text style={{ color: "#fff" }}>
+                          Voce está em segundo lugar!
+                        </Text>
+                      </View>
+                    </View>
+                  ) : ranks.my_position === 3 ? (
+                    <View
+                      style={{
+                        paddingHorizontal: 10,
+                        paddingVertical: 10,
+                        flexDirection: "row",
+                      }}
+                    >
+                      <Image
+                        style={{ height: 60, width: 70 }}
+                        resizeMode="contain"
+                        source={require("../../../assets/bronze.png")}
+                      />
+                      <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+                        <Text style={{ fontWeight: "bold", color: "#fff" }}>
+                          Parabéns!!
+                        </Text>
+                        <Text style={{ color: "#fff" }}>
+                          Voce está em terceiro lugar!
+                        </Text>
+                      </View>
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        paddingHorizontal: 10,
+                        paddingVertical: 10,
+                        flexDirection: "row",
+                      }}
+                    >
+                      <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+                        <Text style={{ color: "#fff" }}>
+                          Voce está na {ranks.my_position} lugar!
+                        </Text>
+                      </View>
+                    </View>
+                  )}
                 </View>
-                
-                {
-                  ranks.my_position == 1 ? (
-                  <View
-                    style={{
-                      paddingHorizontal: 10,
-                      paddingVertical: 20,
-                      flexDirection: "row",
-                    }}
-                  >
-                    <Image
-                      style={{ height: 60, width: 60 }}
-                      resizeMode="contain"
-                      source={require("../../../assets/ouro.png")}
-                    />
-                    <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                      <Text style={{ fontWeight: "bold", color: "#fff" }}>
-                        Parabéns!!
-                      </Text>
-                      <Text style={{ color: "#fff" }}>
-                        Voce está em primeiro lugar!
-                      </Text>
-                    </View>
-                  </View>
-                ) : ranks.my_position === 2 ? (
-                  <View
-                    style={{
-                      paddingHorizontal: 10,
-                      paddingVertical: 10,
-                      flexDirection: "row",
-                    }}
-                  >
-                    <Image
-                      style={{ height: 60, width: 60 }}
-                      resizeMode="contain"
-                      source={require("../../../assets/prata.png")}
-                    />
-                    <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                      <Text style={{ fontWeight: "bold", color: "#fff" }}>
-                        Parabéns!!
-                      </Text>
-                      <Text style={{ color: "#fff" }}>
-                        Voce está em segundo lugar!
-                      </Text>
-                    </View>
-                  </View>
-                ) : ranks.my_position === 3 ? (
-                  <View
-                    style={{
-                      paddingHorizontal: 10,
-                      paddingVertical: 10,
-                      flexDirection: "row",
-                    }}
-                  >
-                    <Image
-                      style={{ height: 60, width: 70 }}
-                      resizeMode="contain"
-                      source={require("../../../assets/bronze.png")}
-                    />
-                    <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                      <Text style={{ fontWeight: "bold", color: "#fff" }}>
-                        Parabéns!!
-                      </Text>
-                      <Text style={{ color: "#fff" }}>
-                        Voce está em terceiro lugar!
-                      </Text>
-                    </View>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      paddingHorizontal: 10,
-                      paddingVertical: 10,
-                      flexDirection: "row",
-                    }}
-                  >
-                    <View style={{ flexDirection: "column", paddingLeft: 10 }}>
-                      <Text style={{ color: "#fff" }}>
-                        Voce está na {ranks.my_position} lugar!
-                      </Text>
-                    </View>
-                  </View>
-                )}
+              }
               </View>
-            }
-            </View>
-          );
-        })
+            );
+          })
+        }
+      </View>
+        : <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+          <Text style={{fontFamily:'Medium', fontSize:16}}>Não exite rank no momento</Text>
+        </View>
       }
-    </View>
   </View>
     </View>
     </View>

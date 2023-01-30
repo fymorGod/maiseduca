@@ -14,17 +14,13 @@ import { AuthContext } from "../../context/AuthContext";
 import { useFonts } from "expo-font";
 import { AppHeader2 } from "../../components/AppHeader2";
 
-
 //carregaqndo fonte
 export const Configuracao = () => {
   let [fontsLoaded] = useFonts({
-    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
-  })
+    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+  });
 
-
-
-
-  const {logout} = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
   const [notificacao, setNotificacao] = useState(false);
   const toggleSwitch1 = () => setNotificacao((previousState) => !previousState);
@@ -44,8 +40,8 @@ export const Configuracao = () => {
             <Text
               style={{
                 fontFamily: "Medium",
-                fontSize: 16,
-                color: "#403B91",
+                fontSize: 18,
+                color: "#4264EB",
                 paddingTop: 20,
                 paddingLeft: 20,
               }}
@@ -72,7 +68,7 @@ export const Configuracao = () => {
                 fontFamily: "Medium",
                 fontSize: 14,
                 marginBottom: 10,
-                color: "#403B91",
+                color: "#4264EB",
                 marginTop: 10,
               }}
             >
@@ -84,7 +80,7 @@ export const Configuracao = () => {
               style={{
                 fontFamily: "Medium",
                 fontSize: 16,
-                color: "#403B91",
+                color: "#4264EB",
                 paddingLeft: 20,
               }}
             >
@@ -98,31 +94,13 @@ export const Configuracao = () => {
                   marginHorizontal: 20,
                   paddingHorizontal: 20,
                   paddingVertical: 10,
-                  borderRadius: 10,
+                  borderRadius: 12,
                   elevation: 0,
                   backgroundColor: "#fff",
                 }}
                 onPress={() => navigation.navigate("TrocarSenha")}
               >
-                <Text style={{ color: "gray" }}>**************</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity
-                style={{
-                  alignItems: "center",
-                  marginHorizontal: 6,
-                  marginTop: 20,
-                  marginHorizontal: 20,
-                  paddingHorizontal: 20,
-                  paddingVertical: 10,
-                  borderRadius: 10,
-                  elevation: 0,
-                  backgroundColor: "#00A1A1",
-                }}
-                onPress={() => {}}
-              >
-                <Text style={{ color: "#fff" }}>Idioma</Text>
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>**************</Text>
               </TouchableOpacity>
             </View>
             <View>
@@ -134,40 +112,58 @@ export const Configuracao = () => {
                   marginHorizontal: 20,
                   paddingHorizontal: 20,
                   paddingVertical: 10,
-                  borderRadius: 10,
+                  borderRadius: 12,
                   elevation: 0,
-                  backgroundColor: "#00A1A1",
+                  backgroundColor: "#EBC942",
                 }}
-                onPress={() => {logout()}}
+                onPress={() => {
+                  logout();
+                }}
               >
-                <Text style={{ color: "#fff" }}>Sair</Text>
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Sair</Text>
               </TouchableOpacity>
             </View>
           </View>
 
+          <View style={{marginLeft:20}}>
           <Text
           style={{
             fontFamily: "Medium",
             fontSize: 16,
-            color: "#403B91",
-            paddingLeft: 20,
+            color: "#4264EB",
           }}
         >
-         Geral
+          Geral
         </Text>
-          
+          </View>
           <View>
             <TouchableOpacity
               style={{
-                marginHorizontal: 10,
-                marginTop: 2,
+                alignItems: "center",
+                marginTop: 20,
+                marginHorizontal: 20,
+                paddingHorizontal: 20,
+                paddingVertical: 10,
+                borderRadius: 12,
+                elevation: 0,
+                backgroundColor: "#00B7B7",
+              }}
+              onPress={() => {}}
+            >
+              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Idioma</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={{
+                marginTop: 5,
                 marginHorizontal: 20,
                 paddingHorizontal: 20,
                 borderRadius: 10,
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch1}
             >
               <View
                 style={{
@@ -178,7 +174,9 @@ export const Configuracao = () => {
                   padding: 5,
                 }}
               >
-                <Text style={{ color: "#fff" }}>Notificações</Text>
+              <View> 
+              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Notificações</Text>
+              </View>
                 <Switch
                   style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
                   trackColor={{ false: "#58E09A", true: "#004444" }}
@@ -194,15 +192,14 @@ export const Configuracao = () => {
           <View>
             <TouchableOpacity
               style={{
-                marginHorizontal: 10,
-                marginTop: 2,
+                marginTop: 5,
                 marginHorizontal: 20,
                 paddingHorizontal: 20,
                 borderRadius: 10,
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch2}
             >
               <View
                 style={{
@@ -213,14 +210,16 @@ export const Configuracao = () => {
                   padding: 5,
                 }}
               >
-                <Text style={{ color: "#fff" }}>Efeitos Sonoros</Text>
+              <View> 
+              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Efeitos sonoros</Text>
+              </View>
                 <Switch
-                style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-                trackColor={{ false: "#58E09A", true: "#004444" }}
-                thumbColor={mute ? "#ACE8E8" : "#005858"}
-                ios_backgroundColor="#ACE8E8"
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+                  trackColor={{ false: "#58E09A", true: "#004444" }}
+                  thumbColor={mute ? "#ACE8E8" : "#005858"}
                   onValueChange={toggleSwitch2}
                   value={mute}
+                  ios_backgroundColor="#ACE8E8"
                 />
               </View>
             </TouchableOpacity>
@@ -229,15 +228,14 @@ export const Configuracao = () => {
           <View>
             <TouchableOpacity
               style={{
-                marginHorizontal: 6,
-                marginTop: 2,
+                marginTop: 5,
                 marginHorizontal: 20,
                 paddingHorizontal: 20,
-                borderRadius: 10,
+                borderRadius: 12,
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={toggleSwitch3}
             >
               <View
                 style={{
@@ -248,7 +246,9 @@ export const Configuracao = () => {
                   padding: 5,
                 }}
               >
-                <Text style={{ color: "#fff" }}>Vibração</Text>
+              <View> 
+              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Vibração</Text>
+              </View>
                 <Switch
                   style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
                   trackColor={{ false: "#58E09A", true: "#004444" }}
@@ -261,327 +261,327 @@ export const Configuracao = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ marginBottom: 30, marginTop:20}}>
-          <Text
+          <View style={{ marginBottom: 30, marginTop: 20 }}>
+            <Text
+              style={{
+                fontFamily: "Medium",
+                fontSize: 16,
+                color: "#4264EB",
+                paddingLeft: 20,
+              }}
+            >
+              Privacidade
+            </Text>
+            <View>
+              <TouchableOpacity
+                style={{
+                  alignItems: "center",
+                  marginTop: 5,
+                  marginHorizontal: 20,
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                  borderRadius: 12,
+                  elevation: 0,
+                  backgroundColor: "#00B7B7",
+                }}
+                onPress={() => {}}
+              >
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Termos de compromisso</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                style={{
+                  alignItems: "center",
+                  marginTop: 10,
+                  marginHorizontal: 20,
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                  borderRadius: 12,
+                  elevation: 0,
+                  backgroundColor: "#00B7B7",
+                }}
+                onPress={() => {}}
+              >
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>
+                  Política de Privacidade
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      ) : (
+        <ScrollView>
+          <View>
+            <Text
+              style={{
+                fontFamily: "Medium",
+                fontSize: 18,
+                color: "#4264EB",
+                paddingTop: 20,
+                paddingLeft: 20,
+              }}
+            >
+              Configurações
+            </Text>
+          </View>
+          <View
             style={{
-              fontFamily: "Medium",
-              fontSize: 16,
-              color: "#403B91",
-              paddingLeft: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              height: "20%",
+              marginTop: 20,
             }}
           >
-          Privacidade
-          </Text>
-          <View>
-            <TouchableOpacity
+            <Image
+              style={{ width: 100, height: 100 }}
+              resizeMode="contain"
+              source={require("../../../assets/avatarConfig.png")}
+            />
+            <Text
               style={{
-                alignItems: "center",
-                marginHorizontal: 6,
-                marginTop: 5,
-                marginHorizontal: 20,
-                paddingHorizontal: 20,
-                paddingVertical: 10,
-                borderRadius: 10,
-                elevation: 0,
-                backgroundColor: "#67D4D4",
+                fontFamily: "Medium",
+                fontSize: 14,
+                marginBottom: 10,
+                color: "#4264EB",
+                marginTop: 10,
               }}
-              onPress={() => {}}
             >
-              <Text style={{ color: "#005858" }}>Idioma</Text>
-            </TouchableOpacity>
+              Mudar Avatar
+            </Text>
+          </View>
+          <View style={{ marginBottom: 20 }}>
+            <Text
+              style={{
+                fontFamily: "Medium",
+                fontSize: 16,
+                color: "#4264EB",
+                paddingLeft: 20,
+              }}
+            >
+              Senha
+            </Text>
+            <View>
+              <TouchableOpacity
+                style={{
+                  marginHorizontal: 6,
+                  marginTop: 10,
+                  marginHorizontal: 20,
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                  borderRadius: 12,
+                  elevation: 0,
+                  backgroundColor: "#fff",
+                }}
+                onPress={() => navigation.navigate("TrocarSenha")}
+              >
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>**************</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View>
+              <TouchableOpacity
+                style={{
+                  alignItems: "center",
+                  marginTop: 5,
+                  marginHorizontal: 20,
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                  borderRadius: 12,
+                  elevation: 0,
+                  backgroundColor: "#EBC942",
+                }}
+                onPress={() => {
+                  logout();
+                }}
+              >
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Sair</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={{marginLeft:20}}>
+          <Text
+          style={{
+            fontFamily: "Medium",
+            fontSize: 16,
+            color: "#4264EB",
+          }}
+        >
+          Geral
+        </Text>
           </View>
           <View>
             <TouchableOpacity
               style={{
                 alignItems: "center",
-                marginHorizontal: 6,
                 marginTop: 10,
                 marginHorizontal: 20,
                 paddingHorizontal: 20,
                 paddingVertical: 10,
-                borderRadius: 10,
+                borderRadius: 12,
                 elevation: 0,
-                backgroundColor: "#67D4D4",
+                backgroundColor: "#00B7B7",
               }}
               onPress={() => {}}
             >
-              <Text style={{ color: "#005858" }}>Política de Privacidade</Text>
+              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Idioma</Text>
             </TouchableOpacity>
           </View>
-        </View>
+          <View>
+            <TouchableOpacity
+              style={{
+                marginTop: 2,
+                marginTop:5,
+                marginHorizontal: 20,
+                paddingHorizontal: 10,
+                borderRadius: 12,
+                elevation: 0,
+                backgroundColor: "#00B7B7",
+              }}
+              onPress={toggleSwitch1}
+            >
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  width: "100%",
+                }}
+              >
+                <View style={{marginLeft:10}}>
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Notificações</Text>
+                </View>
+                <Switch
+                  trackColor={{ false: "#005858", true: "#ACE8E8" }}
+                  thumbColor={notificacao ? "#005858" : "#ACE8E8"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch1}
+                  value={notificacao}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
 
+          <View>
+            <TouchableOpacity
+              style={{
+                marginTop: 2,
+                marginTop:5,
+                marginHorizontal: 20,
+                paddingHorizontal: 10,
+                borderRadius: 12,
+                elevation: 0,
+                backgroundColor: "#00B7B7",
+              }}
+              onPress={toggleSwitch2}
+            >
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  width: "100%",
+                }}
+              >
+                <View style={{marginLeft:10}}>
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Efeitos Sonoros</Text>
+                </View>
+                <Switch
+                  trackColor={{ false: "#005858", true: "#ACE8E8" }}
+                  thumbColor={mute ? "#005858" : "#ACE8E8"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch2}
+                  value={mute}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <TouchableOpacity
+              style={{
+                marginTop: 5,
+                marginHorizontal: 20,
+                paddingHorizontal: 10,
+                borderRadius: 12,
+                elevation: 0,
+                backgroundColor: "#00B7B7",
+              }}
+              onPress={toggleSwitch3}
+            >
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  width: "100%",
+                }}
+              >
+                <View style={{marginLeft:10}}>
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Vibração</Text>
+                </View>
+                <Switch
+                  style={{}}
+                  trackColor={{ false: "#005858", true: "#ACE8E8" }}
+                  thumbColor={vibracao ? "#005858" : "#ACE8E8"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch3}
+                  value={vibracao}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ marginBottom: 30, marginTop: 20 }}>
+            <Text
+              style={{
+                fontFamily: "Medium",
+                fontSize: 16,
+                color: "#4264EB",
+                paddingLeft: 20,
+              }}
+            >
+              Privacidade
+            </Text>
+            <View>
+              <TouchableOpacity
+                style={{
+                  alignItems: "center",
+                  marginTop: 5,
+                  marginHorizontal: 20,
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                  borderRadius: 12,
+                  backgroundColor: "#00B7B7",
+                }}
+                onPress={() => {}}
+              >
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Termos de Uso</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                style={{
+                  alignItems: "center",
+                  marginHorizontal: 6,
+                  marginTop: 5,
+                  marginHorizontal: 20,
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                  borderRadius: 12,
+                  elevation: 0,
+                  backgroundColor: "#00B7B7",
+                }}
+                onPress={() => {}}
+              >
+                <Text style={{ color: "#343A40", fontFamily:"Medium" }}>
+                  Política de Privacidade
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </ScrollView>
-      ) : (
-       <ScrollView>
-       <View>
-         <Text
-           style={{
-             fontFamily: "Medium",
-             fontSize: 16,
-             color: "#403B91",
-             paddingTop: 20,
-             paddingLeft: 20,
-           }}
-         >
-           Configurações
-         </Text>
-       </View>
-       <View
-         style={{
-           justifyContent: "center",
-           alignItems: "center",
-           flexDirection: "column",
-           height: "20%",
-           marginTop: 20,
-         }}
-       >
-         <Image
-           style={{ width: 100, height: 100 }}
-           resizeMode="contain"
-           source={require("../../../assets/avatarConfig.png")}
-         />
-         <Text
-           style={{
-             fontFamily: "Medium",
-             fontSize: 14,
-             marginBottom: 10,
-             color: "#403B91",
-             marginTop: 10,
-           }}
-         >
-        
-           Mudar Avatar
-         </Text>
-       </View>
-       <View style={{ marginBottom: 20 }}>
-         <Text
-           style={{
-             fontFamily: "Medium",
-             fontSize: 16,
-             color: "#403B91",
-             paddingLeft: 20,
-           }}
-         >
-           Senha
-         </Text>
-         <View>
-           <TouchableOpacity
-             style={{
-               marginHorizontal: 6,
-               marginTop: 10,
-               marginHorizontal: 20,
-               paddingHorizontal: 20,
-               paddingVertical: 10,
-               borderRadius: 10,
-               elevation: 0,
-               backgroundColor: "#fff",
-             }}
-             onPress={() => navigation.navigate("TrocarSenha")}
-           >
-             <Text style={{ color: "gray" }}>**************</Text>
-           </TouchableOpacity>
-         </View>
-         <View>
-           <TouchableOpacity
-             style={{
-               alignItems: "center",
-               marginHorizontal: 6,
-               marginTop: 20,
-               marginHorizontal: 20,
-               paddingHorizontal: 20,
-               paddingVertical: 10,
-               borderRadius: 10,
-               elevation: 0,
-               backgroundColor: "#00A1A1",
-             }}
-             onPress={() => {}}
-           >
-             <Text style={{ color: "#fff" }}>Idioma</Text>
-           </TouchableOpacity>
-         </View>
-         <View>
-           <TouchableOpacity
-             style={{
-               alignItems: "center",
-               marginHorizontal: 6,
-               marginTop: 10,
-               marginHorizontal: 20,
-               paddingHorizontal: 20,
-               paddingVertical: 10,
-               borderRadius: 10,
-               elevation: 0,
-               backgroundColor: "#00A1A1",
-             }}
-             onPress={() => {logout()}}
-           >
-             <Text style={{ color: "#fff" }}>Sair</Text>
-           </TouchableOpacity>
-         </View>
-       </View>
-
-       <Text
-       style={{
-         fontFamily: "Medium",
-         fontSize: 16,
-         color: "#403B91",
-         paddingLeft: 20,
-       }}
-     >
-      Geral
-     </Text>
-
-       <View>
-         <TouchableOpacity
-           style={{
-             marginHorizontal: 10,
-             marginTop: 2,
-             marginHorizontal: 20,
-             paddingHorizontal: 20,
-             borderRadius: 10,
-             elevation: 0,
-             backgroundColor: "#00B7B7",
-           }}
-           onPress={() => {}}
-         >
-           <View
-             style={{
-               justifyContent: "space-between",
-               alignItems: "center",
-               flexDirection: "row",
-               width: "100%",
-
-             }}
-           >
-             <Text style={{ color: "#fff" }}>Notificações</Text>
-             <Switch
-               trackColor={{ false: "#005858", true: "#ACE8E8" }}
-               thumbColor={notificacao ? "#005858" : "#ACE8E8"}
-               ios_backgroundColor="#3e3e3e"
-               onValueChange={toggleSwitch1}
-               value={notificacao}
-             />
-           </View>
-
-         </TouchableOpacity>
-       </View>
-
-       <View>
-         <TouchableOpacity
-           style={{
-             marginHorizontal: 10,
-             marginTop: 2,
-             marginHorizontal: 20,
-             paddingHorizontal: 20,
-             borderRadius: 10,
-             elevation: 0,
-             backgroundColor: "#00B7B7",
-           }}
-           onPress={() => {}}
-         >
-           <View
-             style={{
-               justifyContent: "space-between",
-               alignItems: "center",
-               flexDirection: "row",
-               width: "100%",
-             }}
-           >
-             <Text style={{ color: "#fff" }}>Efeitos Sonoros</Text>
-             <Switch
-             trackColor={{ false: "#005858", true: "#ACE8E8" }}
-             thumbColor={mute ? "#005858" : "#ACE8E8"}
-               ios_backgroundColor="#3e3e3e"
-               onValueChange={toggleSwitch2}
-               value={mute}
-             />
-           </View>
-         </TouchableOpacity>
-       </View>
-
-       <View>
-         <TouchableOpacity
-           style={{
-             marginHorizontal: 6,
-             marginTop: 2,
-             marginHorizontal: 20,
-             paddingHorizontal: 20,
-             borderRadius: 10,
-             elevation: 0,
-             backgroundColor: "#00B7B7",
-           }}
-           onPress={() => {}}
-         >
-           <View
-             style={{
-               justifyContent: "space-between",
-               alignItems: "center",
-               flexDirection: "row",
-               width: "100%",
-             }}
-           >
-             <Text style={{ color: "#fff" }}>Vibração</Text>
-             <Switch
-               style={{}}
-               trackColor={{ false: "#005858", true: "#ACE8E8" }}
-               thumbColor={vibracao ? "#005858" : "#ACE8E8"}
-               ios_backgroundColor="#3e3e3e"
-               onValueChange={toggleSwitch3}
-               value={vibracao}
-             />
-           </View>
-         </TouchableOpacity>
-       </View>
-       <View style={{ marginBottom: 30, marginTop:20}}>
-         <Text
-           style={{
-             fontFamily: "Medium",
-             fontSize: 16,
-             color: "#403B91",
-             paddingLeft: 20,
-           }}
-         >
-         Privacidade
-         </Text>
-         <View>
-           <TouchableOpacity
-             style={{
-               alignItems: "center",
-               marginHorizontal: 6,
-               marginTop: 5,
-               marginHorizontal: 20,
-               paddingHorizontal: 20,
-               paddingVertical: 10,
-               borderRadius: 10,
-               elevation: 0,
-               backgroundColor: "#67D4D4",
-             }}
-             onPress={() => {}}
-           >
-             <Text style={{ color: "#005858" }}>Termos de Uso</Text>
-           </TouchableOpacity>
-         </View>
-         <View>
-           <TouchableOpacity
-             style={{
-               alignItems: "center",
-               marginHorizontal: 6,
-               marginTop: 10,
-               marginHorizontal: 20,
-               paddingHorizontal: 20,
-               paddingVertical: 10,
-               borderRadius: 10,
-               elevation: 0,
-               backgroundColor: "#67D4D4",
-             }}
-             onPress={() => {}}
-           >
-             <Text style={{ color: "#005858" }}>Política de Privacidade</Text>
-           </TouchableOpacity>
-         </View>
-       </View>
-     </ScrollView>
-       
-       
       )}
     </View>
   );

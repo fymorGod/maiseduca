@@ -11,7 +11,6 @@ export const Form = () => {
     const { control, handleSubmit } = useForm<FormData>();
 
     const onSubmit = (data: FormData) => {
-        console.log(data)
     }
     return (
         <View style={styles.container}>

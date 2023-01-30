@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from "react";
-import axios from "axios";
 import {
   Text,
   View,
@@ -8,15 +7,19 @@ import {
   Modal,
   Animated,
   ScrollView,
-  StatusBar,
-  SafeAreaView,
+  ImageBackground,
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../api/api";
+import socketServicesConquistas from "../../util/socketServicesConquistas";
+import ToastManager, { Toast } from "toastify-react-native";
+
 
 export const Atividade = ({ route }) => {
   const navigation = useNavigation();
   let id = route.params.id;
+  let id_disciplina = route.params.id_disciplina;
   const { userInfo } = useContext(AuthContext);
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
@@ -49,28 +52,47 @@ export const Atividade = ({ route }) => {
     setIsPaused(!isPaused);
   };
 
-
   Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)];
   };
 
+    // alerta de criação do lembrete
+    const showToasts = () => {
+      Toast.success("Conquista Desbloqueada ");
+    };
+
   //get do inicio da atividade e do timer da pagina
   useEffect(() => {
     const getAtv = async () => {
-      const response = await axios.get(
-        `http://35.199.114.75:3010/atividadeQuestoes/${id}`
-      );
+      const response = await api.get(`/atividadeQuestoes/${id}`);
       setAtv(response.data["questoes"]);
     };
-    BackHandler.addEventListener('hardwareBackPress', () =>{
-      return true
-    })
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
     getAtv();
     handleStart();
+    socketServicesConquistas.initializeSocket();
   }, []);
 
-  console.log(time)
-
+  //fazendo um emit quando terminar de responder as questões
+  //só faz o emit quando clicar no botão 'voltar p/home'
+  const socketConquistas = () => {
+    socketServicesConquistas.emit(
+      "RESPONDA_X_ATIVIDADES",
+      {
+        id_aluno: `${userInfo.user.id}`,
+        id_disciplina:`${id_disciplina}`
+      },
+      (response) => {
+        if(response.length != 0){
+          showToasts();
+        }
+        console.log(response)
+        
+      }
+    );
+  };
 
   const [atv, setAtv] = useState([]);
   const allQuestions = atv;
@@ -86,21 +108,20 @@ export const Atividade = ({ route }) => {
   //função para envio da atividade
   const enviarNota = async () => {
     try {
-      const response = await axios.post(
-        `http://35.199.114.75:3010/aluno_responde_atividade`,
-        {
-          nota: pontos,
-          id_aluno: `${userInfo.user.id}`,
-          id_atividade: `${id}`,
-          time: time
-        }
-      );
-      console.log(response.status);
+      const response = await api.post(`/aluno_responde_atividade`, {
+        nota: pontos,
+        id_aluno: `${userInfo.user.id}`,
+        id_atividade: `${id}`,
+        time: time,
+      });
       if (response.status == 201) {
-        navigation.popToTop();
+        socketConquistas();
+        setTimeout(() => {
+          navigation.pop(2);
+        }, 2000);
       }
     } catch (error) {
-      console.log(error);
+      console.log("erro atv", error);
     }
   };
 
@@ -125,7 +146,7 @@ export const Atividade = ({ route }) => {
       // Last Question
       // Show Score Modal
       setShowScoreModal(true);
-      setIsPaused(true)
+      setIsPaused(true);
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setCurrentOptionSelected(null);
@@ -253,7 +274,7 @@ export const Atividade = ({ route }) => {
     }
   };
 
-  //variaveis da barra de progresso 
+  //variaveis da barra de progresso
   const [progress, setProgress] = useState(new Animated.Value(0));
   const progressAnim = progress.interpolate({
     inputRange: [0, allQuestions.length],
@@ -288,109 +309,151 @@ export const Atividade = ({ route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#4263EB" }}>
-      <View
-        style={{
-          flex: 1,
-          paddingTop: 40,
-          paddingBottom: 5,
-          paddingHorizontal: 16,
-          backgroundColor: "#4263EB",
-          position: "relative",
-        }}
+    <View style={{ flex: 1 }}>
+      <ImageBackground
+        source={require("../../../assets/BG.png")}
+        resizeMode="cover"
+        style={{ flex: 1, justifyContent: "center" }}
       >
-        {/* ProgressBar */}
-        {renderProgressBar()}
-
-        <ScrollView>
-          {/* Question */}
-          {renderQuestion()}
-
-          {/* Options */}
-          {renderOptions()}
-
-          {/* Next Button */}
-          {renderNextButton()}
-        </ScrollView>
-
-        {/* Score Modal */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showScoreModal}
+      
+        <View
+          style={{
+            flex: 1,
+            paddingTop: 40,
+            paddingBottom: 5,
+            paddingHorizontal: 16,
+            position: "relative",
+          }}
         >
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#252c4a",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: "#fff",
-                width: "90%",
-                borderRadius: 20,
-                padding: 20,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-                {score > allQuestions.length / 2 ? "Parabéns!" : "Quase lá!"}
-              </Text>
+          {/* ProgressBar */}
+          {renderProgressBar()}
 
+          <ScrollView>
+            {/* Question */}
+            {renderQuestion()}
+
+            {/* Options */}
+            {renderOptions()}
+
+            {/* Next Button */}
+            {renderNextButton()}
+          </ScrollView>
+
+          {/* Score Modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={showScoreModal}
+          >
+          <ToastManager
+          style={{height:75, widht:100}}
+          />
+            <ImageBackground
+              source={require("../../../assets/BG.png")}
+              resizeMode="cover"
+              style={{ flex: 1, justifyContent: "center" }}
+            >
+            
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
+                  flex: 1,
                   alignItems: "center",
-                  marginVertical: 20,
+                  justifyContent: "center",
                 }}
               >
-                <Text
+                <View
                   style={{
-                    fontSize: 30,
-                    color:
-                      score > allQuestions.length / 2 ? "#00C851" : "#ff4444",
+                    backgroundColor: "#fff",
+                    width: "90%",
+                    borderRadius: 20,
+                    padding: 20,
+                    alignItems: "center",
                   }}
                 >
-                  {score}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    color: "#171717",
-                  }}
-                >
-                  / {allQuestions.length}
-                </Text>
-              </View>
+                  <Text style={{ fontSize: 30, fontWeight: "bold" }}>
+                    {score > allQuestions.length / 2
+                      ? "Parabéns!"
+                      : "Quase lá!"}
+                  </Text>
 
-              {/* Enviar Pontuação - Buttom*/}
-              <TouchableOpacity
-                onPress={() => enviarNota()}
-                style={{
-                  backgroundColor: "#3498db",
-                  padding: 20,
-                  width: "100%",
-                  borderRadius: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
-                >
-                  Voltar ao início
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </View>
-    </SafeAreaView>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      marginVertical: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 30,
+                        color:
+                          score > allQuestions.length / 2
+                            ? "#00C851"
+                            : "#ff4444",
+                      }}
+                    >
+                      {score}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: "#171717",
+                      }}
+                    >
+                      / {allQuestions.length}
+                    </Text>
+                  </View>
+
+                  {/* Enviar Pontuação - Buttom*/}
+                  <TouchableOpacity
+                    onPress={() => enviarNota()}
+                    style={{
+                      backgroundColor: "#F6E7AE",
+                      padding: 20,
+                      width: "100%",
+                      borderRadius: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        textAlign: "center",
+                        fontSize: 18,
+                        fontFamily: "Medium",
+                      }}
+                    >
+                      Voltar para home
+                    </Text>
+                  </TouchableOpacity>
+
+                  {/* Enviar Pontuação - Buttom*/}
+                  {/* <TouchableOpacity
+        onPress={() => enviarNota2()}
+        style={{
+          backgroundColor: "#EBC942",
+          marginTop:10,
+          padding: 20,
+          width: "100%",
+          borderRadius: 20,
+        }}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            color: "#343A40",
+            fontSize: 18,
+            fontFamily:"Medium"
+          }}
+        >
+          Minha Classificação
+        </Text>
+      </TouchableOpacity> */}
+                </View>
+              </View>
+            </ImageBackground>
+          </Modal>
+        </View>
+      </ImageBackground>
+    </View>
   );
 };
