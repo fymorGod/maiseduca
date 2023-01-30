@@ -23,15 +23,21 @@
       "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.mirante.maiseduca1",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "useNextNotificationsApi": true,
-      "package": "com.mirante.maiseduca"
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4d5a8489-2390-4a20-977e-369dbc2ed312"
+      }
     }
   }
 }
