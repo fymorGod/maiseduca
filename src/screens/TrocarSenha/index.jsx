@@ -28,7 +28,6 @@ export const TrocarSenha = () => {
   const [atual, setAtual] = useState();
   const [novaSenha, setNovaSenha] = useState();
   const [novaSenha1, setNovaSenha1] = useState();
-  const toast = useToast();
   //id para trocar senha do aluno
   let id = userInfo.user.id_senha;
 

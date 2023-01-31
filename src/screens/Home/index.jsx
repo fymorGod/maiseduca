@@ -62,7 +62,7 @@ export const Home = () => {
   return (
     <View style={styles.Container}>
       <AppHeader />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.bannerBox}>
           <Image
             style={styles.bannerAula}

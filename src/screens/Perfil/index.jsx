@@ -8,8 +8,6 @@ import { AppHeader2 } from "../../components/AppHeader2";
 import { useFonts } from "expo-font";
 import api from "../../api/api";
 
-
-
 export const Perfil = () => {
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
@@ -17,19 +15,24 @@ export const Perfil = () => {
   //id do aluno
   let id = userInfo.user.id;
 
+  async function getAlunos() {
+    try {
+      const response = await api.get(`/escolas/users/alunos/${id}`);
+      setPerfil(response.data["aluno"]);
+      console.log(response.data["aluno"]);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   //get nas informações do aluno
   useEffect(() => {
-    api
-      .get(`/escolas/users/alunos/${id}`)
-      .then((res) => {
-        // s
-        setPerfil(res.data["aluno"]);
-      });
+    getAlunos();
   }, []);
 
   let [fontsLoaded] = useFonts({
-    'Medium': require('../../../assets/fonts/Poppins-Medium.ttf')
-  })
+    Medium: require("../../../assets/fonts/Poppins-Medium.ttf"),
+  });
 
   return (
     <View style={styles.Container}>
@@ -41,11 +44,20 @@ export const Perfil = () => {
             resizeMode="contain"
             source={require("../../../assets/moldura.png")}
           />
-          <Image
-            style={styles.bannerAvatar}
-            resizeMode="contain"
-            source={require("../../../assets/avatar.png")}
-          />
+
+          {perfil.genre === "masc" ? (
+            <Image
+              style={styles.bannerAvatar}
+              resizeMode="contain"
+              source={require("../../../assets/Menino.png")}
+            />
+          ) : (
+            <Image
+              style={styles.bannerAvatar}
+              resizeMode="contain"
+              source={require("../../../assets/Menina.png")}
+            />
+          )}
         </View>
         <View style={styles.profile}>
           <View style={styles.name}>
@@ -156,7 +168,15 @@ export const Perfil = () => {
               navigation.navigate("MinhasNotas");
             }}
           >
-            <Text style={{ color: "#343A40", fontFamily:"Medium", textAlign: "center"}}>Minhas Notas</Text>
+            <Text
+              style={{
+                color: "#343A40",
+                fontFamily: "Medium",
+                textAlign: "center",
+              }}
+            >
+              Minhas Notas
+            </Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -171,7 +191,15 @@ export const Perfil = () => {
             }}
             onPress={() => navigation.navigate("Classificacao")}
           >
-            <Text style={{color: "#343A40", fontFamily:"Medium", textAlign: "center"}}>Classificação</Text>
+            <Text
+              style={{
+                color: "#343A40",
+                fontFamily: "Medium",
+                textAlign: "center",
+              }}
+            >
+              Classificação
+            </Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -186,7 +214,13 @@ export const Perfil = () => {
             }}
             onPress={() => navigation.navigate("Configuracao")}
           >
-            <Text style={{ color: "#343A40", fontFamily:"Medium", textAlign: "center" }}>
+            <Text
+              style={{
+                color: "#343A40",
+                fontFamily: "Medium",
+                textAlign: "center",
+              }}
+            >
               Configuração
             </Text>
           </TouchableOpacity>
@@ -207,7 +241,7 @@ export const styles = StyleSheet.create({
   },
   bannerAvatar: {
     position: "absolute",
-    marginLeft: 10,
+    marginRight: "74%",
     marginTop: 6,
     height: 90,
   },

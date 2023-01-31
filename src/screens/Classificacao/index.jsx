@@ -32,6 +32,7 @@ export const Classificacao = () => {
       );
       setRank(response.data[choice]);
       setPoints(response.data["points"]);
+      console.log('oiiii',response.data)
     } catch (error) {
       throw error
     }
@@ -40,7 +41,6 @@ export const Classificacao = () => {
   
   //get no rank do aluno
   useEffect(() => {
-
     getRank(); 
   }, [choice]);
   

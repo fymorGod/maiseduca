@@ -26,6 +26,7 @@ import api from "../../api/api";
 import CustomToast from "../../components/CustomToast";
 import { Feather as Icon2} from "@expo/vector-icons";
 
+
 const HEIGHT = Dimensions.get("screen").height;
 
 export const Anotation = () => {
@@ -33,6 +34,15 @@ export const Anotation = () => {
   const [toastType, setToastType] = useState("success");
   const [title, setTitle] = useState("Success");
   const slideAnim = useRef(new Animated.Value(HEIGHT + 50)).current;
+  const [tags, setTags] = useState([]);
+  
+  function handleTags (note) {
+    note.map((tags) => {
+      setTags(tags.tags)
+      console.log(tags)
+    })
+  }
+
   const animateToast = () => {
     Animated.timing(slideAnim, {
       toValue: 0,
@@ -68,6 +78,7 @@ export const Anotation = () => {
   const [searchText, setSearchText] = useState('');
  
 
+  
   useEffect(() => {
     if (searchText === "") {
     getAnotacoes();
@@ -103,8 +114,9 @@ export const Anotation = () => {
       const res = await api.get(`/anotacoesByAluno/${userInfo.user.id}`);
       setNote(res.data["anotacoes"]);
       listaNotes.push(res.data["anotacoes"]);
+      handleTags(res.data["anotacoes"].tags)
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -212,13 +224,14 @@ export const Anotation = () => {
                   <View style={styles.tag}>
                     {notes.tags?.map((tag) => (
                       <Text key={tag.id} style={styles.tagname}>
-                        {`#${tag.name}`}{" "}
+                        {`#${tag.name}`}
                       </Text>
                     ))}
                   </View>
                 </View>
               </TouchableOpacity>
             ))}
+
           </View>
         </ScrollView>
       )}
@@ -255,6 +268,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     position: "absolute",
     flexDirection: "row",
+    width:'80%'
   },
   tagname: {
     margin: 3,

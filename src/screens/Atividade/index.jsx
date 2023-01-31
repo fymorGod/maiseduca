@@ -107,6 +107,12 @@ export const Atividade = ({ route }) => {
 
   //função para envio da atividade
   const enviarNota = async () => {
+    console.log('nota', pontos);
+    console.log('id aluno', `${userInfo.user.id}`);
+    console.log('id atividade', `${id}`);
+    console.log('timer', time)
+
+
     try {
       const response = await api.post(`/aluno_responde_atividade`, {
         nota: pontos,
@@ -115,6 +121,7 @@ export const Atividade = ({ route }) => {
         time: time,
       });
       if (response.status == 201) {
+        console.log('deu certo')
         socketConquistas();
         setTimeout(() => {
           navigation.pop(2);

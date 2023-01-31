@@ -16,14 +16,18 @@ export const Aulas = () => {
   const { userInfo } = useContext(AuthContext);
   const [materias, setMaterias] = useState([]);
 
+  async function getMaterias () {
+    try {
+      const res = await api.get(`/disciplinasAluno/${userInfo.user.id}`);
+      setMaterias(res.data["disciplinas"]);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   //get nas aulas
   useEffect(() => {
-    api
-      .get(`/disciplinasAluno/${userInfo.user.id}`)
-      .then((res) => {
-        // s
-        setMaterias(res.data["disciplinas"]);
-      });
+    getMaterias();
   }, []);
 
   return (

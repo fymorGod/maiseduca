@@ -105,8 +105,9 @@ export const Calendario = () => {
     try {
       const res = await api.get(`/lembretesByAluno/${userInfo.user.id}`);
       setLembretes(res.data["lembretes"]);
+      console.log(res.data["lembretes"])
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -145,6 +146,7 @@ export const Calendario = () => {
       </View>
       {/* Cards Lembretes */}
       <ScrollView
+      showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={getLembrete} />
         }
@@ -172,7 +174,7 @@ export const Calendario = () => {
                 <Text
                   style={{ color: "#3B5BDB", marginLeft: 10, marginTop: 20 }}
                 >
-                  {avisos.start + " - " + avisos.end}
+                  {avisos.start.slice(11,16) + " - " + avisos.end.slice(11,16)}
                 </Text>
               </View>
             </View>
