@@ -7396,7 +7396,7 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
-"moment@^2.22.0", "moment@^2.24.0", "moment@^2.29.4", "moment@>=2.0.0", "moment@>=2.14.0":
+"moment@^2.22.0", "moment@^2.29.4", "moment@>=2.0.0", "moment@>=2.14.0":
   "integrity" "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   "version" "2.29.4"
@@ -8219,10 +8219,10 @@
     "prop-types" "^15.6.0"
     "recyclerlistview" "^3.0.0"
 
-"react-native-calendars@^1.1289.0":
-  "integrity" "sha512-qaqRliQxM+05kCPd04d7xryRxpFC/XHgxyOThSeZRdEXP29AQLrWDHZNhUUXALe2pVWNTJIzt6jnWsgs2gAmYg=="
-  "resolved" "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1289.0.tgz"
-  "version" "1.1289.0"
+"react-native-calendars@^1.1293.0":
+  "integrity" "sha512-/wWBlNOooHAVTCDhZptdeZEa1+DTUW1E3cI9auEPblJ56t1TXqe0gVK1UTchPDsA5d2eIXxdhTThpFD846yq7g=="
+  "resolved" "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1293.0.tgz"
+  "version" "1.1293.0"
   dependencies:
     "hoist-non-react-statics" "^3.3.1"
     "immutable" "^4.0.0-rc.12"
@@ -8233,7 +8233,7 @@
     "recyclerlistview" "^3.0.5"
     "xdate" "^0.8.0"
   optionalDependencies:
-    "moment" "^2.24.0"
+    "moment" "^2.29.4"
 
 "react-native-codegen@^0.69.2":
   "integrity" "sha512-yPcgMHD4mqLbckqnWjFBaxomDnBREfRjDi2G/WxNyPBQLD+PXUEmZTkDx6QoOXN+Bl2SkpnNOSsLE2+/RUHoPw=="

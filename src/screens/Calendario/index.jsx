@@ -67,24 +67,25 @@ export const Calendario = () => {
   }, []);
 
   //  função para alterar a data no formato p/ envio
-  function DataEnvio(date) {
-    console.log(date)
-    if (date?.length > limite) {
-      setData(date.substring(0, limite));
-    }
-  }
+  // function DataEnvio(date) {
+  //   console.log(typeof(date))
+  //   if (date?.length > limite) {
+  //     setData(date.substring(0, limite));
+  //   }
+  // }
 
   // postLembretes
+ 
   const postLembrete = async () => {
-    DataEnvio(date);
-    if(data)
+    // DataEnvio(date);
+    // if(data)
     try {
       const res = await api.post(`/lembretes`, {
         title: titulo,
         description: descricao,
-        data: data,
-        start: `${data} ${inicio}`,
-        end: `${data} ${fim}`,
+        data: date,
+        start: `${date} ${inicio}`,
+        end: `${date} ${fim}`,
         id_aluno: `${userInfo.user.id}`,
       });
       if (res.status === 201) {
@@ -105,7 +106,6 @@ export const Calendario = () => {
     try {
       const res = await api.get(`/lembretesByAluno/${userInfo.user.id}`);
       setLembretes(res.data["lembretes"]);
-      console.log(res.data["lembretes"])
     } catch (error) {
       throw error;
     }
@@ -136,14 +136,14 @@ export const Calendario = () => {
     Toast.success("Lembrete deletado ");
   };
 
-
   return (
     <View style={styles.Container}>
       <AppHeader />
       <ToastManager />
       <View style={[styles.shadowProp, styles.calendar]}>
-        <Agenda setDate={setDate} />
+        <Agenda setDate={setDate} lembretes={lembretes}/>
       </View>
+
       {/* Cards Lembretes */}
       <ScrollView
       showsVerticalScrollIndicator={false}
@@ -153,7 +153,6 @@ export const Calendario = () => {
       >
         <View style={styles.cards}>
           {lembretes.map((avisos) => (
-
             <View style={styles.card} key={avisos.id}>
               <View
                 style={{
