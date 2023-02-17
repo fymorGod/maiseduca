@@ -44,20 +44,14 @@ export const Perfil = () => {
             resizeMode="contain"
             source={require("../../../assets/moldura.png")}
           />
+          <View style={{position:'absolute', marginLeft:'27%'}}>
+          <Image
+          style={styles.bannerAvatar}
+          resizeMode="contain"
+          source={{uri: perfil.avatar}}
+        />
+          </View>
 
-          {perfil.genre === "masc" ? (
-            <Image
-              style={styles.bannerAvatar}
-              resizeMode="contain"
-              source={require("../../../assets/Menino.png")}
-            />
-          ) : (
-            <Image
-              style={styles.bannerAvatar}
-              resizeMode="contain"
-              source={require("../../../assets/Menina.png")}
-            />
-          )}
         </View>
         <View style={styles.profile}>
           <View style={styles.name}>
@@ -240,10 +234,12 @@ export const styles = StyleSheet.create({
     height: 150,
   },
   bannerAvatar: {
-    position: "absolute",
-    marginRight: "74%",
+    width:92,
     marginTop: 6,
-    height: 90,
+    height: 92,
+    borderRadius: 75,
+    overflow:'hidden',
+    resizeMode:"cover"
   },
   imgBox: {
     position: "relative",

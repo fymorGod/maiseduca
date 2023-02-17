@@ -22,6 +22,7 @@ export const VideoAulas = ({ route }) => {
     Regular: require("../../../assets/fonts/Poppins-Regular.ttf"),
     Bold: require("../../../assets/fonts/Poppins-Bold.ttf"),
   });
+  
   //id do conteudo favoritado
   let id = route.params.id;
   //id do video favoritado

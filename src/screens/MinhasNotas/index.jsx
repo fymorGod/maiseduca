@@ -99,52 +99,7 @@ export const MinhasNotas = () => {
               }
           </View>
           <View style={styles.boxTable}></View>
-
-          <View style={{ marginHorizontal: 20 }}>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text style={{ fontFamily: "Medium" }}>Matéria</Text>
-              <Text style={{ fontFamily: "Medium" }}>Atividades</Text>
-              <Text style={{ fontFamily: "Medium" }}>Média</Text>
-            </View>
-          </View>
-          <View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                backgroundColor: "#D1DEFE",
-                paddingHorizontal: 20,
-                borderRadius: 12,
-                elevation: 1,
-                height: 30,
-                alignItems: "center",
-              }}
-            >
-              <View><Text style={{ fontFamily: "Regular" }}>Geografia</Text></View>
-              <View style={{justifyContent:'center', alignItems:'center', marginRight:15}}><Text style={{ fontFamily: "Regular" }}>10</Text></View>
-              <View><Text style={{ fontFamily: "Regular" }}>9.00</Text></View>
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                backgroundColor: "#F8F9FA",
-                paddingHorizontal: 20,
-                borderRadius: 12,
-                marginTop: 5,
-                elevation: 1,
-                height: 30,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontFamily: "Regular" }}>História</Text>
-              <Text style={{ fontFamily: "Regular" }}>7</Text>
-              <Text style={{ fontFamily: "Regular" }}>4.50</Text>
-            </View>
-          </View>
+           
         </View>
       </ScrollView>
     </View>

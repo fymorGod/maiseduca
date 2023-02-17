@@ -23,6 +23,7 @@ export const Home = () => {
     Regular: require("../../../assets/fonts/Poppins-Regular.ttf")
   });
 
+
   // variáveis
   const { userInfo } = useContext(AuthContext);
   const [fav, setFav] = useState([]);
@@ -67,7 +68,7 @@ export const Home = () => {
           <Image
             style={styles.bannerAula}
             resizeMode="contain"
-            source={require("../../../assets/banner.png")}
+            source={require("../../../assets/Banner.png")}
           />
           <Image
             style={styles.banner2}

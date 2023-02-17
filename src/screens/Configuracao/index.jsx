@@ -8,6 +8,7 @@ import {
   Switch,
   ScrollView,
   Platform,
+  Linking, 
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
@@ -30,6 +31,8 @@ export const Configuracao = () => {
 
   const [vibracao, setVibracao] = useState(false);
   const toggleSwitch3 = () => setVibracao((previousState) => !previousState);
+  
+  let email = 'ramon.oliveira@mirante.com.br';
 
   return (
     <View style={styles.Container}>
@@ -148,9 +151,9 @@ export const Configuracao = () => {
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={() => Linking.openURL(`mailto: ${email}`)}
             >
-              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Idioma</Text>
+              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Report bugs</Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -424,9 +427,9 @@ export const Configuracao = () => {
                 elevation: 0,
                 backgroundColor: "#00B7B7",
               }}
-              onPress={() => {}}
+              onPress={() => Linking.openURL(`mailto: ${email}`)}
             >
-              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Idioma</Text>
+              <Text style={{ color: "#343A40", fontFamily:"Medium" }}>Report bugs</Text>
             </TouchableOpacity>
           </View>
           <View>

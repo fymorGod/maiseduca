@@ -201,7 +201,7 @@ export const Anotation = () => {
           }
         >
           <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
-            {note?.map((notes) => (
+            {note.map((notes) => (
               <TouchableOpacity
                 key={notes.id}
                 onPress={() =>
